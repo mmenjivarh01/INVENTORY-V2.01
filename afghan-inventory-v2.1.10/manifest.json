@@ -1,0 +1,9 @@
+{
+  "name": "Afghan Kabob Inventory V2",
+  "short_name": "AK Inventory",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f4ee",
+  "theme_color": "#6f1222",
+  "icons": []
+}

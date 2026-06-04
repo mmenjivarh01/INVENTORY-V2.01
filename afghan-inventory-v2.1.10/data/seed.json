@@ -1,0 +1,2537 @@
+{
+  "historial": {
+    "-Ot2fDHYJ7ZFlCWFKpch": {
+      "accion": "➕ Agregado",
+      "detalles": "Salsa de Tomate | Secos / Enlatados | Stock inicial: 10 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779251864468,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2fVOtjtHRTfk2F94Q": {
+      "accion": "➕ Agregado",
+      "detalles": "Ketchup | Secos / Enlatados | Stock inicial: 7 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779251938666,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2fr3R2LRibHpFwmTj": {
+      "accion": "➕ Agregado",
+      "detalles": "Garbanzo en Lata | Secos / Enlatados | Stock inicial: 18 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779252031501,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2hUxOwWn6kvu5pzsp": {
+      "accion": "➕ Agregado",
+      "detalles": "Deli Lid 8oz | Dry Goods / Canned | Stock inicial: 4 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779252461129,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2hvAaUmAdu-l306XE": {
+      "accion": "✏️ Editado",
+      "detalles": "Tapa contenedor 8oz | Categoría: Enlatados → Contenedor",
+      "inv": "Materia Prima",
+      "ts": 1779252572631,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2iIKCFOiYyfWQXi_2": {
+      "accion": "➕ Agregado",
+      "detalles": "Contenedor 8oz | Secos / Contenedor | Stock inicial: 4 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779252671549,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2ixq4YFj81LMnRsbq": {
+      "accion": "📤 Salida",
+      "detalles": "Deli Lid 8oz | 4 → 3 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779252845686,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2j--F7odSbvp9-QGo": {
+      "accion": "📤 Salida",
+      "detalles": "Container 8oz | 4 → 3 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779252854529,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2jeD40P16oEb5kSZn": {
+      "accion": "✏️ Editado",
+      "detalles": "Container Lid 8oz",
+      "inv": "Materia Prima",
+      "ts": 1779253027421,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2kJfB9fQaCSK55HDh": {
+      "accion": "➕ Agregado",
+      "detalles": "Container 6x6 | Dry Goods / Containers | Stock inicial: 0.5 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779253201316,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2m0XfBj__jXj7SuXu": {
+      "accion": "➕ Agregado",
+      "detalles": "Tandoori Masala | Secos / Especias | Stock inicial: 199 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779253647235,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2mIn9cYOtWTLRgzwR": {
+      "accion": "➕ Agregado",
+      "detalles": "Chaat Masala | Secos / Especias | Stock inicial: 88 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779253722018,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2maXTyQMqgbCnZO0v": {
+      "accion": "➕ Agregado",
+      "detalles": "Tikka Seekh Kabab | Secos / Especias | Stock inicial: 75 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779253798774,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2moc_DqGM2hjT1mq9": {
+      "accion": "➕ Agregado",
+      "detalles": "Seekh Kabab | Secos / Especias | Stock inicial: 3 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779253856509,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2vDsSh2fEOINSkVBd": {
+      "accion": "➕ Agregado",
+      "detalles": "Karahi | Secos / Especias | Stock inicial: 7 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256061117,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2vQ7Yp7VSpBmy0L_I": {
+      "accion": "➕ Agregado",
+      "detalles": "Korma | Secos / Especias | Stock inicial: 3 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256111299,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2vbxvcCTgZzKBZzXY": {
+      "accion": "➕ Agregado",
+      "detalles": "Meat Tenderizer | Secos / Especias | Stock inicial: 106 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256163867,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2vr6e17ftO4nVTZmQ": {
+      "accion": "➕ Agregado",
+      "detalles": "Chicken Tikka | Secos / Especias | Stock inicial: 46 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256225931,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2w4a9p3c-w5EWXdqr": {
+      "accion": "➕ Agregado",
+      "detalles": "Chana Masala | Secos / Especias | Stock inicial: 41 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256285226,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2wHU9omdN5vfH4Vit": {
+      "accion": "➕ Agregado",
+      "detalles": "Malai Boti | Secos / Especias | Stock inicial: 7 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779256338026,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot2x42CVH2TSdEK2Hyd": {
+      "accion": "➕ Agregado",
+      "detalles": "Jugo de Limon | Secos / Botellas | Stock inicial: 5 L",
+      "inv": "Materia Prima",
+      "ts": 1779256545133,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4mrSWVFirE9BBUovD": {
+      "accion": "➕ Agregado",
+      "detalles": "Te Verde | Secos / Spices | Stock inicial: 6 bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779287422359,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4nX2VDArvVQ1oDx7f": {
+      "accion": "✏️ Editado",
+      "detalles": "Te Verde | Categoría: Spices → Bebidas en Polvo",
+      "inv": "Materia Prima",
+      "ts": 1779287596822,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4r3NlIO5kuVBs-l0a": {
+      "accion": "➕ Agregado",
+      "detalles": "Comino en Polvo | Secos / Bottle | Stock inicial: 2 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779288523995,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4rAIZabAPqatzP0g8": {
+      "accion": "✏️ Editado",
+      "detalles": "Lemon Juice",
+      "inv": "Materia Prima",
+      "ts": 1779288552335,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4swa-8f6KKwpujV1l": {
+      "accion": "➕ Agregado",
+      "detalles": "Scrubber (stainless steel) | Dry Goods / Cleaning items | Stock inicial: 3 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289016363,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4t5GSiTgNoO9sn6mJ": {
+      "accion": "✏️ Editado",
+      "detalles": "Scrubber (stainless steel) | Almacén: Dry Goods → Cleaning Products",
+      "inv": "Materia Prima",
+      "ts": 1779289056008,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4tTGPHh_DMGHnSXHF": {
+      "accion": "➕ Agregado",
+      "detalles": "Scrub Sponges | Cleaning Products / Cleaning items | Stock inicial: 48 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289154309,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4tjOIUx_K6-UThhWd": {
+      "accion": "➕ Agregado",
+      "detalles": "Split Cashew | Dry Goods / Spices | Stock inicial: 2 bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779289224446,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4uCAzMFoeQHSFiWAf": {
+      "accion": "➕ Agregado",
+      "detalles": "Extra Virgin Olive Oil | Dry Goods / Canned | Stock inicial: 4 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289346474,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4uOlMgQK8daM5Fc5a": {
+      "accion": "➕ Agregado",
+      "detalles": "Tahini | Dry Goods / Canned | Stock inicial: 6 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289398018,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4uaRbQQAr_EYpOu8S": {
+      "accion": "➕ Agregado",
+      "detalles": "Vinegar | Dry Goods / Spices | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289449937,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4ulJ_qmPNkF5HTdrr": {
+      "accion": "➕ Agregado",
+      "detalles": "Turmeric | Dry Goods / Spices | Stock inicial: 2 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289494480,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4vhSpXHdeQdE3WHkf": {
+      "accion": "➕ Agregado",
+      "detalles": "Levadura Seca | Secos / Spices | Stock inicial: 4 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779289740918,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4w30vDZ8hD6wGqOG5": {
+      "accion": "✏️ Editado",
+      "detalles": "Levadura Seca",
+      "inv": "Materia Prima",
+      "ts": 1779289833341,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4wa9Y68iqDEKzBRvD": {
+      "accion": "➕ Agregado",
+      "detalles": "Mezcla para Empanizar | Secos / Spices | Stock inicial: 5 Paquetes",
+      "inv": "Materia Prima",
+      "ts": 1779289973157,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4wqhwvb4_7DbH9H_1": {
+      "accion": "➕ Agregado",
+      "detalles": "Polvo Picante | Secos / Spices | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290040958,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4xCKAAPR32tyLT1cV": {
+      "accion": "➕ Agregado",
+      "detalles": "Pimienta y Limon | Secos / Spices | Stock inicial: 2 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290133581,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4xQMwlFrJSOL9wNfl": {
+      "accion": "➕ Agregado",
+      "detalles": "Canella | Secos / Spices | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290191102,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4xbyMQLNY-msDpN3V": {
+      "accion": "➕ Agregado",
+      "detalles": "Polvo de Hornear | Secos / Spices | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290242713,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4xrwAvpbFXwN5TQlL": {
+      "accion": "➕ Agregado",
+      "detalles": "Colorante de Comida | Secos / Bottle | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290308109,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4y6tHrhhDlDRtDgOt": {
+      "accion": "➕ Agregado",
+      "detalles": "Pimienta Negra | Secos / Spices | Stock inicial: 1 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290373460,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4ySOOsDgj1nIqj-TP": {
+      "accion": "➕ Agregado",
+      "detalles": "Pajillas | Secos / Containers | Stock inicial: 15 Paquetes",
+      "inv": "Materia Prima",
+      "ts": 1779290461531,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4zCBPZfDW3aGYB4CR": {
+      "accion": "➕ Agregado",
+      "detalles": "Mayonesa | Refrigerados / Lacteos | Stock inicial: 8 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290657308,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4zQK8b7fROxoh-rVD": {
+      "accion": "➕ Agregado",
+      "detalles": "Crema (Natilla) | Refrigerados / Lacteos | Stock inicial: 4 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290715211,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4zYJ4HVcLsoTY4MkO": {
+      "accion": "✏️ Editado",
+      "detalles": "Crema (Natilla)",
+      "inv": "Materia Prima",
+      "ts": 1779290747910,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4zllCK38GRK5jVKXm": {
+      "accion": "➕ Agregado",
+      "detalles": "Huevos | Refrigerados / Carnes | Stock inicial: 18 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779290807119,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot4zydIT_pBilFTHKGq": {
+      "accion": "➕ Agregado",
+      "detalles": "Pan Gyro | Refrigerados / Spices | Stock inicial: 18 Paquetes",
+      "inv": "Materia Prima",
+      "ts": 1779290859861,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5-SarpdBmJCAssG8k": {
+      "accion": "✏️ Editado",
+      "detalles": "Pan Gyro | Categoría: Spices → Pan",
+      "inv": "Materia Prima",
+      "ts": 1779290986681,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5-il5kZQo0rHaCtoy": {
+      "accion": "➕ Agregado",
+      "detalles": "Tortillas \"12\" | Refrigerados / Pan | Stock inicial: 1 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779291056967,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5-xQ6ubWjiVn9ocYr": {
+      "accion": "➕ Agregado",
+      "detalles": "Tortillas \"10\" | Refrigerados / Pan | Stock inicial: 1 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779291117000,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot50DNBJ9RLiCEs2XAK": {
+      "accion": "✏️ Editado",
+      "detalles": "Chuleta de Cordero | Stock: 1 → 2 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779291186446,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot50aByHjHgk68S83qP": {
+      "accion": "✏️ Editado",
+      "detalles": "Square Cut Shoulder",
+      "inv": "Materia Prima",
+      "ts": 1779291284032,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot50np-XVt4IyjNEfOE": {
+      "accion": "➕ Agregado",
+      "detalles": "Whole Milk Yogurt | Refrigerated / Dairy | Stock inicial: 6 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779291339842,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot50zJcccSl8_RUlQPe": {
+      "accion": "➕ Agregado",
+      "detalles": "Mango Pulp | Refrigerated / Powdered drink | Stock inicial: 10 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779291386922,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot54Nxuw9Z2D7scUpoY": {
+      "accion": "➕ Agregado",
+      "detalles": "Bleu Cheese | Refrigerated / Dairy | Stock inicial: 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779292278396,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot54YdD_N5tB_uRZy4b": {
+      "accion": "➕ Agregado",
+      "detalles": "Honey mustard | Refrigerated / Dairy | Stock inicial: 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779292322128,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot54sw2ZCzZQcOvgLOD": {
+      "accion": "➕ Agregado",
+      "detalles": "American Cheese Slices | Refrigerated / Dairy | Stock inicial: 5 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779292409349,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot559yjAVx6UVndYcGG": {
+      "accion": "➕ Agregado",
+      "detalles": "Flour All Trumps | Dry Goods / Bread | Stock inicial: 5 Packages",
+      "inv": "Materia Prima",
+      "ts": 1779292483249,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot55KE8DRZITF9b2Yyx": {
+      "accion": "📦 Entrada",
+      "detalles": "Chicken Wings | 0 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779292525259,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot55MYbKxkFDcsaUwPT": {
+      "accion": "📦 Entrada",
+      "detalles": "Chicken Quarters | 1 → 2 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779292534760,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot55gouQ-XUWElbsW2x": {
+      "accion": "➕ Agregado",
+      "detalles": "Stone Ground Wheat-A-Laxa | Dry Goods / Bread | Stock inicial: 0.5 Packages",
+      "inv": "Materia Prima",
+      "ts": 1779292621884,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot55xKW88tICTL9t5UU": {
+      "accion": "➕ Agregado",
+      "detalles": "Box Oil | Dry Goods / Spices | Stock inicial: 4 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779292689507,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot57FVLe1L1cIakssVT": {
+      "accion": "➕ Agregado",
+      "detalles": "Green Dish Cleaner | Cleaning Products / Cleaning items | Stock inicial: 2 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779293030168,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot57V4XHk8FEhI4CGIj": {
+      "accion": "➕ Agregado",
+      "detalles": "Oven & Grill Cleaner | Cleaning Products / Cleaning items | Stock inicial: 4 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779293093988,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot58S3wcv744YchHSrC": {
+      "accion": "➕ Agregado",
+      "detalles": "Halal Beef Hamburger | Frozen / Beverages | Stock inicial: 2 boxes",
+      "inv": "Producto Terminado",
+      "ts": 1779293343806,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5AA0QZTFAxX628oSh": {
+      "accion": "🗑️ Eliminado",
+      "detalles": "Carne de Hamburguesa | Bebidas | Stock al eliminar: 2 cajas",
+      "inv": "Producto Terminado",
+      "ts": 1779293794141,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5QHAq-HiykJcINUgS": {
+      "accion": "➕ Agregado",
+      "detalles": "Hamburguesa de Res | Congelados / Carnes | Stock inicial: 2 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779298017811,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5QYaQefAsztETNRPJ": {
+      "accion": "➕ Agregado",
+      "detalles": "Carne para Sanwich | Congelados / Carnes | Stock inicial: 2 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779298089145,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5QmeB7wEK4hEhTrEO": {
+      "accion": "➕ Agregado",
+      "detalles": "Camaron Empanizado | Congelados / Carnes | Stock inicial: 4 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779298150826,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5Qx32xE_M7lv0qH-Z": {
+      "accion": "➕ Agregado",
+      "detalles": "Camaron Crudo | Congelados / Carnes | Stock inicial: 15 bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779298193441,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5RBHwEKU5UJbgYAdP": {
+      "accion": "➕ Agregado",
+      "detalles": "Falafel Crudo | Congelados / Verduras | Stock inicial: 5 bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779298255834,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5ROgICSfglO1Ou-IK": {
+      "accion": "➕ Agregado",
+      "detalles": "Papas Fritas | Congelados / Verduras | Stock inicial: 9 Packages",
+      "inv": "Materia Prima",
+      "ts": 1779298310705,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5RgrqpM45_XC6dGsh": {
+      "accion": "➕ Agregado",
+      "detalles": "Desinfectante | Productos de Limpieza / Cleaning items | Stock inicial: 0 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779298389268,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5RrVTXlKtEXVZPJBo": {
+      "accion": "➕ Agregado",
+      "detalles": "Blanqueador | Productos de Limpieza / Cleaning items | Stock inicial: 6 piezas",
+      "inv": "Materia Prima",
+      "ts": 1779298432828,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5S37EdRKQM5EAbvwI": {
+      "accion": "➕ Agregado",
+      "detalles": "Berenjena | Refrigerados / Verduras | Stock inicial: 0 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779298484525,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5SHPPYXL_zku-Jbaw": {
+      "accion": "➕ Agregado",
+      "detalles": "Papas | Refrigerados / Verduras | Stock inicial: 0 cajas",
+      "inv": "Materia Prima",
+      "ts": 1779298543032,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot5SSEDmB7rXctL9929": {
+      "accion": "➕ Agregado",
+      "detalles": "Arroz | Secos / Spices | Stock inicial: 8 bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779298587372,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ot7fvD4ebGRosJ06UQD": {
+      "accion": "➕ Agregado",
+      "detalles": "Genjibre | Refrigerados / Spices | Stock inicial: 2 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779335934421,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9Q_ejep6inxLzncH": {
+      "accion": "📤 Salida",
+      "detalles": "Tomatoes | 1 → 0 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411040656,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9X4173IjENnNmFxm": {
+      "accion": "📦 Entrada",
+      "detalles": "Tomatoes | 0 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411067242,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9ZLBpxts4bGDqgyy": {
+      "accion": "📦 Entrada",
+      "detalles": "Cucumbers | 0 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411076532,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9cwLAzZLV0Te5NDI": {
+      "accion": "📤 Salida",
+      "detalles": "Cucumbers | 1 → 0 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411095358,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9nQPh2cBAKozQ37i": {
+      "accion": "📤 Salida",
+      "detalles": "Lettuce | 2 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411138306,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtC9xtgFgAUYPnMh2VA": {
+      "accion": "📦 Entrada",
+      "detalles": "Garlics | 1 → 3 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779411181204,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtCA6AgdTU1H3ipfQTx": {
+      "accion": "📤 Salida",
+      "detalles": "Dill | 3 → 1 Roll",
+      "inv": "Materia Prima",
+      "ts": 1779411219220,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtCl8JtPmmMIfAaUmDG": {
+      "accion": "✏️ Editado",
+      "detalles": "Lettuce",
+      "inv": "Materia Prima",
+      "ts": 1779421189453,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtCrhmlCJrfpc2MYx2W": {
+      "accion": "📦 Entrada",
+      "detalles": "Dill | 1 → 2 Roll",
+      "inv": "Materia Prima",
+      "ts": 1779422911691,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtD4KzJuGkFkkHwCQJc": {
+      "accion": "📤 Salida",
+      "detalles": "Chicken Tenderloins | 4 → 2 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779426484025,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtD4P3F9qqI3qQ-m8ud": {
+      "accion": "📤 Salida",
+      "detalles": "Halal Thigh Meat (Boneless Skinless) | 5 → 0 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779426500725,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtD4TSxvBAY6VurhJ1h": {
+      "accion": "📤 Salida",
+      "detalles": "Chicken Quarters | 2 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779426518753,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtD4cYbSLGZgMjZRr4a": {
+      "accion": "📤 Salida",
+      "detalles": "Square Cut Shoulder | 2 → 1 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779426560075,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtIC8-k1lKgzSyVXSgr": {
+      "accion": "✏️ Editado",
+      "detalles": "Alas de pollo",
+      "inv": "Materia Prima",
+      "ts": 1779512415177,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtIEPfsrLqmkjswOxz2": {
+      "accion": "➕ Agregado",
+      "detalles": "Jalapeños | Refrigerated / Vegetables | Stock inicial: 0 boxes",
+      "inv": "Materia Prima",
+      "ts": 1779513011863,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtIIlIVneOlvg4RnqEL": {
+      "accion": "➕ Agregado",
+      "detalles": "Salmon | Frozen / Meats | Stock inicial: 3 pieces",
+      "inv": "Materia Prima",
+      "ts": 1779514153050,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtIP1MpxxFlkOSaSRjF": {
+      "accion": "📤 Salida",
+      "detalles": "Jugo de Limon | 5 → 4 Piezas",
+      "inv": "Materia Prima",
+      "ts": 1779515794923,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtJyLoi_qSiaGfVsAsa": {
+      "accion": "✏️ Editado",
+      "detalles": "Comino en Polvo | Categoría: Botella → Especies",
+      "inv": "Materia Prima",
+      "ts": 1779542093255,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtK-MMa5zGqpbnsFId4": {
+      "accion": "✏️ Editado",
+      "detalles": "Papas Fritas | Categoría: Vegetales → Otros",
+      "inv": "Materia Prima",
+      "ts": 1779542619776,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtK-OaJg7tMjQ8CXMZ7": {
+      "accion": "✏️ Editado",
+      "detalles": "Falafel Crudo | Categoría: Vegetales → Otros",
+      "inv": "Materia Prima",
+      "ts": 1779542628910,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQjmDvSVGtM6kP_Inx": {
+      "accion": "📤 Salida",
+      "detalles": "Pre-Dip Batter Mix | 5 → 2 Paquetes",
+      "inv": "Materia Prima",
+      "ts": 1779655713760,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQk2Gn8C7zz8waPo1_": {
+      "accion": "📤 Salida",
+      "detalles": "Cumin Powder | 2 → 1 Contenedor",
+      "inv": "Materia Prima",
+      "ts": 1779655783578,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQkLnJomRRP_ZF-JnQ": {
+      "accion": "📤 Salida",
+      "detalles": "Tandoori Masala | 199 → 196 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779655863547,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQkddavJ4_iwFL99la": {
+      "accion": "📦 Entrada",
+      "detalles": "Chaat Masala | 88 → 90 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779655940749,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQklElhLZL37On9B1_": {
+      "accion": "📤 Salida",
+      "detalles": "Seekh Kabab | 3 → 0 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779655971864,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtQkuO2BWcztZih74bI": {
+      "accion": "📤 Salida",
+      "detalles": "Chicken Tikka | 46 → 42 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779656009322,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRCnYyXacl9iluPGdM": {
+      "accion": "📤 Salida",
+      "detalles": "Lamb Gyro | 4 → 2 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779663583522,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRD3vJXwZ0uB78dY95": {
+      "accion": "📤 Salida",
+      "detalles": "Chicken Quarters | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779663654649,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRdmK5-UhqbOeqZAYd": {
+      "accion": "📦 Entrada",
+      "detalles": "Tomatoes | 1 → 3 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779670918495,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRdsjYUx0gnGNaz6qe": {
+      "accion": "📦 Entrada",
+      "detalles": "Red Onion | 1 → 1.5 Bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779670944765,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRe3PJ3C8pDdFgbTOC": {
+      "accion": "📤 Salida",
+      "detalles": "Garlics | 3 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779670992567,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtReBOvblxW5Pgelii_": {
+      "accion": "📤 Salida",
+      "detalles": "Dill | 2 → 0 Rollo",
+      "inv": "Materia Prima",
+      "ts": 1779671025310,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtReIsOO4JVfr_KG0BO": {
+      "accion": "📤 Salida",
+      "detalles": "Lamb Tikka | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779671055931,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtReMscDNHcgyb0wUJE": {
+      "accion": "📤 Salida",
+      "detalles": "Square Cut Shoulder | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779671072331,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRe_K8RV0sFOWNoVA5": {
+      "accion": "📤 Salida",
+      "detalles": "Ginger | 2 → 0 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779671127410,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRegLtpu9xZoIfCzYO": {
+      "accion": "📤 Salida",
+      "detalles": "Mayonnaise | 8 → 3 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779671156179,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRejEF8UAvIDLlbT5z": {
+      "accion": "📤 Salida",
+      "detalles": "Sour Cream | 4 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779671167977,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRetfsHKX0RZeU-Zvk": {
+      "accion": "📦 Entrada",
+      "detalles": "Whole Milk Yogurt | 6 → 9 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779671210770,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRf3CmIcApcwBtyC7r": {
+      "accion": "📤 Salida",
+      "detalles": "Gyro Bread | 18 → 12 Paquetes",
+      "inv": "Materia Prima",
+      "ts": 1779671253900,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtRf5xbBjKEWgk2vC5F": {
+      "accion": "📦 Entrada",
+      "detalles": "Mango Pulp | 10 → 18 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779671265153,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtS71TKDSUWD2GHvc8e": {
+      "accion": "📦 Entrada",
+      "detalles": "Jalapeños | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779678848224,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSEnDBrczCVuxguY6z": {
+      "accion": "📦 Entrada",
+      "detalles": "Pepinos | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779680882862,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSEq2EqIwGYA0h74DJ": {
+      "accion": "📤 Salida",
+      "detalles": "Pepinos | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779680894450,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSGKNEduugsSoKU90Z": {
+      "accion": "✏️ Editado",
+      "detalles": "Leche",
+      "inv": "Materia Prima",
+      "ts": 1779681284904,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSGjm4bkRXMOULt4Ja": {
+      "accion": "📤 Salida",
+      "detalles": "Lechuga | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779681393055,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSGmOlteglQsCFulaQ": {
+      "accion": "📦 Entrada",
+      "detalles": "Lechuga | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779681403787,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSHktuO2v029bVAN1o": {
+      "accion": "📦 Entrada",
+      "detalles": "Tender de Pollo | 2 → 4 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779681659785,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSHrxBKQArvkDOmJFQ": {
+      "accion": "📤 Salida",
+      "detalles": "Tender de Pollo | 4 → 2 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779681688668,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSMH6UqqW2gWX2eOEP": {
+      "accion": "📦 Entrada",
+      "detalles": "Halal Thigh Meat (Boneless Skinless) | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779682845175,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtSMJP6Sp1Wp_R0fR8n": {
+      "accion": "📤 Salida",
+      "detalles": "Halal Thigh Meat (Boneless Skinless) | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779682854559,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVqJ46pyzgkJjmktvh": {
+      "accion": "➕ Agregado",
+      "detalles": "Coca Cola | Refrigerados / Bebidas | Stock inicial: 48 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741311343,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVqaPXIEuKhxBHUdHq": {
+      "accion": "➕ Agregado",
+      "detalles": "Fanta | Refrigerados / Bebidas | Stock inicial: 60 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741386442,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVqjYPNcNOdBc9eLfG": {
+      "accion": "➕ Agregado",
+      "detalles": "Sprite | Refrigerados / Bebidas | Stock inicial: 48 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741423874,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVqvJ_Wnwi4er2QuSh": {
+      "accion": "➕ Agregado",
+      "detalles": "Canada Dry | Refrigerados / Bebidas | Stock inicial: 64 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741472076,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVr0S9PCKdpJAymSz_": {
+      "accion": "✏️ Editado",
+      "detalles": "Fanta",
+      "inv": "Materia Prima",
+      "ts": 1779741497202,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVrBAzqhUAy2xCtF-J": {
+      "accion": "➕ Agregado",
+      "detalles": "Snapple | Refrigerados / Bebidas | Stock inicial: 20 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741541159,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVrKBQ0vRVcoNMrrkW": {
+      "accion": "➕ Agregado",
+      "detalles": "Pepsi | Refrigerados / Bebidas | Stock inicial: 50 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741578051,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVrYGj4PpP1daP89TH": {
+      "accion": "➕ Agregado",
+      "detalles": "Coca Cola ligth | Refrigerados / Bebidas | Stock inicial: 60 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741635735,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtVrewWhsirwgKFwmV7": {
+      "accion": "➕ Agregado",
+      "detalles": "Agua | Refrigerados / Bebidas | Stock inicial: 40 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779741667144,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtWJI5QRw2yO0miRXqD": {
+      "accion": "📦 Entrada",
+      "detalles": "Pepinos | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779749171641,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtWTZvOtiAENVNXK_JN": {
+      "accion": "📤 Salida",
+      "detalles": "Salsa de Tomate | 10 → 7 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779751866100,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtWThVlF5V-S4YKW5wU": {
+      "accion": "📤 Salida",
+      "detalles": "Garbanzo en Lata | 18 → 11 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779751901260,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtWTm4SC1B408cay0sz": {
+      "accion": "📦 Entrada",
+      "detalles": "Ketchup | 7 → 8 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779751919992,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtWTupA-itukmNNjy4Y": {
+      "accion": "📤 Salida",
+      "detalles": "Aceite en Caja | 4 → 3 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779751955815,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxVBkp6QX0YlBOKGW": {
+      "accion": "📤 Salida",
+      "detalles": "Huevos | 18 → 10 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779927745355,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxYxPKFX8R54qQqUh": {
+      "accion": "📤 Salida",
+      "detalles": "Alas de pollo | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927760758,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxgHQlgOhkUmG5LSh": {
+      "accion": "📦 Entrada",
+      "detalles": "Cordero Gyro | 2 → 4 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779927794871,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxjV4ICLnXY5sFgR7": {
+      "accion": "📦 Entrada",
+      "detalles": "Cuartos de Pollo | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927808033,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Otfxl_iao8Ze8YVAwVr": {
+      "accion": "📦 Entrada",
+      "detalles": "Cordero Tikka | 0 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927816586,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxnqZ07169WxfN4hb": {
+      "accion": "📦 Entrada",
+      "detalles": "Chuleta de Cordero | 0 → 2 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927825856,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxqOGask82CS9fggg": {
+      "accion": "📦 Entrada",
+      "detalles": "Tender de Pollo | 2 → 4 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927836269,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfxstrThoEMGYkchlo": {
+      "accion": "📦 Entrada",
+      "detalles": "Pollo sin Hueso Halal | 0 → 3 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927846546,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Otfy4vOY30p7FSz_S-o": {
+      "accion": "📦 Entrada",
+      "detalles": "Leche | 1 → 2 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1779927899892,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Otfy7Doz2FQ52oDh5s0": {
+      "accion": "📦 Entrada",
+      "detalles": "Cuartos de Pollo | 1 → 2 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1779927909328,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfyG5MWaYwe-ixr9RO": {
+      "accion": "📤 Salida",
+      "detalles": "Cebolla Roja | 1.5 → 1 Bolsas",
+      "inv": "Materia Prima",
+      "ts": 1779927945650,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtfyPU0gnqd766eCvuM": {
+      "accion": "📦 Entrada",
+      "detalles": "Eneldo | 0 → 6 Rollo",
+      "inv": "Materia Prima",
+      "ts": 1779927984092,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Otzk2gIOtfX_53wDXrG": {
+      "accion": "📤 Salida",
+      "detalles": "Jabon Lavaplatos | 2 → 0 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780259765045,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Otzk8MxQ3bk0eQX6Xvm": {
+      "accion": "📦 Entrada",
+      "detalles": "Limpiador de Hornos | 4 → 5 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780259788320,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtzkVbMHanq4nxR8gP4": {
+      "accion": "📤 Salida",
+      "detalles": "Blanqueador | 6 → 5 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780259883515,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtzkYPtaa1l3JG-CyzZ": {
+      "accion": "📦 Entrada",
+      "detalles": "Desinfectante | 0 → 6 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780259895005,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-OtzrUAPsqZoMsfOzY3f": {
+      "accion": "📦 Entrada",
+      "detalles": "Vinagre | 1 → 2 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780261712629,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-qthG9xwOPfsxmUg9": {
+      "accion": "📤 Salida",
+      "detalles": "Tomates | 3 → 2 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278336359,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-qwJvPabRwhy9toFf": {
+      "accion": "📤 Salida",
+      "detalles": "Ajos | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278347089,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-r-xX0T_jJHcphGNb": {
+      "accion": "📦 Entrada",
+      "detalles": "Mayonesa | 3 → 8 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780278366073,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rCcCxB_U_dCBMSAz": {
+      "accion": "📤 Salida",
+      "detalles": "Cordero Gyro | 4 → 1 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780278417955,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rFATTkz4hMWMss8p": {
+      "accion": "📤 Salida",
+      "detalles": "Cuartos de Pollo | 2 → 1 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278428404,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rKXT_z1ZTZ2-7JLS": {
+      "accion": "📤 Salida",
+      "detalles": "Cordero Tikka | 1 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278450357,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rN4oUsMce87ApUym": {
+      "accion": "📤 Salida",
+      "detalles": "Pollo sin Hueso Halal | 3 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278460811,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rQT15rQ-hTCd9Oca": {
+      "accion": "📤 Salida",
+      "detalles": "Chuleta de Cordero | 2 → 0 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278474649,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rSZRfHLcFOHV0Nl-": {
+      "accion": "📤 Salida",
+      "detalles": "Leche | 2 → 1 Unidades",
+      "inv": "Materia Prima",
+      "ts": 1780278483251,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    },
+    "-Ou-rVPR9Qm3NZR4c1Ee": {
+      "accion": "📤 Salida",
+      "detalles": "Tender de Pollo | 4 → 2 Cajas",
+      "inv": "Materia Prima",
+      "ts": 1780278494898,
+      "uid": "GG1w4uwNSMXBFXg14mu6Gqx3Igq1",
+      "usuario": "Admin"
+    }
+  },
+  "inventario": {
+    "a": {
+      "categorias": {
+        "c0000": "Carnes",
+        "c0001": "Vegetales",
+        "c0002": "Enlatados",
+        "c0003": "Contenedores",
+        "c0004": "Especias",
+        "c0005": "Articulos de limpieza",
+        "c0006": "Lacteos",
+        "c0007": "Otros",
+        "c0008": "Bebidas"
+      },
+      "caticons": {
+        "Articulo de Limpieza": "🧽",
+        "Articulos de limpieza": "🧽",
+        "Bebidas": "🧉",
+        "Carnes": "🥩",
+        "Contenedor": "🍱",
+        "Contenedores": "🍱",
+        "Enlatados": "🥫",
+        "Especias": "🫚",
+        "Especies": "🫚",
+        "Lacteos": "🐮",
+        "Otros": "📋",
+        "Vegetables": "🍅",
+        "Vegetales": "🍅"
+      },
+      "cattrans": {
+        "Articulos de limpieza": "Cleaning items",
+        "Bebidas": "Beverage",
+        "Carnes": "Meats",
+        "Contenedores": "Containers",
+        "Enlatados": "Canned",
+        "Especias": "Spices",
+        "Lacteos": "Dairy",
+        "Otros": "Other",
+        "Vegetales": "Vegetables"
+      },
+      "productos": {
+        "id_1": {
+          "cantidad": 2,
+          "categoria": "Carnes",
+          "id": 1,
+          "minimo": 4,
+          "nombre": "Chicken Tenderloins",
+          "nombreEN": "Chicken Tenderloins",
+          "nombreES": "Tender de Pollo",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278494898,
+          "updatedBy": "Admin"
+        },
+        "id_10": {
+          "cantidad": 1,
+          "categoria": "Vegetales",
+          "id": 10,
+          "minimo": 3,
+          "nombre": "Lettuce",
+          "nombreEN": "Lettuce",
+          "nombreES": "Lechuga",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1779681403787,
+          "updatedBy": "Admin"
+        },
+        "id_11": {
+          "cantidad": 0,
+          "categoria": "Vegetales",
+          "id": 11,
+          "minimo": 2,
+          "nombre": "Garlics",
+          "nombreEN": "Garlics",
+          "nombreES": "Ajos",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278347089,
+          "updatedBy": "Admin"
+        },
+        "id_12": {
+          "cantidad": 6,
+          "categoria": "Vegetales",
+          "id": 12,
+          "minimo": 6,
+          "nombre": "Dill",
+          "nombreEN": "Dill",
+          "nombreES": "Eneldo",
+          "subcategoria": "refrigerados",
+          "unidad": "Rollo",
+          "updatedAt": 1779927984092,
+          "updatedBy": "Admin"
+        },
+        "id_13": {
+          "cantidad": 0,
+          "categoria": "Carnes",
+          "id": 13,
+          "minimo": 2,
+          "nombre": "Square Cut Shoulder",
+          "nombreEN": "Square Cut Shoulder",
+          "nombreES": "Chuleta de Cordero",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278474649,
+          "updatedBy": "Admin"
+        },
+        "id_14": {
+          "cantidad": 0,
+          "categoria": "Carnes",
+          "id": 14,
+          "minimo": 2,
+          "nombre": "Lamb Tikka",
+          "nombreEN": "Lamb Tikka",
+          "nombreES": "Cordero Tikka",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278450357,
+          "updatedBy": "Admin"
+        },
+        "id_15": {
+          "cantidad": 1,
+          "categoria": "Carnes",
+          "id": 15,
+          "minimo": 8,
+          "nombre": "Lamb Gyro",
+          "nombreEN": "Lamb Gyro",
+          "nombreES": "Cordero Gyro",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1780278417955,
+          "updatedBy": "Admin"
+        },
+        "id_16": {
+          "cantidad": 1,
+          "categoria": "Carnes",
+          "id": 16,
+          "minimo": 4,
+          "nombre": "Leche",
+          "nombreEN": "Milk",
+          "nombreES": "Leche",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1780278483251,
+          "updatedBy": "Admin"
+        },
+        "id_17": {
+          "cantidad": 7,
+          "categoria": "Enlatados",
+          "id": 17,
+          "minimo": 2,
+          "nombre": "Tomato Sauce",
+          "nombreEN": "Tomato Sauce",
+          "nombreES": "Salsa de Tomate",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779751866100,
+          "updatedBy": "Admin"
+        },
+        "id_18": {
+          "cantidad": 8,
+          "categoria": "Enlatados",
+          "id": 18,
+          "minimo": 2,
+          "nombre": "Tomato Ketchup",
+          "nombreEN": "Tomato Ketchup",
+          "nombreES": "Ketchup",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779751919992,
+          "updatedBy": "Admin"
+        },
+        "id_19": {
+          "cantidad": 11,
+          "categoria": "Enlatados",
+          "id": 19,
+          "minimo": 4,
+          "nombre": "Chick Peas",
+          "nombreEN": "Chick Peas",
+          "nombreES": "Garbanzo en Lata",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779751901260,
+          "updatedBy": "Admin"
+        },
+        "id_2": {
+          "cantidad": 0,
+          "categoria": "Carnes",
+          "id": 2,
+          "minimo": 1,
+          "nombre": "Chicken Wings",
+          "nombreEN": "Chicken Wings",
+          "nombreES": "Alas de pollo",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1779927760758,
+          "updatedBy": "Admin"
+        },
+        "id_20": {
+          "cantidad": 3,
+          "categoria": "Contenedores",
+          "id": 20,
+          "minimo": 1,
+          "nombre": "Container Lid 8oz",
+          "nombreEN": "Container Lid 8oz",
+          "nombreES": "Tapa contenedor 8oz",
+          "subcategoria": "secos",
+          "unidad": "Cajas"
+        },
+        "id_21": {
+          "cantidad": 3,
+          "categoria": "Contenedores",
+          "id": 21,
+          "minimo": 1,
+          "nombre": "Container 8oz",
+          "nombreEN": "Container 8oz",
+          "nombreES": "Contenedor 8oz",
+          "subcategoria": "secos",
+          "unidad": "Cajas"
+        },
+        "id_22": {
+          "cantidad": 0.5,
+          "categoria": "Contenedores",
+          "id": 22,
+          "minimo": 1,
+          "nombre": "Container 6x6",
+          "nombreEN": "Container 6x6",
+          "nombreES": "Contenedor 6x6",
+          "subcategoria": "secos",
+          "unidad": "Cajas"
+        },
+        "id_23": {
+          "cantidad": 196,
+          "categoria": "Especias",
+          "id": 23,
+          "minimo": 24,
+          "nombre": "Tandoori Masala",
+          "nombreEN": "Tandoori Masala",
+          "nombreES": "Tandoori Masala",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779655863546
+        },
+        "id_24": {
+          "cantidad": 90,
+          "categoria": "Especias",
+          "id": 24,
+          "minimo": 24,
+          "nombre": "Chaat Masala",
+          "nombreEN": "Chaat Masala",
+          "nombreES": "Chaat Masala",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779655940749
+        },
+        "id_25": {
+          "cantidad": 75,
+          "categoria": "Especias",
+          "id": 25,
+          "minimo": 24,
+          "nombre": "Tikka Seekh Kabab",
+          "nombreEN": "Tikka Seekh Kabab",
+          "nombreES": "Tikka Seekh Kabab",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_26": {
+          "cantidad": 0,
+          "categoria": "Especias",
+          "id": 26,
+          "minimo": 24,
+          "nombre": "Seekh Kabab",
+          "nombreEN": "Seekh Kabab",
+          "nombreES": "Seekh Kabab",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779655971864
+        },
+        "id_27": {
+          "cantidad": 7,
+          "categoria": "Especias",
+          "id": 27,
+          "minimo": 6,
+          "nombre": "Karahi",
+          "nombreEN": "Karahi",
+          "nombreES": "Karahi",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_28": {
+          "cantidad": 106,
+          "categoria": "Especias",
+          "id": 28,
+          "minimo": 0,
+          "nombre": "Meat Tenderizer",
+          "nombreEN": "Meat Tenderizer",
+          "nombreES": "Meat Tenderizer",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_29": {
+          "cantidad": 3,
+          "categoria": "Especias",
+          "id": 29,
+          "minimo": 6,
+          "nombre": "Korma",
+          "nombreEN": "Korma",
+          "nombreES": "Korma",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_3": {
+          "cantidad": 0,
+          "categoria": "Carnes",
+          "id": 3,
+          "minimo": 4,
+          "nombre": "Halal Thigh Meat (Boneless Skinless)",
+          "nombreEN": "Halal Thigh Meat (Boneless Skinless)",
+          "nombreES": "Pollo sin Hueso Halal",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278460811,
+          "updatedBy": "Admin"
+        },
+        "id_30": {
+          "cantidad": 42,
+          "categoria": "Especias",
+          "id": 30,
+          "minimo": 24,
+          "nombre": "Chicken Tikka",
+          "nombreEN": "Chicken Tikka",
+          "nombreES": "Chicken Tikka",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779656009322
+        },
+        "id_31": {
+          "cantidad": 41,
+          "categoria": "Especias",
+          "id": 31,
+          "minimo": 24,
+          "nombre": "Chana Masala",
+          "nombreEN": "Chana Masala",
+          "nombreES": "Chana Masala",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_32": {
+          "cantidad": 7,
+          "categoria": "Especias",
+          "id": 32,
+          "minimo": 0,
+          "nombre": "Malai Boti",
+          "nombreEN": "Malai Boti",
+          "nombreES": "Malai Boti",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_33": {
+          "cantidad": 4,
+          "categoria": "Otros",
+          "id": 33,
+          "minimo": 3,
+          "nombre": "Lemon Juice",
+          "nombreEN": "Lemon Juice",
+          "nombreES": "Jugo de Limon",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1779515794923
+        },
+        "id_34": {
+          "cantidad": 6,
+          "categoria": "Otros",
+          "id": 34,
+          "minimo": 2,
+          "nombre": "Green Tea",
+          "nombreEN": "Green Tea",
+          "nombreES": "Te Verde",
+          "subcategoria": "secos",
+          "unidad": "Bolsas"
+        },
+        "id_35": {
+          "cantidad": 1,
+          "categoria": "Especias",
+          "id": 35,
+          "minimo": 1,
+          "nombre": "Cumin Powder",
+          "nombreEN": "Cumin Powder",
+          "nombreES": "Comino en Polvo",
+          "subcategoria": "secos",
+          "unidad": "Contenedor",
+          "updatedAt": 1779655783578
+        },
+        "id_36": {
+          "cantidad": 3,
+          "categoria": "Articulos de limpieza",
+          "id": 36,
+          "minimo": 12,
+          "nombre": "Scrubber (stainless steel)",
+          "nombreEN": "Scrubber (stainless steel)",
+          "nombreES": "Acero",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades"
+        },
+        "id_37": {
+          "cantidad": 48,
+          "categoria": "Articulos de limpieza",
+          "id": 37,
+          "minimo": 12,
+          "nombre": "Scrub Sponges",
+          "nombreEN": "Scrub Sponges",
+          "nombreES": "Esponjas",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades"
+        },
+        "id_38": {
+          "cantidad": 2,
+          "categoria": "Especias",
+          "id": 38,
+          "minimo": 1,
+          "nombre": "Split Cashew",
+          "nombreEN": "Split Cashew",
+          "nombreES": "Semilla de Mara;on",
+          "subcategoria": "secos",
+          "unidad": "Bolsas"
+        },
+        "id_39": {
+          "cantidad": 4,
+          "categoria": "Enlatados",
+          "id": 39,
+          "minimo": 2,
+          "nombre": "Extra Virgin Olive Oil",
+          "nombreEN": "Extra Virgin Olive Oil",
+          "nombreES": "Aceite de Oliva Extra Virgen",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_4": {
+          "cantidad": 1,
+          "categoria": "Carnes",
+          "id": 4,
+          "minimo": 1,
+          "nombre": "Chicken Quarters",
+          "nombreEN": "Chicken Quarters",
+          "nombreES": "Cuartos de Pollo",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278428404,
+          "updatedBy": "Admin"
+        },
+        "id_40": {
+          "cantidad": 6,
+          "categoria": "Enlatados",
+          "id": 40,
+          "minimo": 4,
+          "nombre": "Tahini",
+          "nombreEN": "Tahini",
+          "nombreES": "Tahini",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_41": {
+          "cantidad": 2,
+          "categoria": "Especias",
+          "id": 41,
+          "minimo": 4,
+          "nombre": "Vinegar",
+          "nombreEN": "Vinegar",
+          "nombreES": "Vinagre",
+          "subcategoria": "secos",
+          "unidad": "Unidades",
+          "updatedAt": 1780261712629,
+          "updatedBy": "Admin"
+        },
+        "id_42": {
+          "cantidad": 2,
+          "categoria": "Especias",
+          "id": 42,
+          "minimo": 1,
+          "nombre": "Turmeric",
+          "nombreEN": "Turmeric",
+          "nombreES": "Turmeric",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_43": {
+          "cantidad": 4,
+          "categoria": "Especias",
+          "id": 43,
+          "minimo": 2,
+          "nombre": "Dry Yeast",
+          "nombreEN": "Dry Yeast",
+          "nombreES": "Levadura Seca",
+          "subcategoria": "secos",
+          "unidad": "Paquetes"
+        },
+        "id_44": {
+          "cantidad": 2,
+          "categoria": "Especias",
+          "id": 44,
+          "minimo": 1,
+          "nombre": "Pre-Dip Batter Mix",
+          "nombreEN": "Pre-Dip Batter Mix",
+          "nombreES": "Mezcla para Empanizar",
+          "subcategoria": "secos",
+          "unidad": "Paquetes",
+          "updatedAt": 1779655713760
+        },
+        "id_45": {
+          "cantidad": 1,
+          "categoria": "Especias",
+          "id": 45,
+          "minimo": 1,
+          "nombre": "Chili Powder",
+          "nombreEN": "Chili Powder",
+          "nombreES": "Polvo Picante",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_46": {
+          "cantidad": 2,
+          "categoria": "Especias",
+          "id": 46,
+          "minimo": 1,
+          "nombre": "Lemon & Pepper",
+          "nombreEN": "Lemon & Pepper",
+          "nombreES": "Pimienta y Limon",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_47": {
+          "cantidad": 1,
+          "categoria": "Especias",
+          "id": 47,
+          "minimo": 1,
+          "nombre": "Cinnamon",
+          "nombreEN": "Cinnamon",
+          "nombreES": "Canella",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_48": {
+          "cantidad": 1,
+          "categoria": "Especias",
+          "id": 48,
+          "minimo": 1,
+          "nombre": "Baking Powder",
+          "nombreEN": "Baking Powder",
+          "nombreES": "Polvo de Hornear",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_49": {
+          "cantidad": 1,
+          "categoria": "Otros",
+          "id": 49,
+          "minimo": 1,
+          "nombre": "Egg Shade",
+          "nombreEN": "Egg Shade",
+          "nombreES": "Colorante de Comida",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_5": {
+          "cantidad": 2,
+          "categoria": "Vegetales",
+          "id": 5,
+          "minimo": 2,
+          "nombre": "Tomatoes",
+          "nombreEN": "Tomatoes",
+          "nombreES": "Tomates",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1780278336359,
+          "updatedBy": "Admin"
+        },
+        "id_50": {
+          "cantidad": 1,
+          "categoria": "Especias",
+          "id": 50,
+          "minimo": 1,
+          "nombre": "Black Pepper",
+          "nombreEN": "Black Pepper",
+          "nombreES": "Pimienta Negra",
+          "subcategoria": "secos",
+          "unidad": "Unidades"
+        },
+        "id_51": {
+          "cantidad": 15,
+          "categoria": "Contenedores",
+          "id": 51,
+          "minimo": 2,
+          "nombre": "Drinking Straws",
+          "nombreEN": "Drinking Straws",
+          "nombreES": "Pajillas",
+          "subcategoria": "secos",
+          "unidad": "Paquetes"
+        },
+        "id_52": {
+          "cantidad": 8,
+          "categoria": "Lacteos",
+          "id": 52,
+          "minimo": 4,
+          "nombre": "Mayonnaise",
+          "nombreEN": "Mayonnaise",
+          "nombreES": "Mayonesa",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1780278366073,
+          "updatedBy": "Admin"
+        },
+        "id_53": {
+          "cantidad": 1,
+          "categoria": "Lacteos",
+          "id": 53,
+          "minimo": 2,
+          "nombre": "Sour Cream",
+          "nombreEN": "Sour Cream",
+          "nombreES": "Crema (Natilla)",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1779671167977
+        },
+        "id_54": {
+          "cantidad": 10,
+          "categoria": "Carnes",
+          "id": 54,
+          "minimo": 2,
+          "nombre": "Eggs",
+          "nombreEN": "Eggs",
+          "nombreES": "Huevos",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779927745355,
+          "updatedBy": "Admin"
+        },
+        "id_55": {
+          "cantidad": 12,
+          "categoria": "Otros",
+          "id": 55,
+          "minimo": 6,
+          "nombre": "Gyro Bread",
+          "nombreEN": "Gyro Bread",
+          "nombreES": "Pan Gyro",
+          "subcategoria": "refrigerados",
+          "unidad": "Paquetes",
+          "updatedAt": 1779671253900
+        },
+        "id_56": {
+          "cantidad": 1,
+          "categoria": "Otros",
+          "id": 56,
+          "minimo": 1,
+          "nombre": "Pressed Flour \"12\"",
+          "nombreEN": "Pressed Flour \"12\"",
+          "nombreES": "Tortillas \"12\"",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_57": {
+          "cantidad": 1,
+          "categoria": "Otros",
+          "id": 57,
+          "minimo": 1,
+          "nombre": "Pressed Flour \"10\"",
+          "nombreEN": "Pressed Flour \"10\"",
+          "nombreES": "Tortillas \"10\"",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_58": {
+          "cantidad": 9,
+          "categoria": "Lacteos",
+          "id": 58,
+          "minimo": 2,
+          "nombre": "Whole Milk Yogurt",
+          "nombreEN": "Whole Milk Yogurt",
+          "nombreES": "Yogurt",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779671210770
+        },
+        "id_59": {
+          "cantidad": 18,
+          "categoria": "Otros",
+          "id": 59,
+          "minimo": 4,
+          "nombre": "Mango Pulp",
+          "nombreEN": "Mango Pulp",
+          "nombreES": "Pulpa de Mango",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779671265153
+        },
+        "id_6": {
+          "cantidad": 1,
+          "categoria": "Vegetales",
+          "id": 6,
+          "minimo": 2,
+          "nombre": "Cucumbers",
+          "nombreEN": "Cucumbers",
+          "nombreES": "Pepinos",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1779749171640,
+          "updatedBy": "Admin"
+        },
+        "id_60": {
+          "cantidad": 1,
+          "categoria": "Lacteos",
+          "id": 60,
+          "minimo": 1,
+          "nombre": "Bleu Cheese",
+          "nombreEN": "Bleu Cheese",
+          "nombreES": "Bleu Cheese",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_61": {
+          "cantidad": 1,
+          "categoria": "Lacteos",
+          "id": 61,
+          "minimo": 1,
+          "nombre": "Honey mustard",
+          "nombreEN": "Honey mustard",
+          "nombreES": "Honey Mustard",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_62": {
+          "cantidad": 5,
+          "categoria": "Lacteos",
+          "id": 62,
+          "minimo": 2,
+          "nombre": "American Cheese Slices",
+          "nombreEN": "American Cheese Slices",
+          "nombreES": "Queso Amarillo en Tiras",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades"
+        },
+        "id_63": {
+          "cantidad": 5,
+          "categoria": "Otros",
+          "id": 63,
+          "minimo": 3,
+          "nombre": "Flour All Trumps",
+          "nombreEN": "Flour All Trumps",
+          "nombreES": "Arina",
+          "subcategoria": "secos",
+          "unidad": "Paquetes"
+        },
+        "id_64": {
+          "cantidad": 0.5,
+          "categoria": "Otros",
+          "id": 64,
+          "minimo": 1,
+          "nombre": "Stone Ground Wheat-A-Laxa",
+          "nombreEN": "Stone Ground Wheat-A-Laxa",
+          "nombreES": "Arina Gris",
+          "subcategoria": "secos",
+          "unidad": "Paquetes"
+        },
+        "id_65": {
+          "cantidad": 3,
+          "categoria": "Especias",
+          "id": 65,
+          "minimo": 3,
+          "nombre": "Box Oil",
+          "nombreEN": "Box Oil",
+          "nombreES": "Aceite en Caja",
+          "subcategoria": "secos",
+          "unidad": "Cajas",
+          "updatedAt": 1779751955815,
+          "updatedBy": "Admin"
+        },
+        "id_66": {
+          "cantidad": 0,
+          "categoria": "Articulos de limpieza",
+          "id": 66,
+          "minimo": 3,
+          "nombre": "Green Dish Cleaner",
+          "nombreEN": "Green Dish Cleaner",
+          "nombreES": "Jabon Lavaplatos",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades",
+          "updatedAt": 1780259765045,
+          "updatedBy": "Admin"
+        },
+        "id_67": {
+          "cantidad": 5,
+          "categoria": "Articulos de limpieza",
+          "id": 67,
+          "minimo": 5,
+          "nombre": "Oven & Grill Cleaner",
+          "nombreEN": "Oven & Grill Cleaner",
+          "nombreES": "Limpiador de Hornos",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades",
+          "updatedAt": 1780259788320,
+          "updatedBy": "Admin"
+        },
+        "id_68": {
+          "cantidad": 2,
+          "categoria": "Carnes",
+          "id": 68,
+          "minimo": 2,
+          "nombre": "Halal Beef Hamburger",
+          "nombreEN": "Halal Beef Hamburger",
+          "nombreES": "Hamburguesa de Res",
+          "subcategoria": "congelados",
+          "unidad": "Cajas"
+        },
+        "id_69": {
+          "cantidad": 2,
+          "categoria": "Carnes",
+          "id": 69,
+          "minimo": 2,
+          "nombre": "Ribeye Sanwich Steaks",
+          "nombreEN": "Ribeye Sanwich Steaks",
+          "nombreES": "Carne para Sanwich",
+          "subcategoria": "congelados",
+          "unidad": "Cajas"
+        },
+        "id_7": {
+          "cantidad": 0,
+          "categoria": "Vegetales",
+          "id": 7,
+          "minimo": 2,
+          "nombre": "White Onions",
+          "nombreEN": "White Onions",
+          "nombreES": "Cebolla Blanca",
+          "subcategoria": "refrigerados",
+          "unidad": "Bolsas"
+        },
+        "id_70": {
+          "cantidad": 4,
+          "categoria": "Carnes",
+          "id": 70,
+          "minimo": 2,
+          "nombre": "Breaded Butterfly Shrimp",
+          "nombreEN": "Breaded Butterfly Shrimp",
+          "nombreES": "Camaron Empanizado",
+          "subcategoria": "congelados",
+          "unidad": "Cajas"
+        },
+        "id_71": {
+          "cantidad": 15,
+          "categoria": "Carnes",
+          "id": 71,
+          "minimo": 4,
+          "nombre": "Uncooked Shrimp",
+          "nombreEN": "Uncooked Shrimp",
+          "nombreES": "Camaron Crudo",
+          "subcategoria": "congelados",
+          "unidad": "Bolsas"
+        },
+        "id_72": {
+          "cantidad": 5,
+          "categoria": "Otros",
+          "id": 72,
+          "minimo": 2,
+          "nombre": "Falafel Uncooked Fritters",
+          "nombreEN": "Falafel Uncooked Fritters",
+          "nombreES": "Falafel Crudo",
+          "subcategoria": "congelados",
+          "unidad": "Bolsas",
+          "updatedAt": 1779542628910
+        },
+        "id_73": {
+          "cantidad": 9,
+          "categoria": "Otros",
+          "id": 73,
+          "minimo": 4,
+          "nombre": "Fries",
+          "nombreEN": "Fries",
+          "nombreES": "Papas Fritas",
+          "subcategoria": "congelados",
+          "unidad": "Paquetes",
+          "updatedAt": 1779542619776
+        },
+        "id_74": {
+          "cantidad": 6,
+          "categoria": "Articulos de limpieza",
+          "id": 74,
+          "minimo": 4,
+          "nombre": "Lavender (cleaner)",
+          "nombreEN": "Lavender (cleaner)",
+          "nombreES": "Desinfectante",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades",
+          "updatedAt": 1780259895005,
+          "updatedBy": "Admin"
+        },
+        "id_75": {
+          "cantidad": 5,
+          "categoria": "Articulos de limpieza",
+          "id": 75,
+          "minimo": 4,
+          "nombre": "Bleach",
+          "nombreEN": "Bleach",
+          "nombreES": "Blanqueador",
+          "subcategoria": "limpieza",
+          "unidad": "Unidades",
+          "updatedAt": 1780259883515,
+          "updatedBy": "Admin"
+        },
+        "id_76": {
+          "cantidad": 0,
+          "categoria": "Vegetales",
+          "id": 76,
+          "minimo": 1,
+          "nombre": "Eggplant",
+          "nombreEN": "Eggplant",
+          "nombreES": "Berenjena",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_77": {
+          "cantidad": 0,
+          "categoria": "Vegetales",
+          "id": 77,
+          "minimo": 1,
+          "nombre": "Potatoe",
+          "nombreEN": "Potatoe",
+          "nombreES": "Papas",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        },
+        "id_78": {
+          "cantidad": 8,
+          "categoria": "Especias",
+          "id": 78,
+          "minimo": 2,
+          "nombre": "Rice",
+          "nombreEN": "Rice",
+          "nombreES": "Arroz",
+          "subcategoria": "secos",
+          "unidad": "Bolsas"
+        },
+        "id_79": {
+          "cantidad": 0,
+          "categoria": "Especias",
+          "id": 79,
+          "minimo": 1,
+          "nombre": "Ginger",
+          "nombreEN": "Ginger",
+          "nombreES": "Genjibre",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779671127410
+        },
+        "id_8": {
+          "cantidad": 1,
+          "categoria": "Vegetales",
+          "id": 8,
+          "minimo": 2,
+          "nombre": "Red Onion",
+          "nombreEN": "Red Onion",
+          "nombreES": "Cebolla Roja",
+          "subcategoria": "refrigerados",
+          "unidad": "Bolsas",
+          "updatedAt": 1779927945650,
+          "updatedBy": "Admin"
+        },
+        "id_80": {
+          "cantidad": 1,
+          "categoria": "Vegetales",
+          "id": 80,
+          "minimo": 1,
+          "nombre": "Jalapeños",
+          "nombreEN": "Jalapeños",
+          "nombreES": "Jalapeños",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas",
+          "updatedAt": 1779678848224
+        },
+        "id_81": {
+          "cantidad": 3,
+          "categoria": "Carnes",
+          "id": 81,
+          "minimo": 6,
+          "nombre": "Salmon",
+          "nombreEN": "Salmon",
+          "nombreES": "Salmon",
+          "subcategoria": "congelados",
+          "unidad": "Unidades",
+          "updatedAt": 1779514153050
+        },
+        "id_82": {
+          "cantidad": 48,
+          "categoria": "Bebidas",
+          "id": 82,
+          "minimo": 12,
+          "nombre": "Coca Cola",
+          "nombreEN": "Coca Cola",
+          "nombreES": "Coca Cola",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741311343,
+          "updatedBy": "Admin"
+        },
+        "id_83": {
+          "cantidad": 60,
+          "categoria": "Bebidas",
+          "id": 83,
+          "minimo": 12,
+          "nombre": "Fanta",
+          "nombreEN": "Fanta",
+          "nombreES": "Fanta",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741497202,
+          "updatedBy": "Admin"
+        },
+        "id_84": {
+          "cantidad": 48,
+          "categoria": "Bebidas",
+          "id": 84,
+          "minimo": 12,
+          "nombre": "Sprite",
+          "nombreEN": "Sprite",
+          "nombreES": "Sprite",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741423874,
+          "updatedBy": "Admin"
+        },
+        "id_85": {
+          "cantidad": 64,
+          "categoria": "Bebidas",
+          "id": 85,
+          "minimo": 12,
+          "nombre": "Canada Dry",
+          "nombreEN": "Canada Dry",
+          "nombreES": "Canada Dry",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741472076,
+          "updatedBy": "Admin"
+        },
+        "id_86": {
+          "cantidad": 20,
+          "categoria": "Bebidas",
+          "id": 86,
+          "minimo": 12,
+          "nombre": "Snapple",
+          "nombreEN": "Snapple",
+          "nombreES": "Snapple",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741541159,
+          "updatedBy": "Admin"
+        },
+        "id_87": {
+          "cantidad": 50,
+          "categoria": "Bebidas",
+          "id": 87,
+          "minimo": 12,
+          "nombre": "Pepsi",
+          "nombreEN": "Pepsi",
+          "nombreES": "Pepsi",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741578051,
+          "updatedBy": "Admin"
+        },
+        "id_88": {
+          "cantidad": 60,
+          "categoria": "Bebidas",
+          "id": 88,
+          "minimo": 12,
+          "nombre": "Coca Cola ligth",
+          "nombreEN": "Coca Cola ligth",
+          "nombreES": "Coca Cola ligth",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741635735,
+          "updatedBy": "Admin"
+        },
+        "id_89": {
+          "cantidad": 40,
+          "categoria": "Bebidas",
+          "id": 89,
+          "minimo": 12,
+          "nombre": "Agua",
+          "nombreEN": "Water",
+          "nombreES": "Agua",
+          "subcategoria": "refrigerados",
+          "unidad": "Unidades",
+          "updatedAt": 1779741667144,
+          "updatedBy": "Admin"
+        },
+        "id_9": {
+          "cantidad": 0,
+          "categoria": "Vegetales",
+          "id": 9,
+          "minimo": 1,
+          "nombre": "Green Peppers",
+          "nombreEN": "Green Peppers",
+          "nombreES": "Chiles Verdes",
+          "subcategoria": "refrigerados",
+          "unidad": "Cajas"
+        }
+      },
+      "unidades": {
+        "u0000": "Unidades",
+        "u0001": "Cajas",
+        "u0002": "Bolsas",
+        "u0003": "Rollo",
+        "u0004": "Paquetes",
+        "u0005": "Botella",
+        "u0006": "Galon",
+        "u0007": "Contenedor",
+        "u0008": "Bandeja"
+      },
+      "unittrans": {
+        "Bandeja": "Tray",
+        "Bolsas": "Bags",
+        "Botella": "Bottle",
+        "Cajas": "Boxes",
+        "Contenedor": "Container",
+        "Galon": "Gallon",
+        "Paquetes": "Packages",
+        "Rollo": "Roll",
+        "Unidades": "Unit"
+      }
+    },
+    "b": {
+      "categorias": {
+        "c0000": "Sopas",
+        "c0001": "Salsas",
+        "c0002": "Panaderia",
+        "c0003": "Bebidas",
+        "c0004": "Platos fuertes",
+        "c0005": "Postres"
+      },
+      "productos": {
+        "__empty__": true
+      },
+      "unidades": {
+        "u0000": "piezas",
+        "u0001": "L",
+        "u0002": "kg",
+        "u0003": "porciones",
+        "u0004": "cajas",
+        "u0005": "bolsas"
+      }
+    }
+  },
+  "usuarios": {
+    "DzBWFyljljhQ7PrUTVMUDavKb763": {
+      "activo": true,
+      "email": "antonio@imenjivar.com",
+      "role": "usuario",
+      "username": "Antonio"
+    },
+    "GG1w4uwNSMXBFXg14mu6Gqx3Igq1": {
+      "activo": true,
+      "email": "mmenjivar29@gmail.com",
+      "role": "admin",
+      "username": "Admin"
+    },
+    "bdaD0fz6qghRdcqozOiBshWKP2E2": {
+      "activo": true,
+      "email": "nayuby1979@imenjivar.com",
+      "role": "usuario",
+      "username": "Nayuby1979"
+    },
+    "r9TW2AZwX7VaASEZvRT5w343BDC2": {
+      "activo": true,
+      "email": "mmadrigal@imenjivar.com",
+      "role": "usuario",
+      "username": "MMadrigal"
+    }
+  }
+}
