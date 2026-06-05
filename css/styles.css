@@ -968,3 +968,19 @@ body{background:var(--bg)!important;color:var(--ink)!important;font-size:14px;-w
 .cell-icon .category-icon svg{width:15px!important;height:15px!important;stroke-width:1.75!important;}
 .category-chip .category-icon{width:16px!important;height:16px!important;}
 .category-chip .category-icon svg{width:16px!important;height:16px!important;}
+
+
+/* V2.1.38 - mobile bottom navigation, mobile user menu, and reports filter toggle */
+@media(max-width:767px){
+  .bottom-nav{display:flex!important;align-items:stretch!important;justify-content:flex-start!important;gap:6px!important;overflow-x:auto!important;overflow-y:visible!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important;padding:7px 8px calc(7px + var(--safe-bottom))!important;}
+  .bottom-nav::-webkit-scrollbar{display:none!important;}
+  .bottom-nav .nav-btn,.bottom-nav .mobile-user-nav{flex:0 0 70px!important;min-width:70px!important;max-width:70px!important;}
+  .bottom-nav .mobile-user-nav{display:block!important;position:relative!important;}
+  .bottom-nav .mobile-user-nav>.nav-btn{width:100%!important;height:100%!important;}
+  .bottom-nav .nav-btn{font-size:10px!important;line-height:1.1!important;padding:6px 2px!important;}
+  .bottom-nav .nav-btn .ico{font-size:18px!important;}
+  .mobile-user-nav .user-dropdown{position:fixed!important;left:12px!important;right:12px!important;bottom:calc(76px + var(--safe-bottom))!important;z-index:2000!important;display:block;}
+  .mobile-user-nav .user-dropdown.hidden{display:none!important;}
+}
+.filter-card.collapsed{display:none!important;}
+#reportFilterTools span{font-weight:800;}

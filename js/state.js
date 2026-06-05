@@ -10,6 +10,7 @@ export const state = {
   reportStatus: "all",
   hideRecent: false,
   filtersOpen: localStorage.getItem("ak-filters-open") !== "false",
+  reportFiltersOpen: localStorage.getItem("ak-report-filters-open") !== "false",
   reviewTab: "translations",
   search: "",
   user: null,
