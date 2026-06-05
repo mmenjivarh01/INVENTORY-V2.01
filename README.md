@@ -99,3 +99,7 @@ When importing production data into a new Firebase project, Auth UIDs may change
 ### Password reset behavior
 The admin reset button writes a temporary password into `/pendingReset`. On the user's next successful login, the app applies that password with Firebase Auth `updatePassword()` and clears the pending reset.
 
+
+
+## v2.1.36
+- Ajuste visual de iconos de categorías a estilo vectorial fino tipo Tabler/Lucide.

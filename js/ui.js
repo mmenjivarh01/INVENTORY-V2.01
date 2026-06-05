@@ -17,12 +17,14 @@ const svgIcon = name => ({
   package:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>`,
   search:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`,
   sliders:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>`,
-  meat:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5c-2.2-2.2-2.2-5.8 0-8 2.2-2.2 5.8-2.2 8 0l1 1c1.8 1.8 1.8 4.7 0 6.5l-3.5 3.5c-1.8 1.8-4.7 1.8-6.5 0l1-3Z"/><path d="M13 8.5h.01"/><path d="M10.5 11h.01"/></svg>`,
-  leaf:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21c.5-7.5 5-12 14-14-2 9-6.5 13.5-14 14Z"/><path d="M5 21c3.5-3.5 7-6 11-8"/></svg>`,
-  bottle:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4"/><path d="M11 2v5l-3 3v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V10l-3-3V2"/></svg>`,
-  chili:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 4c2 2 2 5 0 7l-6 6c-2 2-5 2-7 0 5-1 8-4 9-9 .3-1.8 1.7-3.3 4-4Z"/><path d="M16 4c1-1 2-1.3 4-1"/></svg>`,
-  sauce:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4v4h-4z"/><path d="M9 6h6l1 4v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V10l1-4Z"/><path d="M9 14h6"/></svg>`,
-  beverage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l-1 18H8L7 3Z"/><path d="M8 8h8"/><path d="M10 3V1h4v2"/></svg>`,
+  meat:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.62 8.382l1.966 -1.967a2 2 0 1 1 2.828 2.828l-1.967 1.966"/><path d="M5.904 18.596a4.167 4.167 0 0 1 0 -5.892l3.864 -3.864a4 4 0 0 1 5.657 0l.735 .735a4 4 0 0 1 0 5.657l-3.864 3.864a4.167 4.167 0 0 1 -5.892 0z"/><path d="M7.5 16.5l.01 0"/><path d="M10.5 13.5l.01 0"/></svg>`,
+  leaf:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21c.5 -4.5 2.5 -8 7 -10"/><path d="M9 18c6.218 0 10 -3.288 10 -10v-5h-4c-6.218 0 -10 3.288 -10 10 0 1 0 2 1 3"/></svg>`,
+  bottle:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4"/><path d="M11 2v5l-3 3v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2V10l-3 -3V2"/><path d="M8 14h8"/><path d="M8 18h8"/></svg>`,
+  chili:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 4c1.5 1.5 2 3.5 1 6c-1 3 -4 6 -7 8c-2 1.333 -4.333 1.333 -7 0c2.5 -.5 4.5 -2 6 -4.5c1.5 -2.5 1.5 -5.5 3.5 -7.5c1 -1 2 -1.5 3.5 -2z"/><path d="M17 4c.5 -1 1.5 -1.5 3 -1.5"/></svg>`,
+  sauce:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4v4h-4z"/><path d="M9 6h6l1 4v10a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2V10l1 -4z"/><path d="M9 14h6"/><path d="M10 18h4"/></svg>`,
+  beverage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l-1 18H8L7 3z"/><path d="M8 8h8"/><path d="M10 3V1h4v2"/><path d="M9 14h6"/></svg>`,
+  can:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6c0 -2 10 -2 10 0v12c0 2 -10 2 -10 0V6z"/><path d="M7 6c0 2 10 2 10 0"/><path d="M7 18c0 -2 10 -2 10 0"/><path d="M9 10h6"/><path d="M9 14h6"/></svg>`,
+  cleaning:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l1 6H7l1 -6z"/><path d="M7 9h10l2 11H5L7 9z"/><path d="M9 13h6"/><path d="M10 17h4"/></svg>`,
   tag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 11 22 2 13V4h9l9 9Z"/><path d="M7 8h.01"/></svg>`,
   grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`
 }[name] || "");
@@ -80,21 +82,34 @@ function similarName(a,b){
 }
 function categoryIconKey(c){
   const text = normalizeText(`${c} ${state.catTrans?.[c] || ""}`);
-  if(/meat|carne|beef|chicken|poultry|aves|cordero|lamb/.test(text)) return "meat";
-  if(/vegetable|vegetal|verdura|produce|leaf|hoja/.test(text)) return "leaf";
-  if(/dairy|lacteo|lacteos|milk|leche|yogurt|cheese|queso/.test(text)) return "bottle";
-  if(/spice|spices|especia|especias|chile|pepper|condiment/.test(text)) return "chili";
+  if(/meat|meats|carne|carnes|beef|chicken|poultry|aves|cordero|lamb/.test(text)) return "meat";
+  if(/vegetable|vegetables|vegetal|vegetales|verdura|verduras|produce|leaf|hoja/.test(text)) return "vegetables";
+  if(/canned|can|enlatado|enlatados/.test(text)) return "canned";
+  if(/container|containers|contenedor|contenedores/.test(text)) return "containers";
+  if(/dairy|lacteo|lacteos|lácteo|lácteos|milk|leche|yogurt|cheese|queso/.test(text)) return "dairy";
+  if(/spice|spices|especia|especias|especies|chile|pepper|condiment/.test(text)) return "spices";
   if(/sauce|salsa|salsas|dressing|aderezo/.test(text)) return "sauce";
-  if(/beverage|bebida|bebidas|drink|drinks|soda|juice|jugo/.test(text)) return "beverage";
-  if(/clean|cleaning|limpieza|detergent/.test(text)) return "tag";
-  return "grid";
+  if(/beverage|beverages|bebida|bebidas|drink|drinks|soda|juice|jugo|agua|water/.test(text)) return "beverage";
+  if(/clean|cleaning|limpieza|detergent|articulo|articulos/.test(text)) return "cleaning";
+  if(/other|otros|otro|misc/.test(text)) return "other";
+  return "other";
 }
-const catIcon = c => state.catIcons?.[c] || "";
+const CATEGORY_ICON_SPECS = {
+  meat:{icon:"meat", cls:"meat"},
+  vegetables:{icon:"leaf", cls:"leaf"},
+  canned:{icon:"can", cls:"can"},
+  containers:{icon:"package", cls:"package"},
+  dairy:{icon:"bottle", cls:"bottle"},
+  spices:{icon:"chili", cls:"chili"},
+  sauce:{icon:"sauce", cls:"sauce"},
+  beverage:{icon:"beverage", cls:"beverage"},
+  cleaning:{icon:"cleaning", cls:"cleaning"},
+  other:{icon:"grid", cls:"grid"}
+};
 function catIconHtml(c){
-  const saved = catIcon(c);
-  if(saved) return `<span class="category-icon category-icon-legacy">${esc(saved)}</span>`;
   const key = categoryIconKey(c);
-  return `<span class="category-icon category-icon-svg category-icon-${esc(key)}">${svgIcon(key)}</span>`;
+  const spec = CATEGORY_ICON_SPECS[key] || CATEGORY_ICON_SPECS.other;
+  return `<span class="category-icon category-icon-svg category-icon-${esc(spec.cls)}">${svgIcon(spec.icon)}</span>`;
 }
 const storageLabelEs = s => state.storageTrans?.[`${s}__es`] || ({congelados:"Congelados",refrigerados:"Refrigerados",secos:"Secos",limpieza:"Limpieza"}[s]) || s || "-";
 const updateClass = p => `age-${updateAgeBucket(p)}`;
@@ -152,14 +167,25 @@ function nav(){
   if(isAdmin()) items.push(["settings",svgIcon("settings"),L("settings")]);
   return items.map(([id,ico,label])=>`<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`).join("");
 }
+
+function mobileNav(){
+  const base=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
+  if(canReadReports()) base.push(["reports",svgIcon("reports"),L("reports")]);
+  if(isAdmin()) base.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
+  const main = base.map(([id,ico,label])=>`<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`).join("");
+  const adminTail = isAdmin() ? [ ["history",svgIcon("history"),L("history")], ["settings",svgIcon("settings"),L("settings")] ].map(([id,ico,label])=>`<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`).join("") : "";
+  return `${main}${mobileUserNav()}${adminTail}`;
+}
+
 function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass">🔑 ${L("changePassword")}</button><button id="menuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
+function mobileUserNav(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); const label=state.lang==='es'?'Usuario':'User'; return `<div class="mobile-user-nav"><button type="button" class="nav-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico mobile-user-initial">${esc(initial)}</span><span>${esc(label)}</span></button><div id="mobileUserDropdown" class="user-dropdown hidden"><button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div></div>`; }
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
   app.innerHTML = `<div class="layout ${themeClass}">
     <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div style="margin-top:auto;position:relative">${userBlock()}</div></aside>
-    <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div><div class="top-user mobile-only mobile-account">${userBlock()}</div></div></div></header>
+    <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>
-    <nav class="bottom-nav">${nav()}</nav>
+    <nav class="bottom-nav">${mobileNav()}</nav>
   </div>`;
   bindShell();
 }
@@ -174,9 +200,12 @@ function bindShell(){
   });
   app.querySelectorAll("#topLang").forEach(b=>b.onclick=()=>{setLang(state.lang === "en" ? "es" : "en"); renderApp();});
   app.querySelectorAll("#userMenuBtn").forEach(btn=>btn.onclick=e=>{ const dd=btn.parentElement.querySelector("#userDropdown"); if(dd) dd.classList.toggle("hidden"); e.stopPropagation(); });
-  document.onclick=()=>app.querySelectorAll("#userDropdown").forEach(x=>x.classList.add("hidden"));
+  document.onclick=()=>app.querySelectorAll("#userDropdown,#mobileUserDropdown").forEach(x=>x.classList.add("hidden"));
   app.querySelectorAll("#menuLogout").forEach(b=>b.onclick=()=>{ if(state.guest){location.reload()} else api.signOut(auth); });
   app.querySelectorAll("#menuChangePass").forEach(b=>b.onclick=()=>changePasswordModal());
+  app.querySelectorAll("#mobileUserMenuBtn").forEach(btn=>btn.onclick=e=>{ const dd=btn.parentElement.querySelector("#mobileUserDropdown"); if(dd) dd.classList.toggle("hidden"); e.stopPropagation(); });
+  app.querySelectorAll("#mobileMenuLogout").forEach(b=>b.onclick=()=>{ if(state.guest){location.reload()} else api.signOut(auth); });
+  app.querySelectorAll("#mobileMenuChangePass").forEach(b=>b.onclick=()=>changePasswordModal());
 }
 
 // Defensive navigation fallback: keeps sidebar and bottom navigation working even after partial re-renders.
@@ -379,13 +408,16 @@ function reviewView(){
   return `<section class="stack review-page"><section class="card card-pad"><div class="spread"><div><h2>${state.lang==='es'?'Centro de revisión':'Review Center'}</h2><p class="muted">${state.lang==='es'?'Pendientes administrativos para mantener limpio el catálogo.':'Administrative issues to keep the catalog clean.'}</p></div><span class="badge ${reviewCount()?'warning':'normal'}">${reviewCount()}</span></div><div class="review-tabs">${tabs.map(([id,label,count])=>`<button type="button" class="filter-box ${tab===id?'active':''}" data-review-tab="${id}"><span class="filter-box-text"><b>${esc(label)}</b></span><span class="filter-count">${count}</span></button>`).join('')}</div></section><section class="card card-pad"><div class="manage-list">${body || `<div class="empty">${L("noData")}</div>`}</div></section></section>`;
 }
 function stockDifference(p){
-  return Number(p.minimo || 0) - Number(p.cantidad || 0);
+  return Number(p.cantidad || 0) - Number(p.minimo || 0);
 }
+function diffClass(p){ const d=stockDifference(p); return d < 0 ? 'diff-negative' : d > 0 ? 'diff-positive' : 'diff-zero'; }
+function currentLabel(){ return state.lang === 'es' ? 'Actual' : 'Current'; }
+function minimumLabel(){ return state.lang === 'es' ? 'Mínimo' : 'Minimum'; }
 function differenceLabel(){ return state.lang === 'es' ? 'Diferencia' : 'Difference'; }
 function exportReportExcel(){
   const list = reportProducts();
   const rows = list.map(p=>`<tr><td>${esc(nameOf(p))}</td><td>${esc(trCat(p.categoria))}</td><td>${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${stockDifference(p)}</td><td>${esc(trUnit(p.unidad))}</td><td>${esc(L(statusOf(p)))}</td><td>${esc(updateTimeLabel(p))}</td></tr>`).join('');
-  const html = `<html><head><meta charset="UTF-8"></head><body><table><thead><tr><th>Product</th><th>Category</th><th>Storage</th><th>Stock</th><th>Min</th><th>${esc(differenceLabel())}</th><th>Unit</th><th>Status</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+  const html = `<html><head><meta charset="UTF-8"></head><body><table><thead><tr><th>Product</th><th>Category</th><th>Storage</th><th>${esc(currentLabel())}</th><th>${esc(minimumLabel())}</th><th>${esc(differenceLabel())}</th><th>Unit</th><th>Status</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
   const blob = new Blob([html], {type:'application/vnd.ms-excel'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`ak-report-${new Date().toISOString().slice(0,10)}.xls`; a.click(); URL.revokeObjectURL(a.href);
 }
@@ -410,7 +442,7 @@ async function similarProductDialog(matches){
 }
 
 function historyView(){ const items=Object.values(state.history).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,200); return `<section class="card card-pad"><h2 class="panel-title">${L("history")}</h2><div class="history-list">${items.map(historyItem).join("") || `<div class="empty">${L("noData")}</div>`}</div></section>`; }
-function reportsView(){ const list=reportProducts(); const m={total:list.length, low:list.filter(p=>statusOf(p)==="warning").length, out:list.filter(p=>statusOf(p)==="critical").length}; return `<section class="stack"><div class="row no-print"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}</div><div class="filter-card card card-pad no-print context-filter-card"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${L("stock")}</th><th>${L("min")}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(L("stock"))}">${p.cantidad}</td><td data-label="${esc(L("min"))}">${p.minimo}</td><td data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`; }
+function reportsView(){ const list=reportProducts(); const m={total:list.length, low:list.filter(p=>statusOf(p)==="warning").length, out:list.filter(p=>statusOf(p)==="critical").length}; return `<section class="stack"><div class="row no-print"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}</div><div class="filter-card card card-pad no-print context-filter-card"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`; }
 function settingsView(){
   const catRows=Object.values(state.categories||{}).map(c=>`<div class="manage-row"><div><b><span class="cell-icon">${catIconHtml(c)}</span>${esc(trCat(c))}</b></div><div class="row"><button class="btn small ghost" data-edit-cat="${esc(c)}">${L("edit")}</button><button class="btn small danger" data-del-cat="${esc(c)}">${L("delete")}</button></div></div>`).join("");
   const unitRows=Object.values(state.units||{}).map(u=>`<div class="manage-row"><div><b>${esc(trUnit(u))}</b></div><div class="row"><button class="btn small ghost" data-edit-unit="${esc(u)}">${L("edit")}</button><button class="btn small danger" data-del-unit="${esc(u)}">${L("delete")}</button></div></div>`).join("");
