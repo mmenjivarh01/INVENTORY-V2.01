@@ -154,6 +154,28 @@ export async function useLocalSeed(){
 export const productEntries = () => Object.entries(state.products || {}).sort((a,b)=>(a[1].nombreEN||a[1].nombre||"").localeCompare(b[1].nombreEN||b[1].nombre||""));
 export const productList = () => productEntries().map(([,p])=>p);
 export const statusOf = p => Number(p.cantidad) <= 0 ? "critical" : Number(p.cantidad) <= Number(p.minimo||0) ? "warning" : "normal";
+export function updatedAgeMs(p){ return Date.now() - Number(p.updatedAt || 0); }
+export function updateAgeBucket(p){
+  const ts = Number(p.updatedAt || 0);
+  if(!ts) return "stale";
+  const days = updatedAgeMs(p) / 86400000;
+  if(days < 1) return "fresh";
+  if(days < 4) return "recent";
+  if(days <= 7) return "aging";
+  return "stale";
+}
+export function isRecentlyUpdated(p, hours=2){
+  const ts = Number(p.updatedAt || 0);
+  return !!ts && (Date.now() - ts) <= hours * 3600000;
+}
+export function sortByOldestUpdate(list){
+  return [...list].sort((a,b)=>{
+    const au = Number(a.updatedAt || 0);
+    const bu = Number(b.updatedAt || 0);
+    if(au !== bu) return au - bu;
+    return (a.nombreEN||a.nombre||"").localeCompare(b.nombreEN||b.nombre||"");
+  });
+}
 export function baseProducts(){
   return productList().filter(p => state.inventoryTab === "finished" ? p.tipo === "finished" || p.inv === "Producto Terminado" : !(p.tipo === "finished" || p.inv === "Producto Terminado"));
 }
@@ -174,15 +196,16 @@ export function filteredProducts(){
   if (state.filterStorage !== "all") list = list.filter(p => (p.subcategoria||"").toLowerCase() === state.filterStorage);
   if (state.filterCategories?.length) list = list.filter(p => state.filterCategories.includes(p.categoria));
   if (state.filterStatus !== "all") list = list.filter(p => statusPass(p, state.filterStatus));
+  if (state.hideRecent) list = list.filter(p => !isRecentlyUpdated(p, 2));
   if (s) list = list.filter(p => [p.nombre,p.nombreEN,p.nombreES,p.categoria,p.unidad,p.subcategoria].join(" ").toLowerCase().includes(s));
-  return list;
+  return sortByOldestUpdate(list);
 }
 export function reportProducts(){
   let list = productList();
   if (state.reportStorage !== "all") list = list.filter(p => (p.subcategoria||"").toLowerCase() === state.reportStorage);
   if (state.reportCategories?.length) list = list.filter(p => state.reportCategories.includes(p.categoria));
   if (state.reportStatus !== "all") list = list.filter(p => statusPass(p, state.reportStatus));
-  return list;
+  return sortByOldestUpdate(list);
 }
 
 function parseDecimal(value, field="number"){
@@ -230,6 +253,7 @@ export async function adjustStock(key, mode, amount, reason=""){
 }
 
 function nextKey(obj, prefix){ const nums = Object.keys(obj||{}).map(k => Number(String(k).replace(prefix,""))).filter(n => Number.isFinite(n)); return `${prefix}${String(Math.max(-1,...nums)+1).padStart(4,"0")}`; }
+function storageSlug(value){ return String(value || "").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, ""); }
 export async function saveCategory(oldName, form){
   const name = String(form.name || "").trim(); if(!name) throw new Error("Category name is required");
   const english = String(form.english || name).trim();
@@ -262,12 +286,15 @@ export async function deleteUnit(name){
   await api.update(api.ref(db, invRoot()), { unidades: units, unittrans: unitTrans });
 }
 export async function saveStorage(oldName, form){
-  const name = String(form.name || "").trim().toLowerCase(); if(!name) throw new Error("Storage key is required");
-  const english = String(form.english || name).trim(); const spanish = String(form.spanish || name).trim(); const icon = String(form.icon || "").trim();
+  const english = String(form.english || "").trim();
+  const spanish = String(form.spanish || "").trim();
+  const proposedName = String(form.name || oldName || english || spanish || "").trim();
+  const name = storageSlug(proposedName);
+  if(!name) throw new Error("Storage name is required");
   const storages = {...(state.storages||DEFAULT_STORAGES)}; const existingKey = oldName ? Object.entries(storages).find(([,v])=>v===oldName)?.[0] : null; const key = existingKey || nextKey(storages,"s"); storages[key]=name;
   const storageTrans={...(state.storageTrans||DEFAULT_STORAGE_TRANS)}; const storageIcons={...(state.storageIcons||DEFAULT_STORAGE_ICONS)};
-  if(oldName && oldName!==name){ delete storageTrans[oldName]; delete storageIcons[oldName]; }
-  storageTrans[name]=english; storageTrans[`${name}__es`]=spanish; if(icon) storageIcons[name]=icon;
+  if(oldName && oldName!==name){ delete storageTrans[oldName]; delete storageTrans[`${oldName}__es`]; }
+  storageTrans[name]=english || name; storageTrans[`${name}__es`]=spanish || english || name;
   if(state.guest){ state.storages=storages; state.storageTrans=storageTrans; state.storageIcons=storageIcons; return; }
   await api.update(api.ref(db, invRoot()), { almacenamientos: storages, storagetrans: storageTrans, storageicons: storageIcons });
 }

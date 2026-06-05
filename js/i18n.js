@@ -14,7 +14,7 @@ export const dict = {
     added: "Added", edited: "Edited", deleted: "Deleted", stockEntry: "Entry", stockExit: "Exit", stockSet: "Set",
     username: "Username", role: "Role", active: "Active", inactive: "Inactive", resetPassword: "Reset password", temporaryPassword: "Temporary password",
     adminOnly: "Admin only", createAuthNote: "New users are created in Firebase Authentication and in /usuarios. Existing users update the profile only.",
-    icon: "Icon", spanish: "Spanish", english: "English", lowAndOut: "Low + out of stock"
+    icon: "Icon", spanish: "Spanish", english: "English", hideRecent: "Hide updated in last 2 hours", lowAndOut: "Low + out of stock"
   },
   es: {
     loginTitle: "Gestión de Inventario", email: "Usuario o correo", password: "Contraseña", signIn: "Iniciar sesión", guest: "Vista previa sin login",
@@ -31,7 +31,7 @@ export const dict = {
     added: "Agregado", edited: "Editado", deleted: "Eliminado", stockEntry: "Entrada", stockExit: "Salida", stockSet: "Fijado",
     username: "Usuario", role: "Rol", active: "Activo", inactive: "Inactivo", resetPassword: "Reiniciar contraseña", temporaryPassword: "Contraseña temporal",
     adminOnly: "Solo admin", createAuthNote: "Los usuarios nuevos se crean en Firebase Authentication y en /usuarios. Los usuarios existentes solo actualizan su perfil.",
-    icon: "Ícono", spanish: "Español", english: "Inglés", lowAndOut: "Bajo stock + agotados"
+    icon: "Ícono", spanish: "Español", english: "Inglés", hideRecent: "Ocultar actualizados en últimas 2 horas", lowAndOut: "Bajo stock + agotados"
   }
 };
 export const t = (lang, key) => dict[lang]?.[key] || dict.en[key] || key;

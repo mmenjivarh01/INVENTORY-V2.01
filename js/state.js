@@ -8,6 +8,7 @@ export const state = {
   reportStorage: "all",
   reportCategories: [],
   reportStatus: "all",
+  hideRecent: false,
   search: "",
   user: null,
   profile: null,
