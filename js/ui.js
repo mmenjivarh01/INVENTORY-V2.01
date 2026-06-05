@@ -169,16 +169,20 @@ function nav(){
 }
 
 function mobileNav(){
-  const base=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
-  if(canReadReports()) base.push(["reports",svgIcon("reports"),L("reports")]);
-  if(isAdmin()) base.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
-  const main = base.map(([id,ico,label])=>`<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`).join("");
-  const adminTail = isAdmin() ? [ ["history",svgIcon("history"),L("history")], ["settings",svgIcon("settings"),L("settings")] ].map(([id,ico,label])=>`<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`).join("") : "";
-  return `${main}${mobileUserNav()}${adminTail}`;
+  const items=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
+  if(canReadReports()) items.push(["reports",svgIcon("reports"),L("reports")]);
+  if(isAdmin()) items.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
+  items.push(["user",mobileUserInitial(),state.lang==='es'?'Usuario':'User']);
+  if(isAdmin()) items.push(["history",svgIcon("history"),L("history")], ["settings",svgIcon("settings"),L("settings")]);
+  return items.map(([id,ico,label])=> id === "user"
+    ? `<button type="button" class="nav-btn mobile-user-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico mobile-user-initial">${ico}</span><span>${esc(label)}</span></button>`
+    : `<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`
+  ).join("");
 }
 
 function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass">🔑 ${L("changePassword")}</button><button id="menuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
-function mobileUserNav(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); const label=state.lang==='es'?'Usuario':'User'; return `<div class="mobile-user-nav"><button type="button" class="nav-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico mobile-user-initial">${esc(initial)}</span><span>${esc(label)}</span></button><div id="mobileUserDropdown" class="user-dropdown hidden"><button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div></div>`; }
+function mobileUserInitial(){ const p=state.profile||{}; return esc((p.username||p.email||"?").slice(0,1).toUpperCase()); }
+function mobileUserDropdown(){ return `<div id="mobileUserDropdown" class="mobile-user-dropdown user-dropdown hidden"><button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
   app.innerHTML = `<div class="layout ${themeClass}">
@@ -186,6 +190,7 @@ function shell(content){
     <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>
     <nav class="bottom-nav">${mobileNav()}</nav>
+    ${mobileUserDropdown()}
   </div>`;
   bindShell();
 }
@@ -203,7 +208,7 @@ function bindShell(){
   document.onclick=()=>app.querySelectorAll("#userDropdown,#mobileUserDropdown").forEach(x=>x.classList.add("hidden"));
   app.querySelectorAll("#menuLogout").forEach(b=>b.onclick=()=>{ if(state.guest){location.reload()} else api.signOut(auth); });
   app.querySelectorAll("#menuChangePass").forEach(b=>b.onclick=()=>changePasswordModal());
-  app.querySelectorAll("#mobileUserMenuBtn").forEach(btn=>btn.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const dd=btn.closest(".mobile-user-nav")?.querySelector("#mobileUserDropdown"); if(dd) dd.classList.toggle("hidden"); });
+  app.querySelectorAll("#mobileUserMenuBtn").forEach(btn=>btn.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const dd=app.querySelector("#mobileUserDropdown"); if(dd) dd.classList.toggle("hidden"); });
   app.querySelectorAll("#mobileMenuLogout").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); if(state.guest){location.reload()} else api.signOut(auth); });
   app.querySelectorAll("#mobileMenuChangePass").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); app.querySelectorAll("#mobileUserDropdown").forEach(x=>x.classList.add("hidden")); changePasswordModal(); });
 }
@@ -445,10 +450,8 @@ function historyView(){ const items=Object.values(state.history).sort((a,b)=>(b.
 function reportsView(){
   const list=reportProducts();
   const m={total:list.length, low:list.filter(p=>statusOf(p)==="warning").length, out:list.filter(p=>statusOf(p)==="critical").length};
-  const filterText = state.lang === 'es'
-    ? (state.reportFiltersOpen ? 'Ocultar filtros' : 'Mostrar filtros')
-    : (state.reportFiltersOpen ? 'Hide filters' : 'Show filters');
-  return `<section class="stack"><div class="row no-print"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}</div><div class="toolbar no-print"><div class="search-row"><button id="reportFilterTools" type="button" class="btn filter-tools ${state.reportFiltersOpen?'active':''}" aria-label="Filters" aria-expanded="${state.reportFiltersOpen?'true':'false'}">${svgIcon("sliders")} <span>${esc(filterText)}</span></button></div></div><div class="filter-card card card-pad no-print context-filter-card ${state.reportFiltersOpen?'':'collapsed'}"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`;
+  const filterText = state.lang === 'es' ? 'Filtros' : 'Filters';
+  return `<section class="stack"><div class="row no-print report-actions"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}<button id="reportFilterTools" type="button" class="btn ghost filter-tools ${state.reportFiltersOpen?'active':''}" aria-label="${esc(filterText)}" aria-expanded="${state.reportFiltersOpen?'true':'false'}">${svgIcon("sliders")}<span>${esc(filterText)}</span></button></div><div class="filter-card card card-pad no-print context-filter-card ${state.reportFiltersOpen?'':'collapsed'}"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`;
 }
 function settingsView(){
   const catRows=Object.values(state.categories||{}).map(c=>`<div class="manage-row"><div><b><span class="cell-icon">${catIconHtml(c)}</span>${esc(trCat(c))}</b></div><div class="row"><button class="btn small ghost" data-edit-cat="${esc(c)}">${L("edit")}</button><button class="btn small danger" data-del-cat="${esc(c)}">${L("delete")}</button></div></div>`).join("");
