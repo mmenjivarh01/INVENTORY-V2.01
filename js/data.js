@@ -41,7 +41,8 @@ function normalizeInv(inv={}){
     unittrans: inv.unittrans || {},
     almacenamientos: inv.almacenamientos || DEFAULT_STORAGES,
     storagetrans: inv.storagetrans || DEFAULT_STORAGE_TRANS,
-    storageicons: inv.storageicons || DEFAULT_STORAGE_ICONS
+    storageicons: inv.storageicons || DEFAULT_STORAGE_ICONS,
+    reviewIgnoredDuplicates: inv.reviewIgnoredDuplicates || {}
   };
 }
 
@@ -135,6 +136,7 @@ export function subscribeAll(render){
     [api.ref(db, `${invRoot()}/unittrans`), v => state.unitTrans = v || {}],
     [api.ref(db, `${invRoot()}/storagetrans`), v => state.storageTrans = v || DEFAULT_STORAGE_TRANS],
     [api.ref(db, `${invRoot()}/storageicons`), v => state.storageIcons = v || DEFAULT_STORAGE_ICONS],
+    [api.ref(db, `${invRoot()}/reviewIgnoredDuplicates`), v => state.reviewIgnoredDuplicates = v || {}],
     [api.ref(db, `historial`), v => state.history = v || {}],
     [api.ref(db, `usuarios`), v => state.users = v || {}]
   ];
@@ -147,6 +149,7 @@ export async function useLocalSeed(){
   Object.assign(state, {
     products: inv.productos, categories: inv.categorias, units: inv.unidades, storages: inv.almacenamientos,
     catIcons: inv.caticons, catTrans: inv.cattrans, unitTrans: inv.unittrans, storageTrans: inv.storagetrans, storageIcons: inv.storageicons,
+    reviewIgnoredDuplicates: inv.reviewIgnoredDuplicates || {},
     history: seed.historial || {}, users: seed.usuarios || {}, guest: true
   });
 }
@@ -217,13 +220,14 @@ function parseDecimal(value, field="number"){
 }
 function nextProductKey(){ const nums = Object.keys(state.products).map(k => Number(String(k).replace("id_",""))).filter(Boolean); return `id_${Math.max(0,...nums)+1}`; }
 function cleanProduct(form){
-  const nombreEN = String(form.nombreEN || form.nombre || "").trim();
+  let nombreEN = String(form.nombreEN || form.nombre || "").trim();
+  let nombreES = String(form.nombreES || "").trim();
   const categoria = String(form.categoria || "").trim();
   const unidad = String(form.unidad || "").trim();
-  if(!nombreEN) throw new Error("Product name is required");
+  if(!nombreEN && !nombreES) throw new Error("At least one product name is required");
   if(!categoria) throw new Error("Category is required. Import initial data or create categories first.");
   if(!unidad) throw new Error("Unit is required. Import initial data or create units first.");
-  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN, nombreEN, nombreES:String(form.nombreES||"").trim(), categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now() };
+  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN || nombreES, nombreEN, nombreES, categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now() };
 }
 async function log(action, details, product){
   if(state.guest) return;
@@ -241,6 +245,16 @@ export async function deleteProduct(key){
   if(state.guest){ delete state.products[key]; return; }
   await api.remove(api.ref(db, productPath(key)));
   await log("🗑️ Deleted", `${p?.nombreEN||key} | Stock at deletion: ${p?.cantidad} ${p?.unidad}`, p);
+}
+export async function setIgnoredDuplicate(pairKey, value=true){
+  if(!pairKey) return;
+  if(state.guest){
+    state.reviewIgnoredDuplicates = state.reviewIgnoredDuplicates || {};
+    if(value) state.reviewIgnoredDuplicates[pairKey] = true;
+    else delete state.reviewIgnoredDuplicates[pairKey];
+    return;
+  }
+  await api.set(api.ref(db, `${invRoot()}/reviewIgnoredDuplicates/${pairKey}`), value ? true : null);
 }
 export async function adjustStock(key, mode, amount, reason=""){
   const p=state.products[key];
@@ -267,6 +281,8 @@ export async function saveCategory(oldName, form){
   await api.update(api.ref(db, invRoot()), { categorias: cats, cattrans: catTrans, caticons: catIcons });
 }
 export async function deleteCategory(name){
+  const used = productList().filter(p => p.categoria === name).length;
+  if(used) throw new Error(`Cannot delete category. ${used} product${used===1?" is":"s are"} currently using this category.`);
   const cats = {...(state.categories||{})}; Object.entries(cats).forEach(([k,v])=>{ if(v===name) delete cats[k]; });
   const catTrans = {...(state.catTrans||{})}; const catIcons = {...(state.catIcons||{})}; delete catTrans[name]; delete catIcons[name];
   if(state.guest){ state.categories=cats; state.catTrans=catTrans; state.catIcons=catIcons; return; }
@@ -281,6 +297,8 @@ export async function saveUnit(oldName, form){
   await api.update(api.ref(db, invRoot()), { unidades: units, unittrans: unitTrans });
 }
 export async function deleteUnit(name){
+  const used = productList().filter(p => p.unidad === name).length;
+  if(used) throw new Error(`Cannot delete unit. ${used} product${used===1?" is":"s are"} currently using this unit.`);
   const units = {...(state.units||{})}; Object.entries(units).forEach(([k,v])=>{ if(v===name) delete units[k]; }); const unitTrans = {...(state.unitTrans||{})}; delete unitTrans[name];
   if(state.guest){ state.units=units; state.unitTrans=unitTrans; return; }
   await api.update(api.ref(db, invRoot()), { unidades: units, unittrans: unitTrans });
@@ -299,6 +317,8 @@ export async function saveStorage(oldName, form){
   await api.update(api.ref(db, invRoot()), { almacenamientos: storages, storagetrans: storageTrans, storageicons: storageIcons });
 }
 export async function deleteStorage(name){
+  const used = productList().filter(p => (p.subcategoria||"").toLowerCase() === String(name||"").toLowerCase()).length;
+  if(used) throw new Error(`Cannot delete storage. ${used} product${used===1?" is":"s are"} currently using this storage type.`);
   const storages={...(state.storages||{})}; Object.entries(storages).forEach(([k,v])=>{ if(v===name) delete storages[k]; });
   const storageTrans={...(state.storageTrans||{})}; const storageIcons={...(state.storageIcons||{})}; delete storageTrans[name]; delete storageTrans[`${name}__es`]; delete storageIcons[name];
   if(state.guest){ state.storages=storages; state.storageTrans=storageTrans; state.storageIcons=storageIcons; return; }
@@ -307,7 +327,7 @@ export async function deleteStorage(name){
 
 export function metrics(){ const list=productList(); return {total:list.length, low:list.filter(p=>statusOf(p)==="warning").length, out:list.filter(p=>statusOf(p)==="critical").length, healthy:list.filter(p=>statusOf(p)==="normal").length}; }
 export function exportCurrentJson(){
-  const blob = new Blob([JSON.stringify({inventario:{[APP.inventoryKey]:{productos:state.products,categorias:state.categories,unidades:state.units,almacenamientos:state.storages,caticons:state.catIcons,cattrans:state.catTrans,unittrans:state.unitTrans,storagetrans:state.storageTrans,storageicons:state.storageIcons}}, usuarios:state.users, historial:state.history}, null, 2)], {type:"application/json"});
+  const blob = new Blob([JSON.stringify({inventario:{[APP.inventoryKey]:{productos:state.products,categorias:state.categories,unidades:state.units,almacenamientos:state.storages,caticons:state.catIcons,cattrans:state.catTrans,unittrans:state.unitTrans,storagetrans:state.storageTrans,storageicons:state.storageIcons,reviewIgnoredDuplicates:state.reviewIgnoredDuplicates}}, usuarios:state.users, historial:state.history}, null, 2)], {type:"application/json"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`ak-inventory-export-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);
 }
 

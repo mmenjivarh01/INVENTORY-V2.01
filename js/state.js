@@ -9,6 +9,8 @@ export const state = {
   reportCategories: [],
   reportStatus: "all",
   hideRecent: false,
+  filtersOpen: localStorage.getItem("ak-filters-open") !== "false",
+  reviewTab: "translations",
   search: "",
   user: null,
   profile: null,
@@ -23,6 +25,7 @@ export const state = {
   storageTrans: {},
   history: {},
   users: {},
+  reviewIgnoredDuplicates: {},
   unsub: [],
   online: false,
   guest: false
@@ -30,7 +33,9 @@ export const state = {
 export const setLang = l => { state.lang = l; localStorage.setItem("ak-lang", l); };
 export const currentRole = () => state.profile?.role || "invitado";
 export const isAdmin = () => currentRole() === "admin" || state.guest;
-export const canManage = () => isAdmin();
+export const canManage = () => ["admin","usuario"].includes(currentRole()) || state.guest;
+export const canDeleteProducts = () => isAdmin();
+export const canManageCatalog = () => isAdmin();
 export const canAdjust = () => ["admin","usuario"].includes(currentRole()) || state.guest;
-export const canReadReports = () => ["admin","usuario"].includes(currentRole()) || state.guest;
+export const canReadReports = () => ["admin","usuario","invitado"].includes(currentRole()) || state.guest;
 export const canReadOnly = () => ["admin","usuario","invitado"].includes(currentRole()) || state.guest;
