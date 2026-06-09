@@ -1168,3 +1168,90 @@ body{background:var(--bg)!important;color:var(--ink)!important;font-size:14px;-w
   .product-card .actions{display:grid;grid-template-columns:1fr 1fr;}
   .product-card .actions .detail-btn{grid-column:1 / -1;}
 }
+
+
+/* V2.1.44 - mobile input zoom fix, report filter parity, adjust stock color correction */
+html{
+  -webkit-text-size-adjust:100%;
+}
+input,
+select,
+textarea,
+button,
+.input,
+.select{
+  font-size:16px!important;
+}
+@media(max-width:767px){
+  input,
+  select,
+  textarea,
+  .input,
+  .select{
+    font-size:16px!important;
+    line-height:1.25!important;
+  }
+  .modal input,
+  .modal select,
+  .modal textarea{
+    font-size:16px!important;
+    transform:translateZ(0);
+  }
+  .app-shell,
+  .layout,
+  main,
+  .content,
+  .inventory-screen{
+    max-width:100vw!important;
+    overflow-x:hidden!important;
+  }
+}
+.report-actions .report-filter-tools{
+  min-width:48px!important;
+  width:48px!important;
+  height:48px!important;
+  padding:0!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  border:1px solid var(--line)!important;
+  background:#fff!important;
+  color:var(--ink)!important;
+}
+.report-actions .report-filter-tools span{
+  display:none!important;
+}
+.report-actions .report-filter-tools.active{
+  background:var(--context-soft,#EAF4EF)!important;
+  border-color:color-mix(in srgb,var(--context-color,#1F6B4F) 42%,var(--line))!important;
+  color:var(--context-color,#1F6B4F)!important;
+  box-shadow:0 0 0 3px var(--context-ring,rgba(31,107,79,.14))!important;
+}
+.adjust-stock-modal.raw-context{
+  --context-color:#1F6B4F;
+  --context-dark:#15563E;
+  --context-soft:#EAF4EF;
+  --context-ring:rgba(31,107,79,.14);
+}
+.adjust-stock-modal.finished-context{
+  --context-color:#2563EB;
+  --context-dark:#1D4ED8;
+  --context-soft:#EFF6FF;
+  --context-ring:rgba(37,99,235,.14);
+}
+.adjust-stock-modal .current-stock-box strong,
+.adjust-stock-modal .stock-preview [data-current],
+.adjust-stock-modal .stock-preview [data-new-stock]{
+  color:var(--context-color,#1F6B4F)!important;
+}
+.adjust-stock-modal .stock-preview.is-entry [data-adjustment]{
+  color:#067647!important;
+}
+.adjust-stock-modal .stock-preview.is-exit [data-adjustment]{
+  color:#B42318!important;
+}
+.adjust-stock-modal .stock-preview.is-set [data-adjustment]{
+  color:#175CD3!important;
+}
+.adjust-stock-modal .stock-preview.is-clamped [data-new-stock]{
+  color:#B42318!important;
+}

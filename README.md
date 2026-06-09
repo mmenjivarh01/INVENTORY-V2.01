@@ -101,5 +101,5 @@ The admin reset button writes a temporary password into `/pendingReset`. On the 
 
 
 
-## v2.1.36
+## v2.1.44
 - Ajuste visual de iconos de categorías a estilo vectorial fino tipo Tabler/Lucide.
