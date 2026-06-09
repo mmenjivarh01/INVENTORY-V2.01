@@ -197,10 +197,14 @@ function nav(){
 function mobileNav(){
   const items=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
   if(canReadReports()) items.push(["reports",svgIcon("reports"),L("reports")]);
-  if(isAdmin()) items.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
-  items.push(["more",svgIcon("more"),state.lang==='es'?'Más':'More']);
-  return items.map(([id,ico,label])=> id === "more"
-    ? `<button type="button" class="nav-btn mobile-user-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico svg-ico">${ico}</span><span>${esc(label)}</span></button>`
+  if(isAdmin()) {
+    items.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
+    items.push(["more",svgIcon("more"),state.lang==='es'?'Más':'More']);
+  } else {
+    items.push(["user",svgIcon("user"),state.lang==='es'?'Usuario':'User']);
+  }
+  return items.map(([id,ico,label])=> (id === "more" || id === "user")
+    ? `<button type="button" class="nav-btn mobile-user-btn ${id==='user'?'profile-nav-btn':''}" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico svg-ico">${id==='user'?`<span class="mobile-nav-avatar">${mobileUserInitial()}</span>`:ico}</span><span>${esc(label)}</span></button>`
     : `<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`
   ).join("");
 }
@@ -217,7 +221,7 @@ function shell(content){
     <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div style="margin-top:auto;position:relative">${userBlock()}</div></aside>
     <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>
-    <nav class="bottom-nav">${mobileNav()}</nav>
+    <nav class="bottom-nav ${isAdmin()?'admin-nav':'user-nav'}">${mobileNav()}</nav>
     ${mobileUserDropdown()}
   </div>`;
   bindShell();
@@ -355,8 +359,9 @@ function inventoryEmptyRow(){
 }
 
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
-function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}`; return `<article class="product-card ${updateClass(p)}" data-product-detail="${esc(key)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); return `<tr class="product-age-row ${updateClass(p)}" data-product-detail="${esc(key)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td><div class="row">${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}</div></td></tr>`; }
+function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}">${state.lang==='es'?'Detalles':'Details'}</button>`; }
+function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td><div class="row">${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
@@ -495,7 +500,7 @@ function settingsView(){
 function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
 function closeProductDetails(){
   document.querySelectorAll(".product-detail-row").forEach(x=>x.remove());
-  document.querySelectorAll("[data-product-detail].selected").forEach(x=>x.classList.remove("selected"));
+  document.querySelectorAll(".product-age-row.selected,.product-card.selected").forEach(x=>x.classList.remove("selected"));
   document.querySelectorAll(".product-sheet-backdrop").forEach(x=>x.remove());
 }
 function openProductSheet(key){
@@ -528,7 +533,7 @@ function toggleDesktopProductDetail(row, key){
   row.after(detail);
 }
 function openProductDetailFromTarget(el){
-  const key = el?.dataset?.productDetail;
+  const key = el?.dataset?.detail;
   if(!key) return;
   if(isMobileViewport()) openProductSheet(key);
   else toggleDesktopProductDetail(el.closest("tr"), key);
@@ -567,7 +572,7 @@ export function bindView(){
   const reportFilterTools=app.querySelector("#reportFilterTools"); if(reportFilterTools) reportFilterTools.onclick=()=>{ state.reportFiltersOpen=!state.reportFiltersOpen; localStorage.setItem("ak-report-filters-open", state.reportFiltersOpen ? "true" : "false"); renderApp(); };
   const clearInv=app.querySelector("#clearInvFilters"); if(clearInv) clearInv.onclick=()=>{state.filterStatus='all';state.filterStorage='all';state.filterCategories=[];state.hideRecent=false;state.search='';renderApp();};
   const clearRep=app.querySelector("#clearReportFilters"); if(clearRep) clearRep.onclick=()=>{state.reportStatus='all';state.reportStorage='all';state.reportCategories=[];renderApp();};
-  app.querySelectorAll("[data-product-detail]").forEach(el=>el.onclick=e=>{ if(e.target.closest("button,a,input,select,textarea")) return; openProductDetailFromTarget(el); });
+  app.querySelectorAll("[data-detail]").forEach(el=>el.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openProductDetailFromTarget(el); });
   app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>canManage()&&productModal()); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
@@ -604,13 +609,100 @@ function confirmDialog({title, message, confirmText, cancelText, danger=false}){
   });
 }
 function bindDecimalInputs(root){ root.querySelectorAll(".decimal-input").forEach(input=>{ input.addEventListener("focus",()=>{ if(input.dataset.cleared!=="1"){ input.value=""; input.dataset.cleared="1"; }}); input.addEventListener("input",()=>{ input.value = input.value.replace(/,/g,".").replace(/[^0-9.]/g,"").replace(/(\..*)\./g,"$1"); }); }); }
+function translationDictionary(){
+  const pairs = [
+    ["Lemon Juice","Jugo de Limón"], ["Black Pepper","Pimienta Negra"], ["Bleu Cheese","Queso Azul"], ["Blue Cheese","Queso Azul"],
+    ["Box Oil","Aceite en Caja"], ["Chicken Quarters","Cuartos de Pollo"], ["Baking Powder","Polvo de Hornear"], ["Fries","Papas Fritas"],
+    ["Cumin Powder","Comino Molido"], ["Tandoori Masala","Tandoori Masala"], ["Chaat Masala","Chaat Masala"], ["Sour Cream","Crema Agria"],
+    ["Whole Milk Yogurt","Yogurt de Leche Entera"], ["Chicken Breast","Pechuga de Pollo"], ["Chicken Thigh","Muslo de Pollo"],
+    ["Chicken Tikka","Chicken Tikka"], ["Seekh Kabab","Seekh Kabab"], ["Falafel","Falafel"], ["Rice","Arroz"], ["Basmati Rice","Arroz Basmati"],
+    ["Tomato","Tomate"], ["Onion","Cebolla"], ["Red Onion","Cebolla Roja"], ["Garlic","Ajo"], ["Ginger","Jengibre"],
+    ["Potato","Papa"], ["Lettuce","Lechuga"], ["Cucumber","Pepino"], ["Cilantro","Cilantro"], ["Mint","Menta"],
+    ["Yogurt","Yogurt"], ["Milk","Leche"], ["Cream","Crema"], ["Cheese","Queso"], ["Butter","Mantequilla"],
+    ["Oil","Aceite"], ["Vinegar","Vinagre"], ["Salt","Sal"], ["Sugar","Azúcar"], ["Flour","Harina"],
+    ["Spice","Especia"], ["Spices","Especias"], ["Powder","Polvo"], ["Sauce","Salsa"], ["Juice","Jugo"],
+    ["Container","Contenedor"], ["Containers","Contenedores"], ["Can","Lata"], ["Canned","Enlatado"], ["Beverage","Bebida"],
+    ["Cleaning Items","Artículos de Limpieza"], ["Napkins","Servilletas"], ["Paper Towels","Toallas de Papel"], ["Foil","Papel Aluminio"]
+  ];
+  const out = {};
+  for(const [en, es] of pairs){
+    out[normalizeNameForSuggest(en)] = es;
+    out[normalizeNameForSuggest(es)] = en;
+  }
+  return out;
+}
+function normalizeNameForSuggest(v){ return String(v||"").trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' '); }
+function titleCaseSuggestion(v){
+  return String(v||"").split(/\s+/).filter(Boolean).map(w=>{
+    if(w.length<=2) return w.toLowerCase();
+    return w.charAt(0).toUpperCase()+w.slice(1).toLowerCase();
+  }).join(' ');
+}
+function productTranslationPairs(){
+  const pairs=[];
+  for(const p of Object.values(state.products||{})){
+    const en=String(p.nombreEN||p.nombre||"").trim();
+    const es=String(p.nombreES||"").trim();
+    if(en && es) pairs.push([en,es]);
+  }
+  return pairs;
+}
+function suggestProductTranslation(value, source){
+  const raw=String(value||"").trim(); if(!raw) return "";
+  const norm=normalizeNameForSuggest(raw);
+
+  // 1) First reuse real catalog translations already saved in Firebase.
+  for(const [en,es] of productTranslationPairs()){
+    if(source==='en' && normalizeNameForSuggest(en)===norm) return es;
+    if(source==='es' && normalizeNameForSuggest(es)===norm) return en;
+  }
+
+  // 2) Then use the built-in Afghan Kabob/common inventory dictionary.
+  const dict=translationDictionary();
+  if(dict[norm]) return dict[norm];
+
+  // 3) Finally, try word-by-word suggestions for common kitchen terms.
+  const words = source==='en'
+    ? {"chicken":"Pollo","beef":"Carne de Res","lamb":"Cordero","rice":"Arroz","basmati":"Basmati","milk":"Leche","cheese":"Queso","yogurt":"Yogurt","cream":"Crema","butter":"Mantequilla","powder":"Polvo","pepper":"Pimienta","sauce":"Salsa","juice":"Jugo","oil":"Aceite","onion":"Cebolla","red":"Roja","white":"Blanca","green":"Verde","garlic":"Ajo","ginger":"Jengibre","tomato":"Tomate","potato":"Papa","lettuce":"Lechuga","cucumber":"Pepino","cilantro":"Cilantro","mint":"Menta","salt":"Sal","sugar":"Azúcar","flour":"Harina","container":"Contenedor","containers":"Contenedores","bag":"Bolsa","bags":"Bolsas","box":"Caja","boxes":"Cajas","can":"Lata","canned":"Enlatado","napkins":"Servilletas"}
+    : {"pollo":"Chicken","carne":"Beef","res":"Beef","cordero":"Lamb","arroz":"Rice","basmati":"Basmati","leche":"Milk","queso":"Cheese","yogurt":"Yogurt","crema":"Cream","mantequilla":"Butter","polvo":"Powder","pimienta":"Pepper","salsa":"Sauce","jugo":"Juice","aceite":"Oil","cebolla":"Onion","roja":"Red","blanca":"White","verde":"Green","ajo":"Garlic","jengibre":"Ginger","tomate":"Tomato","papa":"Potato","lechuga":"Lettuce","pepino":"Cucumber","cilantro":"Cilantro","menta":"Mint","sal":"Salt","azucar":"Sugar","harina":"Flour","contenedor":"Container","contenedores":"Containers","bolsa":"Bag","bolsas":"Bags","caja":"Box","cajas":"Boxes","lata":"Can","enlatado":"Canned","servilletas":"Napkins"};
+  const parts=raw.split(/\s+/).map(w=>words[normalizeNameForSuggest(w)]||w);
+  const guessed=titleCaseSuggestion(parts.join(' '));
+  return normalizeNameForSuggest(guessed)!==norm ? guessed : "";
+}
+function setTranslationNote(note, type){
+  if(!note) return;
+  const es = state.lang==='es';
+  if(type==='suggested') note.textContent = es ? 'Traducción sugerida automáticamente. Puedes modificarla antes de guardar.' : 'Translation suggested automatically. You can edit it before saving.';
+  if(type==='none') note.textContent = es ? 'No encontré una sugerencia local para ese nombre. Puedes escribir la traducción manualmente.' : 'No local suggestion found for that name. You can enter the translation manually.';
+}
+function bindProductTranslationSuggestions(root){
+  const en=root.querySelector('input[name="nombreEN"]'), es=root.querySelector('input[name="nombreES"]');
+  const note=root.querySelector('[data-translation-note]');
+  if(!en || !es) return;
+  const touched={en:!!en.value, es:!!es.value};
+  const apply=(source, force=false)=>{
+    const from = source==='en' ? en : es;
+    const to = source==='en' ? es : en;
+    const target = source==='en' ? 'es' : 'en';
+    if(!from.value.trim()) return;
+    if(!force && touched[target] && to.value.trim()) return;
+    const sug=suggestProductTranslation(from.value, source);
+    if(sug){ to.value=sug; touched[target]=false; setTranslationNote(note,'suggested'); }
+    else if(force || !to.value.trim()) setTranslationNote(note,'none');
+  };
+  en.addEventListener('input',()=>{ touched.en=true; apply('en'); });
+  es.addEventListener('input',()=>{ touched.es=true; apply('es'); });
+  en.addEventListener('blur',()=>apply('en', true));
+  es.addEventListener('blur',()=>apply('es', true));
+}
 function productModal(key){
   const p=key?state.products[key]:{}; const cats=Object.values(state.categories||{}), units=Object.values(state.units||{}); const storages=storageValues();
   const catsHtml = cats.length ? cats.map(c=>`<option value="${esc(c)}" ${p.categoria===c?'selected':''}>${esc(trCat(c))}</option>`).join("") : `<option value="" disabled selected>No categories loaded</option>`;
   const unitsHtml = units.length ? units.map(u=>`<option value="${esc(u)}" ${p.unidad===u?'selected':''}>${esc(trUnit(u))}</option>`).join("") : `<option value="" disabled selected>No units loaded</option>`;
   const storageHtml = storages.map(s=>`<option value="${esc(s)}" ${p.subcategoria===s?'selected':''}>${esc(storageLabel(s))}</option>`).join("");
-  const m=modal(`<h2>${key?L("editProduct"):L("addProduct")}</h2><form id="prodForm" class="form-grid"><div class="two"><label class="field"><span>${L("nameEn")}</span><input name="nombreEN" class="input" value="${esc(p.nombreEN||p.nombre||'')}"></label><label class="field"><span>${L("nameEs")}</span><input name="nombreES" class="input" value="${esc(p.nombreES||'')}"></label></div><label class="field"><span>${L("storage")}</span><select name="subcategoria" class="select">${storageHtml}</select></label><div class="two"><label class="field"><span>${L("category")}</span><select name="categoria" class="select" required>${catsHtml}</select></label><label class="field"><span>${L("unit")}</span><select name="unidad" class="select" required>${unitsHtml}</select></label></div><div class="two"><label class="field"><span>${L("currentQty")}</span><input name="cantidad" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.cantidad??0}"></label><label class="field"><span>${L("minStock")}</span><input name="minimo" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.minimo??0}"></label></div>${(!cats.length||!units.length)?`<p class="muted">Categories or units are missing. Go to Settings and import initial data before saving products.</p>`:""}<div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button>${key&&canDeleteProducts()?`<button type="button" class="btn danger" data-delete>${L("delete")}</button>`:""}<button class="btn primary" ${(!cats.length||!units.length)?"disabled":""}>${L("save")}</button></div></form>`);
-  bindDecimalInputs(m); m.querySelector("[data-close]").onclick=()=>m.remove(); const del=m.querySelector("[data-delete]"); if(del) del.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Eliminar producto':'Delete product', message: state.lang==='es'?`¿Seguro que deseas eliminar ${nameOf(p)}? Esta acción no se puede deshacer.`:`Are you sure you want to delete ${nameOf(p)}? This action cannot be undone.`, confirmText: L("delete"), cancelText: L("cancel"), danger:true }); if(ok){ try{ await deleteProduct(key); m.remove(); renderApp(); } catch(err){ alert("Delete failed: "+err.message); } }}; m.querySelector("#prodForm").onsubmit=async e=>{ e.preventDefault(); try{ const data=Object.fromEntries(new FormData(e.target)); if(!key){ const matches=similarProductsForForm(data); if(matches.length){ const proceed=await similarProductDialog(matches); if(!proceed) return; } } await saveProduct(key, data); m.remove(); renderApp(); } catch(err){ alert("Save failed: "+err.message); } };
+  const title = key?L("editProduct"):L("addProduct");
+  const m=modal(`<div class="product-form-modal"><div class="product-form-head"><h2>${title}</h2><p>${state.lang==='es'?'Mantén el catálogo limpio y bilingüe.':'Keep the catalog clean and bilingual.'}</p></div><form id="prodForm" class="form-grid product-form"><section class="form-section"><h3>${state.lang==='es'?'Información del producto':'Product Information'}</h3><div class="two"><label class="field"><span>${L("nameEn")}</span><input name="nombreEN" class="input" value="${esc(p.nombreEN||p.nombre||'')}" placeholder="Lemon Juice"></label><label class="field"><span>${L("nameEs")}</span><input name="nombreES" class="input" value="${esc(p.nombreES||'')}" placeholder="Jugo de Limón"></label></div><small class="muted" data-translation-note>${state.lang==='es'?'Si escribes un idioma, el sistema intentará sugerir el otro.':'If you enter one language, the system will try to suggest the other.'}</small></section><section class="form-section"><h3>${state.lang==='es'?'Clasificación':'Classification'}</h3><label class="field"><span>${L("storage")}</span><select name="subcategoria" class="select">${storageHtml}</select></label><div class="two"><label class="field"><span>${L("category")}</span><select name="categoria" class="select" required>${catsHtml}</select></label><label class="field"><span>${L("unit")}</span><select name="unidad" class="select" required>${unitsHtml}</select></label></div></section><section class="form-section"><h3>${state.lang==='es'?'Inventario':'Inventory'}</h3><div class="two"><label class="field"><span>${L("currentQty")}</span><input name="cantidad" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.cantidad??0}"></label><label class="field"><span>${L("minStock")}</span><input name="minimo" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.minimo??0}"></label></div></section>${(!cats.length||!units.length)?`<p class="muted">Categories or units are missing. Go to Settings and import initial data before saving products.</p>`:""}<div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button>${key&&canDeleteProducts()?`<button type="button" class="btn danger" data-delete>${L("delete")}</button>`:""}<button class="btn primary" ${(!cats.length||!units.length)?"disabled":""}>${L("save")}</button></div></form></div>`);
+  bindDecimalInputs(m); bindProductTranslationSuggestions(m); m.querySelector("[data-close]").onclick=()=>m.remove(); const del=m.querySelector("[data-delete]"); if(del) del.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Eliminar producto':'Delete product', message: state.lang==='es'?`¿Seguro que deseas eliminar ${nameOf(p)}? Esta acción no se puede deshacer.`:`Are you sure you want to delete ${nameOf(p)}? This action cannot be undone.`, confirmText: L("delete"), cancelText: L("cancel"), danger:true }); if(ok){ try{ await deleteProduct(key); m.remove(); renderApp(); } catch(err){ alert("Delete failed: "+err.message); } }}; m.querySelector("#prodForm").onsubmit=async e=>{ e.preventDefault(); try{ const data=Object.fromEntries(new FormData(e.target)); if(!key){ const matches=similarProductsForForm(data); if(matches.length){ const proceed=await similarProductDialog(matches); if(!proceed) return; } } await saveProduct(key, data); m.remove(); renderApp(); } catch(err){ alert("Save failed: "+err.message); } };
 }
 
 function resolveDuplicateModal(keyA,keyB){
