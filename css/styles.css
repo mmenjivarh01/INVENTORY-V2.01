@@ -1255,3 +1255,124 @@ button,
 .adjust-stock-modal .stock-preview.is-clamped [data-new-stock]{
   color:#B42318!important;
 }
+
+
+/* V2.1.45 - compact product forms, safer modals, login zoom fix */
+.login .input,
+.login input,
+.login-input{
+  font-size:16px!important;
+  line-height:1.25!important;
+  min-height:48px!important;
+  -webkit-text-size-adjust:100%!important;
+  touch-action:manipulation!important;
+}
+.login-card{
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+}
+@media(max-width:767px){
+  .login{max-width:100vw!important;overflow-x:hidden!important;}
+  .login-card{width:calc(100vw - 32px)!important;max-width:440px!important;padding:24px!important;}
+}
+.modal-backdrop{
+  overscroll-behavior:contain!important;
+}
+.modal-backdrop > .modal{
+  pointer-events:auto!important;
+}
+.product-form-modal.compact-product-form{
+  gap:10px!important;
+}
+.product-form-head.compact h2{
+  font-size:22px!important;
+  letter-spacing:-.035em!important;
+}
+.product-form-head.compact p{
+  margin-top:3px!important;
+  font-size:12px!important;
+}
+.compact-product-form .product-form{
+  gap:10px!important;
+}
+.compact-product-form .form-section{
+  padding:11px 12px!important;
+  gap:9px!important;
+  border-radius:15px!important;
+  background:#fbfdfb!important;
+}
+.compact-product-form .form-section h3{
+  font-size:11px!important;
+  letter-spacing:.075em!important;
+  margin-bottom:0!important;
+}
+.compact-product-form .field{
+  margin:0!important;
+  gap:5px!important;
+}
+.compact-product-form .field span{
+  font-size:11px!important;
+  line-height:1.15!important;
+  letter-spacing:.03em!important;
+  text-transform:none!important;
+}
+.compact-product-form .input,
+.compact-product-form .select{
+  min-height:42px!important;
+  height:42px!important;
+  padding:8px 12px!important;
+  border-radius:10px!important;
+  font-size:16px!important;
+}
+.compact-product-form .product-name-section .input{
+  font-weight:650!important;
+}
+.compact-product-form .translation-note{
+  font-size:11px!important;
+  line-height:1.25!important;
+  margin-top:-1px!important;
+}
+.compact-number-row{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+}
+.compact-number .input{
+  text-align:center!important;
+  font-size:18px!important;
+  font-weight:850!important;
+  padding-left:8px!important;
+  padding-right:8px!important;
+}
+.compact-product-form .product-form-actions{
+  margin-top:4px!important;
+  gap:8px!important;
+}
+.compact-product-form .product-form-actions .btn{
+  min-height:44px!important;
+  border-radius:11px!important;
+}
+@media(max-width:767px){
+  .product-form-modal.compact-product-form{
+    gap:8px!important;
+  }
+  .product-form-head.compact h2{
+    font-size:21px!important;
+  }
+  .compact-product-form .form-section{
+    padding:10px 11px!important;
+    gap:8px!important;
+  }
+  .compact-product-form .input,
+  .compact-product-form .select{
+    min-height:40px!important;
+    height:40px!important;
+  }
+  .compact-product-form .product-form-actions{
+    position:sticky!important;
+    bottom:0!important;
+    background:var(--panel)!important;
+    padding-top:8px!important;
+    padding-bottom:2px!important;
+  }
+}
