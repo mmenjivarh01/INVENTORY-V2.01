@@ -227,7 +227,7 @@ function cleanProduct(form){
   if(!nombreEN && !nombreES) throw new Error("At least one product name is required");
   if(!categoria) throw new Error("Category is required. Import initial data or create categories first.");
   if(!unidad) throw new Error("Unit is required. Import initial data or create units first.");
-  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN || nombreES, nombreEN, nombreES, categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now() };
+  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN || nombreES, nombreEN, nombreES, categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now(), updatedBy: state.profile?.username || state.user?.email || "System", updatedByUid: state.user?.uid || "system" };
 }
 async function log(action, details, product){
   if(state.guest) return;
@@ -261,8 +261,10 @@ export async function adjustStock(key, mode, amount, reason=""){
   const qty=parseDecimal(amount,"Amount");
   const before=parseDecimal(p?.cantidad||0,"Current stock");
   const after = mode==="entry" ? before+qty : mode==="exit" ? Math.max(0,before-qty) : qty;
-  if(state.guest){ state.products[key]={...p,cantidad:after,updatedAt:Date.now()}; return; }
-  await api.runTransaction(api.ref(db, productPath(key)), cur => cur ? ({...cur,cantidad:after,updatedAt:Date.now()}) : cur);
+  const updater = state.profile?.username || state.user?.email || "System";
+  const updaterUid = state.user?.uid || "system";
+  if(state.guest){ state.products[key]={...p,cantidad:after,updatedAt:Date.now(),updatedBy:updater,updatedByUid:updaterUid}; return; }
+  await api.runTransaction(api.ref(db, productPath(key)), cur => cur ? ({...cur,cantidad:after,updatedAt:Date.now(),updatedBy:updater,updatedByUid:updaterUid}) : cur);
   await log(mode==="entry"?"📦 Entry":mode==="exit"?"📤 Exit":"✏️ Set", `${p.nombreEN} | ${before} → ${after} ${p.unidad}${reason?` | ${reason}`:""}`, p);
 }
 

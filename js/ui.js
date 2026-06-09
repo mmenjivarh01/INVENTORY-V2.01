@@ -26,7 +26,8 @@ const svgIcon = name => ({
   can:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6c0 -2 10 -2 10 0v12c0 2 -10 2 -10 0V6z"/><path d="M7 6c0 2 10 2 10 0"/><path d="M7 18c0 -2 10 -2 10 0"/><path d="M9 10h6"/><path d="M9 14h6"/></svg>`,
   cleaning:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l1 6H7l1 -6z"/><path d="M7 9h10l2 11H5L7 9z"/><path d="M9 13h6"/><path d="M10 17h4"/></svg>`,
   tag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 11 22 2 13V4h9l9 9Z"/><path d="M7 8h.01"/></svg>`,
-  grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`
+  grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`,
+  more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`
 }[name] || "");
 const nameOf = p => state.lang === "es" ? (p.nombreES || p.nombreEN || p.nombre) : (p.nombreEN || p.nombre || p.nombreES);
 const trCat = c => state.lang === "es" ? c : (state.catTrans?.[c] || c);
@@ -137,6 +138,31 @@ const updateTimeLabel = p => {
 };
 const statusMetaHtml = p => `<small class="status-meta">${state.lang === "es" ? "Actualizado" : "Updated"} · ${esc(updateTimeLabel(p))}</small>`;
 const statusDotHtml = p => `<span class="status-dot ${updateClass(p)}"></span>`;
+const productUpdatedBy = p => {
+  if(p?.updatedBy) return p.updatedBy;
+  const pid = String(p?.id ?? "");
+  const latest = Object.values(state.history || {})
+    .filter(h => String(h?.productId ?? "") === pid && h?.usuario)
+    .sort((a,b)=>(Number(b.ts)||0)-(Number(a.ts)||0))[0];
+  return latest?.usuario || (state.lang === "es" ? "Sin registro" : "No record");
+};
+const productDetailHtml = p => {
+  const st = statusOf(p);
+  const updatedByLabel = state.lang === "es" ? "Actualizado por" : "Updated By";
+  const updatedLabel = state.lang === "es" ? "Última actualización" : "Last Updated";
+  const currentLabel = state.lang === "es" ? "Actual" : "Current";
+  return `<div class="product-detail-panel">
+    <div class="product-detail-head"><div><h3>${esc(nameOf(p))}</h3><small>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</small></div><span class="badge ${st}">${L(st)}</span></div>
+    <div class="product-detail-grid">
+      <div><span>${currentLabel}</span><b>${esc(p.cantidad)}</b></div>
+      <div><span>${L("min")}</span><b>${esc(p.minimo)}</b></div>
+      <div><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div>
+      <div><span>${updatedByLabel}</span><b>${esc(productUpdatedBy(p))}</b></div>
+      <div><span>${updatedLabel}</span><b>${esc(updateTimeLabel(p))}</b></div>
+      <div><span>${L("storage")}</span><b>${esc(storageLabel(p.subcategoria))}</b></div>
+    </div>
+  </div>`;
+};
 
 export function renderLogin(error=""){
   app.innerHTML = `<main class="login"><section class="login-card">
@@ -172,17 +198,19 @@ function mobileNav(){
   const items=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
   if(canReadReports()) items.push(["reports",svgIcon("reports"),L("reports")]);
   if(isAdmin()) items.push(["review",svgIcon("review"),state.lang==='es'?'Revisión':'Review']);
-  items.push(["user",mobileUserInitial(),state.lang==='es'?'Usuario':'User']);
-  if(isAdmin()) items.push(["history",svgIcon("history"),L("history")], ["settings",svgIcon("settings"),L("settings")]);
-  return items.map(([id,ico,label])=> id === "user"
-    ? `<button type="button" class="nav-btn mobile-user-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico mobile-user-initial">${ico}</span><span>${esc(label)}</span></button>`
+  items.push(["more",svgIcon("more"),state.lang==='es'?'Más':'More']);
+  return items.map(([id,ico,label])=> id === "more"
+    ? `<button type="button" class="nav-btn mobile-user-btn" id="mobileUserMenuBtn" aria-label="${esc(label)}"><span class="ico svg-ico">${ico}</span><span>${esc(label)}</span></button>`
     : `<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`
   ).join("");
 }
-
 function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass">🔑 ${L("changePassword")}</button><button id="menuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
 function mobileUserInitial(){ const p=state.profile||{}; return esc((p.username||p.email||"?").slice(0,1).toUpperCase()); }
-function mobileUserDropdown(){ return `<div id="mobileUserDropdown" class="mobile-user-dropdown user-dropdown hidden"><button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
+function mobileUserDropdown(){
+  const p=state.profile||{};
+  const extra = isAdmin() ? `<button data-view="history"><span class="svg-ico">${svgIcon("history")}</span> ${L("history")}</button><button data-view="settings"><span class="svg-ico">${svgIcon("settings")}</span> ${L("settings")}</button>` : "";
+  return `<div id="mobileUserDropdown" class="mobile-user-dropdown user-dropdown hidden"><div class="mobile-more-profile"><span class="mobile-user-initial">${mobileUserInitial()}</span><div><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div></div>${extra}<button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`;
+}
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
   app.innerHTML = `<div class="layout ${themeClass}">
@@ -327,8 +355,8 @@ function inventoryEmptyRow(){
 }
 
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
-function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td><div class="row">${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}</div></td></tr>`; }
+function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}`; return `<article class="product-card ${updateClass(p)}" data-product-detail="${esc(key)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); return `<tr class="product-age-row ${updateClass(p)}" data-product-detail="${esc(key)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td><div class="row">${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
@@ -464,6 +492,48 @@ function settingsView(){
     <section class="settings-two-col"><div class="card card-pad settings-section"><div class="spread"><h2>${L("storage")}</h2><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="manage-list">${storageRows}</div></div><div class="card card-pad settings-section data-panel"><h2>Data</h2><p class="muted">Use this only in the V2 Firebase project.</p><div class="stack"><button id="importSeed" class="btn primary">${L("importData")}</button><button id="clearDb" class="btn danger">Clear test data</button><button id="exportBtn" class="btn ghost">${L("exportData")}</button></div></div></section>
   </section>`;
 }
+function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
+function closeProductDetails(){
+  document.querySelectorAll(".product-detail-row").forEach(x=>x.remove());
+  document.querySelectorAll("[data-product-detail].selected").forEach(x=>x.classList.remove("selected"));
+  document.querySelectorAll(".product-sheet-backdrop").forEach(x=>x.remove());
+}
+function openProductSheet(key){
+  const p = state.products?.[key];
+  if(!p) return;
+  closeProductDetails();
+  const wrap = document.createElement("div");
+  wrap.className = "product-sheet-backdrop";
+  wrap.innerHTML = `<section class="product-sheet" role="dialog" aria-modal="true">
+    <button type="button" class="sheet-close" aria-label="Close">×</button>
+    ${productDetailHtml(p)}
+    <div class="product-sheet-actions">${canAdjust()?`<button class="btn primary" data-adjust="${esc(key)}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn ghost" data-edit="${esc(key)}">${L("edit")}</button>`:""}</div>
+  </section>`;
+  document.body.append(wrap);
+  wrap.querySelector(".sheet-close")?.addEventListener("click", closeProductDetails);
+  wrap.addEventListener("click", e=>{ if(e.target===wrap) closeProductDetails(); });
+  wrap.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{ e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust); });
+  wrap.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{ e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit); });
+}
+function toggleDesktopProductDetail(row, key){
+  const p = state.products?.[key];
+  if(!p || !row) return;
+  const next = row.nextElementSibling;
+  if(next?.classList.contains("product-detail-row")){ closeProductDetails(); return; }
+  closeProductDetails();
+  row.classList.add("selected");
+  const detail = document.createElement("tr");
+  detail.className = "product-detail-row";
+  detail.innerHTML = `<td colspan="8">${productDetailHtml(p)}</td>`;
+  row.after(detail);
+}
+function openProductDetailFromTarget(el){
+  const key = el?.dataset?.productDetail;
+  if(!key) return;
+  if(isMobileViewport()) openProductSheet(key);
+  else toggleDesktopProductDetail(el.closest("tr"), key);
+}
+
 export function bindView(){
   app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{state.inventoryTab=b.dataset.tab; state.filterCategories=[]; renderApp();});
   app.querySelectorAll("[data-review-tab]").forEach(b=>b.onclick=()=>{state.reviewTab=b.dataset.reviewTab; renderApp();});
@@ -497,7 +567,8 @@ export function bindView(){
   const reportFilterTools=app.querySelector("#reportFilterTools"); if(reportFilterTools) reportFilterTools.onclick=()=>{ state.reportFiltersOpen=!state.reportFiltersOpen; localStorage.setItem("ak-report-filters-open", state.reportFiltersOpen ? "true" : "false"); renderApp(); };
   const clearInv=app.querySelector("#clearInvFilters"); if(clearInv) clearInv.onclick=()=>{state.filterStatus='all';state.filterStorage='all';state.filterCategories=[];state.hideRecent=false;state.search='';renderApp();};
   const clearRep=app.querySelector("#clearReportFilters"); if(clearRep) clearRep.onclick=()=>{state.reportStatus='all';state.reportStorage='all';state.reportCategories=[];renderApp();};
-  app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>canManage()&&productModal()); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>canManage()&&productModal(b.dataset.edit)); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=()=>canAdjust()&&adjustModal(b.dataset.adjust));
+  app.querySelectorAll("[data-product-detail]").forEach(el=>el.onclick=e=>{ if(e.target.closest("button,a,input,select,textarea")) return; openProductDetailFromTarget(el); });
+  app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>canManage()&&productModal()); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
   app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
@@ -587,4 +658,34 @@ function storageModal(name=""){
 function userModal(key=""){ const u=key?state.users[key]:{}; const m=modal(`<h2>${key?L("edit"):L("add")} ${L("users")}</h2><form id="userForm" class="form-grid"><label class="field"><span>${L("username")}</span><input name="username" class="input" value="${esc(u.username||'')}" required placeholder="Antonio"></label><label class="field"><span>Email</span><input name="email" type="email" class="input" value="${esc(u.email||'')}" required placeholder="user@imenjivar.com"></label>${!key?`<label class="field"><span>Initial password</span><input name="password" type="password" minlength="6" class="input" placeholder="Min 6 characters" required></label>`:""}<div class="two"><label class="field"><span>${L("role")}</span><select name="role" class="select"><option value="invitado" ${u.role==="invitado"?'selected':''}>invitado</option><option value="usuario" ${!u.role||u.role==="usuario"?'selected':''}>usuario</option><option value="admin" ${u.role==="admin"?'selected':''}>admin</option></select></label><label class="field"><span>Status</span><select name="activo" class="select"><option value="true" ${u.activo!==false?'selected':''}>${L("active")}</option><option value="false" ${u.activo===false?'selected':''}>${L("inactive")}</option></select></label></div><p class="muted">${L("createAuthNote")}</p><div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button class="btn primary">${L("save")}</button></div></form>`); m.querySelector("[data-close]").onclick=()=>m.remove(); m.querySelector("#userForm").onsubmit=async e=>{ e.preventDefault(); try{ const data=Object.fromEntries(new FormData(e.target)); if(key){ await saveUserProfile(key, data); } else { await createUserWithAuth(data); } m.remove(); renderApp(); } catch(err){ alert(err.message); } }; }
 function resetPasswordModal(key){ const u=state.users[key]; const m=modal(`<h2>${L("resetPassword")}</h2><p class="muted">This leaves a pending temporary password. The user will receive it automatically on the next successful login.</p><h3>${esc(u?.username||u?.email||'User')}</h3><form id="resetForm" class="form-grid"><label class="field"><span>${L("temporaryPassword")}</span><input name="newPass" type="password" minlength="6" class="input" required placeholder="Min 6 characters"></label><div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button class="btn primary">${L("save")}</button></div></form>`); m.querySelector("[data-close]").onclick=()=>m.remove(); m.querySelector("#resetForm").onsubmit=async e=>{ e.preventDefault(); try{ await setPendingPasswordReset(key, new FormData(e.target).get("newPass")); m.remove(); alert("Password reset was saved. The user can now sign in with the temporary password."); } catch(err){ alert(err.message); } }; }
 function changePasswordModal(){ const m=modal(`<h2>${L("changePassword")}</h2><form id="changePassForm" class="form-grid"><label class="field"><span>Current password</span><input name="current" type="password" class="input" required></label><label class="field"><span>New password</span><input name="next" type="password" minlength="6" class="input" required></label><label class="field"><span>Confirm new password</span><input name="confirm" type="password" minlength="6" class="input" required></label><div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button class="btn primary">${L("save")}</button></div></form>`); m.querySelector("[data-close]").onclick=()=>m.remove(); m.querySelector("#changePassForm").onsubmit=async e=>{ e.preventDefault(); const f=new FormData(e.target); if(f.get("next")!==f.get("confirm")){ alert("Passwords do not match"); return; } try{ await changeOwnPassword(f.get("current"), f.get("next")); m.remove(); alert("Password updated"); } catch(err){ alert(err.message); } }; }
-function adjustModal(key){ const p=state.products[key]; let mode="entry"; const m=modal(`<h2>${L("adjustStock")}</h2><h3>${esc(nameOf(p))}</h3><p class="muted">${L("stock")}: <b>${p.cantidad}</b> ${esc(trUnit(p.unidad))}</p><div class="segmented"><button class="segment active" data-mode="entry">+ ${L("entry")}</button><button class="segment" data-mode="exit">- ${L("exit")}</button><button class="segment" data-mode="set">= ${L("set")}</button></div><form id="adjForm" class="form-grid" style="margin-top:14px"><label class="field"><span>${L("amount")}</span><input name="amount" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" required value="1"></label><label class="field"><span>${L("reason")}</span><input name="reason" class="input"></label><div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button class="btn primary">${L("confirm")}</button></div></form>`); bindDecimalInputs(m); m.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode; m.querySelectorAll(".segment").forEach(x=>x.classList.remove("active")); b.classList.add("active")}); m.querySelector("[data-close]").onclick=()=>m.remove(); m.querySelector("#adjForm").onsubmit=async e=>{e.preventDefault(); const f=new FormData(e.target); try{ await adjustStock(key,mode,f.get("amount"),f.get("reason")); m.remove(); renderApp(); } catch(err){ alert("Stock adjustment failed: "+err.message); }}; }
+function adjustModal(key){
+  const p=state.products[key];
+  let mode="entry";
+  const current=parseFloat(String(p.cantidad??0).replace(",",".")) || 0;
+  const unit=esc(trUnit(p.unidad));
+  const m=modal(`<div class="adjust-stock-modal"><h2 class="adjust-product-name">${esc(nameOf(p))}</h2><div class="adjust-subtitle">${L("adjustStock")}</div><div class="current-stock-box"><span>CURRENT STOCK</span><strong>${current}</strong><em>${unit}</em></div><div class="segmented adjust-segmented"><button type="button" class="segment active" data-mode="entry">+ ${L("entry")}</button><button type="button" class="segment" data-mode="exit">- ${L("exit")}</button><button type="button" class="segment" data-mode="set">= ${L("set")}</button></div><form id="adjForm" class="form-grid adjust-form"><label class="field"><span>${L("amount")}</span><input name="amount" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" required value="1"></label><div class="stock-preview" id="stockPreview"><div><span>Current Stock</span><b data-current>${current}</b></div><div><span data-action-label>Adjustment</span><b data-adjustment>+1</b></div><div class="stock-preview-total"><span>New Stock</span><b data-new-stock>0</b></div></div><div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button class="btn primary">${L("confirm")}</button></div></form></div>`);
+  const amountInput=m.querySelector('input[name="amount"]');
+  const preview=m.querySelector('#stockPreview');
+  const parseAmount=()=>parseFloat(String(amountInput.value||"0").replace(",",".")) || 0;
+  const fmt=n=>Number.isInteger(n)?String(n):String(Math.round(n*100)/100);
+  const updatePreview=()=>{
+    const qty=parseAmount();
+    const after=mode==="entry"?current+qty:mode==="exit"?Math.max(0,current-qty):qty;
+    const adj=mode==="entry"?`+${fmt(qty)}`:mode==="exit"?`-${fmt(qty)}`:fmt(qty);
+    const label=mode==="set"?(state.lang==='es'?"Fijar a":"Set To"):(state.lang==='es'?"Ajuste":"Adjustment");
+    preview.querySelector('[data-current]').textContent=fmt(current);
+    preview.querySelector('[data-action-label]').textContent=label;
+    preview.querySelector('[data-adjustment]').textContent=adj;
+    preview.querySelector('[data-new-stock]').textContent=fmt(after);
+    preview.classList.toggle('is-entry',mode==="entry");
+    preview.classList.toggle('is-exit',mode==="exit");
+    preview.classList.toggle('is-set',mode==="set");
+    preview.classList.toggle('is-clamped',mode==="exit" && qty>current);
+  };
+  bindDecimalInputs(m);
+  m.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode; m.querySelectorAll(".segment").forEach(x=>x.classList.remove("active")); b.classList.add("active"); updatePreview();});
+  amountInput.addEventListener('input',updatePreview);
+  updatePreview();
+  m.querySelector("[data-close]").onclick=()=>m.remove();
+  m.querySelector("#adjForm").onsubmit=async e=>{e.preventDefault(); const f=new FormData(e.target); try{ await adjustStock(key,mode,f.get("amount"),""); m.remove(); renderApp(); } catch(err){ alert("Stock adjustment failed: "+err.message); }};
+}
