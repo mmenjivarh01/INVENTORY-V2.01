@@ -2191,3 +2191,124 @@ button,
     max-width:100%!important;
   }
 }
+
+/* V2.1.59 - iPad split-view / Safari sidebar resilience
+   When Safari's side panel reduces the visual viewport, prevent the inventory
+   table from being squeezed into unreadable columns. Tablet shells use the
+   single-column app content and product cards at <=1024px. */
+@media (min-width:768px) and (max-width:1024px){
+  html, body, #app{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  .layout{
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto minmax(0,1fr)!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    overflow-x:hidden!important;
+  }
+  .side{
+    display:none!important;
+  }
+  .topbar{
+    grid-column:1!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:12px 16px!important;
+  }
+  .content{
+    grid-column:1!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:16px!important;
+    overflow-x:hidden!important;
+  }
+  .inventory-screen,
+  .reports-screen,
+  .review-screen,
+  .settings-page{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+  }
+  .layout.inventory-theme{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+  }
+  .layout.inventory-theme .content,
+  .layout.inventory-theme .inventory-screen{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .inventory-tabs{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:10px!important;
+    width:100%!important;
+  }
+  .inventory-tab{
+    width:100%!important;
+    min-width:0!important;
+    justify-content:center!important;
+    text-align:center!important;
+    white-space:normal!important;
+  }
+  .inventory-tab.add-tab{
+    grid-column:1 / -1!important;
+    margin-left:0!important;
+  }
+  .toolbar,
+  .search-row{
+    width:100%!important;
+    min-width:0!important;
+  }
+  .search-row .input{
+    width:100%!important;
+    min-width:0!important;
+  }
+  .table-wrap{
+    display:none!important;
+  }
+  .product-list{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    align-content:start!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch;
+    padding-right:4px!important;
+  }
+  .product-card{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .product-title,
+  .product-meta,
+  .actions{
+    min-width:0!important;
+  }
+}
+
+@media (min-width:1025px) and (max-width:1180px){
+  .layout{grid-template-columns:220px minmax(0,1fr)!important;overflow-x:hidden!important;}
+  .side{width:200px!important;max-width:200px!important;min-width:0!important;}
+  .content{min-width:0!important;max-width:100%!important;padding-left:20px!important;padding-right:20px!important;overflow-x:hidden!important;}
+  .inventory-screen{min-width:0!important;max-width:100%!important;}
+  .table-wrap{overflow-x:auto!important;}
+  .table{min-width:760px!important;table-layout:auto!important;}
+}
