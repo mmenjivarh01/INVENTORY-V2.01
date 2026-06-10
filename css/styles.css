@@ -2667,3 +2667,91 @@ button,
     grid-column:2!important;
   }
 }
+
+/* V2.1.63 - table action polish, non-invasive scrollbars, detail popover, sidebar platform */
+@media (min-width:768px){
+  .table-wrap{
+    scrollbar-gutter: stable both-edges!important;
+    overflow:auto!important;
+    padding-right:4px!important;
+  }
+  .table-wrap::-webkit-scrollbar{width:10px;height:10px;}
+  .table-wrap::-webkit-scrollbar-track{background:transparent;margin-top:42px;margin-bottom:8px;}
+  .table-wrap::-webkit-scrollbar-thumb{background:rgba(102,112,133,.42);border-radius:999px;border:3px solid transparent;background-clip:content-box;}
+  .table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(102,112,133,.58);border:2px solid transparent;background-clip:content-box;}
+  .table thead th:last-child{padding-right:18px!important;}
+  .table tbody td:last-child{padding-right:18px!important;}
+
+  .product-actions-cell{width:124px!important;min-width:124px!important;max-width:124px!important;}
+  .product-actions-compact .action-icon,
+  .product-actions-compact .detail-btn{
+    color:#344054!important;
+    background:#fff!important;
+    border:1px solid #dfe7e2!important;
+    box-shadow:0 1px 2px rgba(16,24,40,.04)!important;
+  }
+  .product-actions-compact .action-icon .svg-ico,
+  .product-actions-compact .detail-btn .svg-ico{
+    width:18px!important;height:18px!important;display:grid!important;place-items:center!important;
+  }
+  .product-actions-compact .action-icon svg,
+  .product-actions-compact .detail-btn svg{
+    width:18px!important;height:18px!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:1.9!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+  }
+  .product-actions-compact .stock-action{background:var(--context-soft,#EAF4EF)!important;color:var(--context-color,#1F6B4F)!important;border-color:transparent!important;}
+  .product-actions-compact .action-icon:hover,
+  .product-actions-compact .detail-btn:hover,
+  .product-actions-compact .action-icon:focus,
+  .product-actions-compact .detail-btn:focus{
+    color:var(--context-color,#1F6B4F)!important;
+    border-color:color-mix(in srgb,var(--context-color,#1F6B4F) 42%,#dfe7e2)!important;
+    background:var(--context-soft,#EAF4EF)!important;
+  }
+
+  .product-detail-row{display:none!important;}
+  .product-detail-popover{
+    position:fixed!important;
+    z-index:8000!important;
+    max-width:calc(100vw - 24px)!important;
+    max-height:calc(100dvh - 24px)!important;
+    overflow:auto!important;
+    background:#fff!important;
+    border:1px solid rgba(15,23,42,.10)!important;
+    border-radius:20px!important;
+    box-shadow:0 22px 60px rgba(15,23,42,.20),0 6px 18px rgba(15,23,42,.10)!important;
+    padding:14px!important;
+  }
+  .product-detail-popover .product-detail-panel{box-shadow:none!important;border:0!important;padding:0!important;}
+  .detail-popover-close{
+    position:absolute!important;right:10px!important;top:10px!important;width:30px!important;height:30px!important;
+    display:grid!important;place-items:center!important;border:0!important;border-radius:999px!important;
+    background:#f3f5f4!important;color:#475467!important;font-size:22px!important;line-height:1!important;
+  }
+  .product-detail-popover .product-detail-head{padding-right:34px!important;}
+  .product-detail-popover .product-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+
+  .layout .side{
+    isolation:isolate!important;
+  }
+  .layout .side::before{
+    content:""!important;
+    position:absolute!important;
+    inset:-8px -6px!important;
+    border-radius:28px!important;
+    background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.18))!important;
+    box-shadow:0 18px 46px rgba(31,24,16,.06)!important;
+    z-index:-2!important;
+    pointer-events:none!important;
+  }
+  .layout.sidebar-compact .side::before,
+  .layout.tablet-shell.sidebar-compact .side::before,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side::before{
+    inset:-8px -7px!important;
+    border-radius:28px!important;
+  }
+}
+
+@media (min-width:768px) and (max-width:980px){
+  .product-actions-cell{width:112px!important;min-width:112px!important;max-width:112px!important;}
+  .table-wrap{padding-right:6px!important;}
+}

@@ -29,7 +29,10 @@ const svgIcon = name => ({
   grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`,
   user:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>`,
   storage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M4 7l2-4h12l2 4"/><path d="M9 12h6"/></svg>`,
-  more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`
+  more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
+  stockAdjust:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/><path d="M18 5v6"/><path d="M15 8h6"/></svg>`,
+  edit:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="m13.5 7.5 3 3"/></svg>`,
+  info:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7.2v.01"/></svg>`
 }[name] || "");
 const nameOf = p => state.lang === "es" ? (p.nombreES || p.nombreEN || p.nombre) : (p.nombreEN || p.nombre || p.nombreES);
 const trCat = c => state.lang === "es" ? c : (state.catTrans?.[c] || c);
@@ -319,7 +322,7 @@ function mobileNav(){
     : `<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`
   ).join("");
 }
-function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass">🔑 ${L("changePassword")}</button><button id="menuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`; }
+function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass"><span class="svg-ico">${svgIcon("settings")}</span> ${L("changePassword")}</button><button id="menuLogout"><span class="svg-ico">${svgIcon("history")}</span> ${state.guest?L("close"):L("logout")}</button></div>`; }
 function mobileUserInitial(){ const p=state.profile||{}; return esc((p.username||p.email||"?").slice(0,1).toUpperCase()); }
 function mobileUserDropdown(){
   const p=state.profile||{};
@@ -494,9 +497,9 @@ function inventoryEmptyRow(){
 }
 
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
-function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}">ℹ</button>`; }
+function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}"><span class="svg-ico">${svgIcon("info")}</span></button>`; }
 function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}">±</button>`:""}${canManage()?`<button class="btn small ghost action-icon" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}">✎</button>`:""}${detailBtn(key)}</div></td></tr>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}"><span class="svg-ico">${svgIcon("stockAdjust")}</span></button>`:""}${canManage()?`<button class="btn small ghost action-icon" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}"><span class="svg-ico">${svgIcon("edit")}</span></button>`:""}${detailBtn(key)}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
@@ -665,7 +668,7 @@ function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matc
 function closeProductDetails(){
   document.querySelectorAll(".product-detail-row").forEach(x=>x.remove());
   document.querySelectorAll(".product-age-row.selected,.product-card.selected").forEach(x=>x.classList.remove("selected"));
-  document.querySelectorAll(".product-sheet-backdrop").forEach(x=>x.remove());
+  document.querySelectorAll(".product-sheet-backdrop,.product-detail-popover").forEach(x=>x.remove());
 }
 function openProductSheet(key){
   const p = state.products?.[key];
@@ -684,23 +687,41 @@ function openProductSheet(key){
   wrap.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{ e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust); });
   wrap.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{ e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit); });
 }
-function toggleDesktopProductDetail(row, key){
+function openDesktopProductPopover(anchor, key){
   const p = state.products?.[key];
-  if(!p || !row) return;
-  const next = row.nextElementSibling;
-  if(next?.classList.contains("product-detail-row")){ closeProductDetails(); return; }
+  if(!p || !anchor) return;
+  const row = anchor.closest("tr");
   closeProductDetails();
-  row.classList.add("selected");
-  const detail = document.createElement("tr");
-  detail.className = "product-detail-row";
-  detail.innerHTML = `<td colspan="8">${productDetailHtml(p)}</td>`;
-  row.after(detail);
+  row?.classList.add("selected");
+  const pop = document.createElement("div");
+  pop.className = "product-detail-popover";
+  pop.setAttribute("role", "dialog");
+  pop.innerHTML = `<button type="button" class="detail-popover-close" aria-label="Close">×</button>${productDetailHtml(p)}`;
+  document.body.append(pop);
+  const place = ()=>{
+    const r = anchor.getBoundingClientRect();
+    const margin = 12;
+    const w = Math.min(460, window.innerWidth - margin*2);
+    pop.style.width = `${w}px`;
+    let left = Math.min(window.innerWidth - w - margin, Math.max(margin, r.right - w));
+    let top = r.bottom + 8;
+    const h = pop.offsetHeight || 260;
+    if(top + h > window.innerHeight - margin) top = Math.max(margin, r.top - h - 8);
+    pop.style.left = `${left}px`;
+    pop.style.top = `${top}px`;
+  };
+  requestAnimationFrame(place);
+  pop.querySelector(".detail-popover-close")?.addEventListener("click", closeProductDetails);
+  const outside = e=>{ if(!pop.contains(e.target) && !anchor.contains(e.target)) closeProductDetails(); };
+  setTimeout(()=>document.addEventListener("pointerdown", outside, { once:true, capture:true }), 0);
+  const closeOnScroll = ()=>closeProductDetails();
+  document.querySelectorAll(".table-wrap,.content").forEach(x=>x.addEventListener("scroll", closeOnScroll, { once:true, passive:true }));
 }
 function openProductDetailFromTarget(el){
   const key = el?.dataset?.detail;
   if(!key) return;
   if(isMobileViewport()) openProductSheet(key);
-  else toggleDesktopProductDetail(el.closest("tr"), key);
+  else openDesktopProductPopover(el, key);
 }
 
 function bindView(){
@@ -737,7 +758,7 @@ function bindView(){
   const clearInv=app.querySelector("#clearInvFilters"); if(clearInv) clearInv.onclick=()=>{state.filterStatus='all';state.filterStorage='all';state.filterCategories=[];state.hideRecent=false;state.search='';renderApp();};
   const clearRep=app.querySelector("#clearReportFilters"); if(clearRep) clearRep.onclick=()=>{state.reportStatus='all';state.reportStorage='all';state.reportCategories=[];renderApp();};
   app.querySelectorAll("[data-detail]").forEach(el=>el.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openProductDetailFromTarget(el); });
-  app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>canManage()&&productModal()); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canAdjust()&&adjustModal(b.dataset.adjust)});
+  app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>{ closeProductDetails(); canManage()&&productModal(); }); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
   app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn,#backupBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
