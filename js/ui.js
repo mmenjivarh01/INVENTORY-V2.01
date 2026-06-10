@@ -340,12 +340,20 @@ function isTabletShell(){
   }
 }
 
+function isSidebarCompact(){
+  try{ return localStorage.getItem("afghanSidebarCompact") === "1"; }catch(_){ return false; }
+}
+function setSidebarCompact(value){
+  try{ localStorage.setItem("afghanSidebarCompact", value ? "1" : "0"); }catch(_){}
+}
+
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
   const deviceClass = isTabletShell() ? "tablet-shell" : "";
-  app.innerHTML = `<div class="layout ${themeClass} ${deviceClass}">
-    <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div style="margin-top:auto;position:relative">${userBlock()}</div></aside>
-    <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
+  const sidebarClass = isSidebarCompact() ? "sidebar-compact" : "";
+  app.innerHTML = `<div class="layout ${themeClass} ${deviceClass} ${sidebarClass}">
+    <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div class="brand-text"><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div class="side-user-slot" style="margin-top:auto;position:relative">${userBlock()}</div></aside>
+    <header class="topbar"><div class="spread"><div class="title-row"><button id="sidebarToggle" class="btn small ghost sidebar-toggle desktop-only" aria-label="Toggle sidebar" title="Toggle sidebar">☰</button><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>
     <nav class="bottom-nav ${isAdmin()?'admin-nav':'user-nav'}">${mobileNav()}</nav>
     ${mobileUserDropdown()}
@@ -362,6 +370,7 @@ function bindShell(){
     b.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); goToView(b.dataset.view); };
   });
   app.querySelectorAll("#topLang").forEach(b=>b.onclick=()=>{setLang(state.lang === "en" ? "es" : "en"); renderApp();});
+  app.querySelectorAll("#sidebarToggle").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const layout=app.querySelector(".layout"); const next=!layout?.classList.contains("sidebar-compact"); setSidebarCompact(next); layout?.classList.toggle("sidebar-compact", next); });
   app.querySelectorAll("#userMenuBtn").forEach(btn=>btn.onclick=e=>{ const dd=btn.parentElement.querySelector("#userDropdown"); if(dd) dd.classList.toggle("hidden"); e.stopPropagation(); });
   document.onclick=()=>app.querySelectorAll("#userDropdown,#mobileUserDropdown").forEach(x=>x.classList.add("hidden"));
   app.querySelectorAll("#menuLogout").forEach(b=>b.onclick=()=>logoutNow("logout"));
@@ -487,7 +496,7 @@ function inventoryEmptyRow(){
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
 function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}">ℹ</button>`; }
 function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td><div class="row">${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}</div></td></tr>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}">±</button>`:""}${canManage()?`<button class="btn small ghost action-icon" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}">✎</button>`:""}${detailBtn(key)}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
