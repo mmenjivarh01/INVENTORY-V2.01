@@ -25,7 +25,6 @@ export const DEFAULT_STORAGE_ICONS = {
 };
 
 function emailKey(email){ return `email_${String(email || "").toLowerCase().replace(/[^a-z0-9]/g,"_")}`; }
-export function userKeyFromEmail(email){ return emailKey(email); }
 export function profileFromEmail(email){
   const e = String(email || "").toLowerCase();
   return DEFAULT_USERS.find(u => String(u.email).toLowerCase() === e) || null;
@@ -77,7 +76,7 @@ export async function saveUserProfile(key, form){
   const username = String(form.username || "").trim();
   if(!email || !username) throw new Error("Username and email are required");
   const id = key || emailKey(email);
-  const profile = { username, email, role: form.role || "usuario", activo: form.activo !== "false" };
+  const profile = { ...(state.users?.[id] || {}), username, email, role: form.role || "usuario", activo: form.activo !== "false" };
   if(state.guest){ state.users[id]=profile; return; }
   await api.set(api.ref(db, `usuarios/${id}`), profile);
 }
@@ -97,13 +96,38 @@ export async function importSeedToFirebase(){
   };
   await api.set(api.ref(db, "/"), payload);
 }
-export async function clearV2Database(){
+export async function restoreCurrentJson(payload){
   if(state.guest) return;
-  await api.set(api.ref(db, "/"), {
-    inventario: { [APP.inventoryKey]: normalizeInv({}) },
-    historial: {},
-    usuarios: state.users || {}
-  });
+  if(!payload || typeof payload !== "object") throw new Error("Invalid backup file");
+  const inv = payload.inventario?.[APP.inventoryKey] || payload.inventory || payload;
+  const updates = {};
+  if(payload.inventario?.[APP.inventoryKey] || payload.inventory || inv.productos || inv.categorias || inv.unidades){
+    updates[`inventario/${APP.inventoryKey}`] = normalizeInv(inv);
+  }
+  if(payload.usuarios) updates["usuarios"] = payload.usuarios;
+  if(payload.historial) updates["historial"] = payload.historial;
+  if(!Object.keys(updates).length) throw new Error("Backup does not contain compatible data");
+  await api.update(api.ref(db, "/"), updates);
+}
+
+export async function recordSessionStart(){
+  if(state.guest || !state.user) return;
+  const now = Date.now();
+  const key = state.user.uid;
+  const patch = { lastLogin: now, sessionStartedAt: now, isOnline: true };
+  await api.update(api.ref(db, `usuarios/${key}`), patch).catch(()=>{});
+  state.profile = { ...(state.profile||{}), ...patch };
+}
+
+export async function recordSessionEnd(reason="logout"){
+  if(state.guest || !state.user) return;
+  const now = Date.now();
+  const started = Number(state.profile?.sessionStartedAt || state.profile?.lastLogin || now);
+  const lastSessionMinutes = Math.max(0, Math.round((now - started) / 60000));
+  const key = state.user.uid;
+  const patch = { lastLogout: now, lastSessionMinutes, isOnline: false, logoutReason: reason };
+  await api.update(api.ref(db, `usuarios/${key}`), patch).catch(()=>{});
+  state.profile = { ...(state.profile||{}), ...patch };
 }
 
 export async function loadProfile(uid, email=""){
@@ -157,7 +181,7 @@ export async function useLocalSeed(){
 export const productEntries = () => Object.entries(state.products || {}).sort((a,b)=>(a[1].nombreEN||a[1].nombre||"").localeCompare(b[1].nombreEN||b[1].nombre||""));
 export const productList = () => productEntries().map(([,p])=>p);
 export const statusOf = p => Number(p.cantidad) <= 0 ? "critical" : Number(p.cantidad) <= Number(p.minimo||0) ? "warning" : "normal";
-export function updatedAgeMs(p){ return Date.now() - Number(p.updatedAt || 0); }
+function updatedAgeMs(p){ return Date.now() - Number(p.updatedAt || 0); }
 export function updateAgeBucket(p){
   const ts = Number(p.updatedAt || 0);
   if(!ts) return "stale";
@@ -340,7 +364,7 @@ export async function createUserWithAuth(form){
   if(!email || !username) throw new Error("Username and email are required");
   let uid = form.key || emailKey(email);
   if(password){ const authUser = await api.createAuthUser(email, password); uid = authUser.uid; }
-  const profile = { username, email, role: form.role || "usuario", activo: form.activo !== "false" };
+  const profile = { ...(state.users?.[uid] || {}), username, email, role: form.role || "usuario", activo: form.activo !== "false" };
   if(state.guest){ state.users[uid]=profile; return uid; }
   await api.set(api.ref(db, `usuarios/${uid}`), profile);
   return uid;

@@ -36,7 +36,5 @@ export const currentRole = () => state.profile?.role || "invitado";
 export const isAdmin = () => currentRole() === "admin" || state.guest;
 export const canManage = () => ["admin","usuario"].includes(currentRole()) || state.guest;
 export const canDeleteProducts = () => isAdmin();
-export const canManageCatalog = () => isAdmin();
 export const canAdjust = () => ["admin","usuario"].includes(currentRole()) || state.guest;
 export const canReadReports = () => ["admin","usuario","invitado"].includes(currentRole()) || state.guest;
-export const canReadOnly = () => ["admin","usuario","invitado"].includes(currentRole()) || state.guest;

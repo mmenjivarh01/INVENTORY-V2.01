@@ -103,3 +103,6 @@ The admin reset button writes a temporary password into `/pendingReset`. On the 
 
 ## v2.1.44
 - Ajuste visual de iconos de categorías a estilo vectorial fino tipo Tabler/Lucide.
+
+## v2.1.56
+- Inventory workspace fixed on desktop/tablet: navigation, header, inventory tabs, search and filters remain anchored while only the product list/table scrolls.

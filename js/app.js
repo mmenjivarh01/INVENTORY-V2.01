@@ -1,6 +1,6 @@
 import { auth, api } from "./firebase.js";
 import { state } from "./state.js";
-import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset } from "./data.js";
+import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset, recordSessionStart, recordSessionEnd } from "./data.js";
 import { renderLogin, renderApp } from "./ui.js";
 
 function bootLoading(){
@@ -18,6 +18,7 @@ api.onAuthStateChanged(auth, async (user) => {
   state.unsub = [];
 
   if (!user) {
+    stopIdleLogout();
     renderLogin();
     return;
   }
@@ -29,6 +30,8 @@ api.onAuthStateChanged(auth, async (user) => {
     const fallback = profileFromEmail(user.email);
     state.profile = profile || fallback || { username: user.email, role: "usuario", email: user.email, activo: true };
     if (state.profile.activo === false) throw new Error("This user is inactive. Contact the administrator.");
+    await recordSessionStart();
+    startIdleLogout();
     subscribeAll(renderApp);
     renderApp();
   } catch (err) {
@@ -38,3 +41,29 @@ api.onAuthStateChanged(auth, async (user) => {
 });
 
 window.addEventListener("error", e => console.error(e.error || e.message));
+
+
+let idleLogoutTimer = null;
+let idleLogoutBusy = false;
+const IDLE_LOGOUT_MS = 20 * 60 * 1000;
+const idleEvents = ["click","touchstart","keydown","scroll","mousemove"];
+function resetIdleLogout(){
+  if(!state.user || state.guest) return;
+  clearTimeout(idleLogoutTimer);
+  idleLogoutTimer = setTimeout(async()=>{
+    if(idleLogoutBusy || !state.user) return;
+    idleLogoutBusy = true;
+    try{ await recordSessionEnd("timeout"); await api.signOut(auth); }
+    finally{ idleLogoutBusy = false; }
+  }, IDLE_LOGOUT_MS);
+}
+function startIdleLogout(){
+  stopIdleLogout();
+  idleEvents.forEach(ev=>window.addEventListener(ev, resetIdleLogout, { passive:true }));
+  resetIdleLogout();
+}
+function stopIdleLogout(){
+  clearTimeout(idleLogoutTimer);
+  idleLogoutTimer = null;
+  idleEvents.forEach(ev=>window.removeEventListener(ev, resetIdleLogout));
+}

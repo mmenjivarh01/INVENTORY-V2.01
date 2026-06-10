@@ -1,8 +1,8 @@
-import { state, setLang, isAdmin, canManage, canDeleteProducts, canManageCatalog, canAdjust, canReadReports } from "./state.js";
+import { state, setLang, isAdmin, canManage, canDeleteProducts, canAdjust, canReadReports } from "./state.js";
 import { t } from "./i18n.js";
 import { APP, AUTH_ALIASES, DEFAULT_LOGIN_DOMAIN } from "./config.js";
-import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, setPendingPasswordReset, changeOwnPassword, importSeedToFirebase, clearV2Database, exportCurrentJson, useLocalSeed, DEFAULT_STORAGE_ICONS, setIgnoredDuplicate } from "./data.js";
-import { api, auth } from "./firebase.js";
+import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, setPendingPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, DEFAULT_STORAGE_ICONS, setIgnoredDuplicate } from "./data.js";
+import { api, auth, db } from "./firebase.js";
 
 const app = document.getElementById("app");
 const L = k => t(state.lang,k);
@@ -186,8 +186,8 @@ export function renderLogin(error=""){
       </div>
       ${error?`<div class="badge critical login-error">${esc(error)}</div>`:""}
       <form id="loginForm" class="stack login-form-modern">
-        <label class="field login-field"><span>${L("email")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">👤</span><input class="input login-input" type="text" name="login" autocomplete="off" autocapitalize="none" spellcheck="false" required placeholder="${userPlaceholder}" value="${esc(rememberedLogin)}"></div></label>
-        <label class="field login-field"><span>${L("password")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">🔒</span><input class="input login-input" type="password" name="password" autocomplete="current-password" required placeholder="${passwordPlaceholder}"></div></label>
+        <label class="field login-field"><span>${L("email")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">👤</span><input class="input login-input" type="text" data-login-field autocomplete="new-password" autocapitalize="none" spellcheck="false" required placeholder="${userPlaceholder}" value="${esc(rememberedLogin)}"></div></label>
+        <label class="field login-field"><span>${L("password")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">🔒</span><input class="input login-input" type="password" data-password-field autocomplete="new-password" required placeholder="${passwordPlaceholder}"></div></label>
         <div class="login-options-row">
           <label class="remember-row"><input type="checkbox" name="remember" ${rememberChecked?'checked':''}><span>${rememberText}</span></label>
           <button id="loginLang" type="button" class="login-lang-pill">🌐 <span>${state.lang.toUpperCase()}</span></button>
@@ -201,16 +201,101 @@ export function renderLogin(error=""){
   app.querySelector("#loginLang").onclick = () => { setLang(state.lang === "en" ? "es" : "en"); renderLogin(error); };
   app.querySelector("#guestBtn").onclick = async () => { await useLocalSeed(); state.profile={username:"Preview",role:"admin"}; state.view="dashboard"; renderApp(); };
   app.querySelector("#loginForm").onsubmit = async e => {
-    e.preventDefault(); const f = new FormData(e.target); const loginValue = String(f.get("login") || "").trim(); const email = resolveLogin(loginValue);
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const loginValue = String(e.target.querySelector("[data-login-field]")?.value || "").trim();
+    const passwordValue = String(e.target.querySelector("[data-password-field]")?.value || "");
     try {
-      await api.signInWithEmailAndPassword(auth, email, f.get("password"));
+      const email = await resolveLogin(loginValue);
+      await api.signInWithEmailAndPassword(auth, email, passwordValue);
       if(f.get("remember")){ localStorage.setItem("ak-remember-login", loginValue); localStorage.setItem("ak-remember-login-enabled", "1"); }
       else { localStorage.removeItem("ak-remember-login"); localStorage.removeItem("ak-remember-login-enabled"); }
     }
     catch(err){ renderLogin(err.message); }
   };
 }
-function resolveLogin(value){ const raw = String(value || "").trim(); const key = raw.toLowerCase(); if (AUTH_ALIASES[key]) return AUTH_ALIASES[key]; if (raw.includes("@")) return raw; return `${key}@${DEFAULT_LOGIN_DOMAIN}`; }
+function normalizeLoginToken(value){
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+function compactLoginToken(value){
+  return normalizeLoginToken(value).replace(/[^a-z0-9@.]/g, "");
+}
+async function resolveLogin(value){
+  const raw = String(value || "").trim();
+  const normalized = normalizeLoginToken(raw);
+  const compact = compactLoginToken(raw);
+  if (!normalized) throw new Error(state.lang === "es" ? "Ingrese el usuario." : "Enter the user.");
+  if (AUTH_ALIASES[normalized]) return AUTH_ALIASES[normalized];
+  if (AUTH_ALIASES[compact]) return AUTH_ALIASES[compact];
+  if (raw.includes("@")) return raw.toLowerCase();
+
+  const findEmail = (users={}) => {
+    for (const u of Object.values(users || {})) {
+      if (!u) continue;
+      const username = normalizeLoginToken(u.username || u.user || u.name || "");
+      const usernameCompact = compactLoginToken(u.username || u.user || u.name || "");
+      const email = String(u.email || "").trim().toLowerCase();
+      const emailName = email.split("@")[0] || "";
+      if (
+        username === normalized ||
+        usernameCompact === compact ||
+        compactLoginToken(emailName) === compact ||
+        compactLoginToken(email) === compact
+      ) {
+        return email;
+      }
+    }
+    return "";
+  };
+
+  let email = findEmail(state.users);
+  if (email) return email;
+
+  try {
+    const snap = await api.get(api.ref(db, "usuarios"));
+    email = findEmail(snap.val() || {});
+    if (email) return email;
+  } catch (err) {
+    console.warn("Could not resolve login from /usuarios", err);
+  }
+
+  return `${compact || normalized}@${DEFAULT_LOGIN_DOMAIN}`;
+}
+async function logoutNow(reason="logout"){
+  if(state.guest){ location.reload(); return; }
+  try{ await recordSessionEnd(reason); }
+  finally{ await api.signOut(auth); }
+}
+function formatDateTime(ts){
+  const n=Number(ts||0);
+  if(!n) return state.lang==='es'?'Sin registro':'No record';
+  const d=new Date(n);
+  const today=new Date();
+  const same=d.toDateString()===today.toDateString();
+  return (same ? (state.lang==='es'?'Hoy ':'Today ') : '') + d.toLocaleString(state.lang==='es'?'es-US':'en-US',{month:same?undefined:'short',day:same?undefined:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function formatDuration(mins){
+  const n=Number(mins||0);
+  if(!n) return '—';
+  const h=Math.floor(n/60), m=n%60;
+  if(h && m) return `${h}h ${m}m`;
+  if(h) return `${h}h`;
+  return `${m}m`;
+}
+function userAvatarClass(seed){
+  const n=String(seed||'').split('').reduce((a,c)=>a+c.charCodeAt(0),0)%6;
+  return `avatar-tone-${n}`;
+}
+function safeSystemLabel(key){
+  const es=state.lang==='es';
+  return ({backup: es?'Backup':'Backup Data', restore: es?'Restaurar':'Restore Data', export: es?'Exportar':'Export Data', clearCache: es?'Limpiar caché':'Clear Cache'})[key] || key;
+}
+
 function nav(){
   const items=[ ["dashboard",svgIcon("dashboard"),L("dashboard")], ["inventory",svgIcon("inventory"),L("inventory")] ];
   if(canReadReports()) items.push(["reports",svgIcon("reports"),L("reports")]);
@@ -264,10 +349,10 @@ function bindShell(){
   app.querySelectorAll("#topLang").forEach(b=>b.onclick=()=>{setLang(state.lang === "en" ? "es" : "en"); renderApp();});
   app.querySelectorAll("#userMenuBtn").forEach(btn=>btn.onclick=e=>{ const dd=btn.parentElement.querySelector("#userDropdown"); if(dd) dd.classList.toggle("hidden"); e.stopPropagation(); });
   document.onclick=()=>app.querySelectorAll("#userDropdown,#mobileUserDropdown").forEach(x=>x.classList.add("hidden"));
-  app.querySelectorAll("#menuLogout").forEach(b=>b.onclick=()=>{ if(state.guest){location.reload()} else api.signOut(auth); });
+  app.querySelectorAll("#menuLogout").forEach(b=>b.onclick=()=>logoutNow("logout"));
   app.querySelectorAll("#menuChangePass").forEach(b=>b.onclick=()=>changePasswordModal());
   app.querySelectorAll("#mobileUserMenuBtn").forEach(btn=>btn.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const dd=app.querySelector("#mobileUserDropdown"); if(dd) dd.classList.toggle("hidden"); });
-  app.querySelectorAll("#mobileMenuLogout").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); if(state.guest){location.reload()} else api.signOut(auth); });
+  app.querySelectorAll("#mobileMenuLogout").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); logoutNow("logout"); });
   app.querySelectorAll("#mobileMenuChangePass").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); app.querySelectorAll("#mobileUserDropdown").forEach(x=>x.classList.add("hidden")); changePasswordModal(); });
 }
 
@@ -523,22 +608,33 @@ function settingsView(){
   const catRows=Object.values(state.categories||{}).map(c=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${catIconHtml(c)}</span><b>${esc(trCat(c))}</b></div>${countPill(catCounts[c])}${actionMenu(`<button data-edit-cat="${esc(c)}">${L("edit")}</button><button class="danger-text" data-del-cat="${esc(c)}">${L("delete")}</button>`)}</div>`).join("");
   const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${svgIcon("inventory")}</span><b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
   const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${storageIcon(s)?esc(storageIcon(s)):svgIcon("inventory")}</span><b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
-  const userRows=Object.entries(state.users||{}).map(([k,u])=>{ const initial=esc((u.username||u.email||"?").slice(0,1).toUpperCase()); const role=esc(u.role||""); return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill">${L("active")}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`; }).join("");
+  const userEntries=Object.entries(state.users||{});
+  const onlineCount=userEntries.filter(([,u])=>u?.isOnline).length;
+  const offlineCount=Math.max(0,userEntries.length-onlineCount);
+  const userRows=userEntries.map(([k,u])=>{
+    const initial=esc((u.username||u.email||"?").slice(0,1).toUpperCase());
+    const role=esc(u.role||"");
+    const online=!!u.isOnline;
+    const lastLogin=formatDateTime(u.lastLogin);
+    const currentMins=online ? Math.max(0,Math.round((Date.now()-Number(u.sessionStartedAt||u.lastLogin||Date.now()))/60000)) : Number(u.lastSessionMinutes||0);
+    const sessionLabel=online ? (state.lang==='es'?'Sesión actual':'Current Session') : (state.lang==='es'?'Última sesión':'Last Session');
+    return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar ${userAvatarClass(u.username||u.email||k)}">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small><small class="user-session-meta">${state.lang==='es'?'Último ingreso':'Last Login'}: ${esc(lastLogin)} · ${sessionLabel}: ${esc(formatDuration(currentMins))}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill ${online?'online':'offline'}">${online?'● Online':'○ Offline'}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`;
+  }).join("");
   const catTotal = Object.values(state.categories||{}).length;
   const unitTotal = Object.values(state.units||{}).length;
   const storageTotal = storageValues().length;
   const totalProducts = allProducts.length;
   const catalogSubtitle = state.lang==='es'?'Gestione clasificaciones del catálogo y detecte elementos sin uso.':'Manage catalog classifications and identify unused items.';
-  const usersSubtitle = state.lang==='es'?'Gestione usuarios del sistema y sus permisos.':'Manage system users and their access.';
-  const systemSubtitle = state.lang==='es'?'Datos del sistema y mantenimiento.':'System data and maintenance.';
+  const usersSubtitle = state.lang==='es'?'Gestione usuarios del sistema, sesiones y permisos.':'Manage system users, sessions and access.';
+  const systemSubtitle = state.lang==='es'?'Backup, restauración, exportación y mantenimiento local.':'Backup, restore, export and local maintenance.';
   return `<section class="settings-page settings-v2 stack">
-    <section class="settings-card users-card"><div class="settings-card-head"><div><h2><span class="section-icon">${svgIcon("user")}</span>${L("users")}</h2><p>${usersSubtitle}</p></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="settings-user-table"><div class="settings-user-header"><span>User</span><span>Role</span><span>Status</span><span>Actions</span></div>${userRows || `<div class="empty">${L("noData")}</div>`}</div></section>
+    <section class="settings-card users-card"><div class="settings-card-head"><div><h2><span class="section-icon">${svgIcon("user")}</span>${L("users")} (${userEntries.length})</h2><p>${usersSubtitle}</p><div class="settings-head-stats"><span>Online: <b>${onlineCount}</b></span><span>Offline: <b>${offlineCount}</b></span></div></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="settings-user-table"><div class="settings-user-header"><span>User</span><span>Role</span><span>Status</span><span>Actions</span></div><div class="settings-scroll-list users-scroll">${userRows || `<div class="empty">${L("noData")}</div>`}</div></div><div class="catalog-footer settings-user-footer"><span>Total Users: <b>${userEntries.length}</b></span><span>Online: <b>${onlineCount}</b></span></div></section>
     <section class="catalog-management"><h2>${state.lang==='es'?'Gestión de catálogo':'Catalog Management'}</h2><p class="muted">${catalogSubtitle}</p><div class="catalog-grid">
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon red">${svgIcon("tag")}</span>${L("category")}</h3><p>${state.lang==='es'?'Categorías de producto':'Product categories'}</p></div><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Categories: <b>${catTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon blue">${svgIcon("inventory")}</span>${L("unit")}</h3><p>${state.lang==='es'?'Unidades de medida':'Measurement units'}</p></div><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Units: <b>${unitTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon purple">${svgIcon("storage")}</span>${L("storage")}</h3><p>${state.lang==='es'?'Ubicaciones y preservación':'Storage and preservation types'}</p></div><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${storageRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Storage: <b>${storageTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon red">${svgIcon("tag")}</span>${L("category")}</h3><p>${state.lang==='es'?'Categorías de producto':'Product categories'}</p></div><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Categories: <b>${catTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon blue">${svgIcon("inventory")}</span>${L("unit")}</h3><p>${state.lang==='es'?'Unidades de medida':'Measurement units'}</p></div><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Units: <b>${unitTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon purple">${svgIcon("storage")}</span>${L("storage")}</h3><p>${state.lang==='es'?'Ubicaciones y preservación':'Storage and preservation types'}</p></div><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${storageRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Storage: <b>${storageTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
     </div></section>
-    <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="importSeed" class="system-action"><span>↥</span><b>${L("importData")}</b><small>Create or restore initial data</small></button><button id="exportBtn" class="system-action"><span>⇩</span><b>${L("exportData")}</b><small>Export system data</small></button><button id="clearDb" class="system-action danger"><span>⌫</span><b>Clear test data</b><small>Remove products and catalogs</small></button></div></section>
+    <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="backupBtn" class="system-action"><span>↧</span><b>${safeSystemLabel('backup')}</b><small>${state.lang==='es'?'Descargar copia completa':'Download a complete backup'}</small></button><button id="restoreBtn" class="system-action"><span>↥</span><b>${safeSystemLabel('restore')}</b><small>${state.lang==='es'?'Restaurar desde archivo JSON':'Restore from JSON file'}</small></button><button id="exportBtn" class="system-action"><span>⇩</span><b>${safeSystemLabel('export')}</b><small>${state.lang==='es'?'Exportar datos actuales':'Export current data'}</small></button><button id="clearCacheBtn" class="system-action"><span>⌘</span><b>${safeSystemLabel('clearCache')}</b><small>${state.lang==='es'?'Limpiar caché local':'Clear local browser cache'}</small></button><input id="restoreFileInput" type="file" accept="application/json,.json" hidden></div></section>
   </section>`;
 }
 function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
@@ -583,7 +679,7 @@ function openProductDetailFromTarget(el){
   else toggleDesktopProductDetail(el.closest("tr"), key);
 }
 
-export function bindView(){
+function bindView(){
   app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{state.inventoryTab=b.dataset.tab; state.filterCategories=[]; renderApp();});
   app.querySelectorAll("[data-review-tab]").forEach(b=>b.onclick=()=>{state.reviewTab=b.dataset.reviewTab; renderApp();});
   app.querySelectorAll("[data-storage]").forEach(b=>b.onclick=()=>{state.filterStorage=b.dataset.storage; state.filterCategories=[]; renderApp();});
@@ -620,15 +716,29 @@ export function bindView(){
   app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>canManage()&&productModal()); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
-  app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
+  app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn,#backupBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
   app.querySelectorAll("#importSeed").forEach(b=>b.onclick=async()=>{ if(confirm("Import seed data into this Firebase project? This will overwrite products, categories, units, users and history in this V2 database.")){ try{ await importSeedToFirebase(); alert("Imported"); } catch(err){ alert("Import failed: "+err.message); } }});
-  app.querySelectorAll("#clearDb").forEach(b=>b.onclick=async()=>{ if(confirm("Clear V2 test inventory and history? This keeps the current user profiles but removes products, categories and units.")){ try{ await clearV2Database(); alert("V2 test data cleared"); renderApp(); } catch(err){ alert("Clear failed: "+err.message); } }});
+  app.querySelectorAll("#restoreBtn").forEach(b=>b.onclick=()=>app.querySelector("#restoreFileInput")?.click());
+  app.querySelectorAll("#restoreFileInput").forEach(input=>input.onchange=async()=>{ const file=input.files?.[0]; if(!file) return; if(!confirm("Restore this backup? This may overwrite current data.")) return; try{ const payload=JSON.parse(await file.text()); await restoreCurrentJson(payload); alert("Restored"); renderApp(); }catch(err){ alert("Restore failed: "+err.message); } finally{ input.value=""; } });
+  app.querySelectorAll("#clearCacheBtn").forEach(b=>b.onclick=()=>{ if(confirm("Clear local browser cache for this app?")){ const keepLang=localStorage.getItem("ak-lang"); localStorage.clear(); if(keepLang) localStorage.setItem("ak-lang", keepLang); alert("Cache cleared"); location.reload(); } });
   app.querySelectorAll("[data-actions-menu]").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const menu=b.nextElementSibling; document.querySelectorAll(".settings-action-menu").forEach(m=>{ if(m!==menu) m.classList.add("hidden"); }); menu?.classList.toggle("hidden"); });
   document.addEventListener("click",()=>document.querySelectorAll(".settings-action-menu").forEach(m=>m.classList.add("hidden")), { once:true });
   app.querySelectorAll("#addCategory").forEach(b=>b.onclick=()=>categoryModal()); app.querySelectorAll("[data-edit-cat]").forEach(b=>b.onclick=()=>categoryModal(b.dataset.editCat)); app.querySelectorAll("[data-del-cat]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete category ${b.dataset.delCat}?`)){ try{ await deleteCategory(b.dataset.delCat); renderApp(); }catch(err){ alert(err.message); } }});
   app.querySelectorAll("#addUnit").forEach(b=>b.onclick=()=>unitModal()); app.querySelectorAll("[data-edit-unit]").forEach(b=>b.onclick=()=>unitModal(b.dataset.editUnit)); app.querySelectorAll("[data-del-unit]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete unit ${b.dataset.delUnit}?`)){ try{ await deleteUnit(b.dataset.delUnit); renderApp(); }catch(err){ alert(err.message); } }});
   app.querySelectorAll("#addStorage").forEach(b=>b.onclick=()=>storageModal()); app.querySelectorAll("[data-edit-storage]").forEach(b=>b.onclick=()=>storageModal(b.dataset.editStorage)); app.querySelectorAll("[data-del-storage]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete storage ${b.dataset.delStorage}?`)){ try{ await deleteStorage(b.dataset.delStorage); renderApp(); }catch(err){ alert(err.message); } }});
-  app.querySelectorAll("#addUser").forEach(b=>b.onclick=()=>userModal()); app.querySelectorAll("[data-edit-user]").forEach(b=>b.onclick=()=>userModal(b.dataset.editUser)); app.querySelectorAll("[data-reset-user]").forEach(b=>b.onclick=()=>resetPasswordModal(b.dataset.resetUser)); app.querySelectorAll("[data-del-user]").forEach(b=>b.onclick=async()=>{ if(confirm("Delete user profile? This does not delete Firebase Authentication user.")){ await deleteUserProfile(b.dataset.delUser); renderApp(); }});
+  app.querySelectorAll("#addUser").forEach(b=>b.onclick=()=>userModal()); app.querySelectorAll("[data-edit-user]").forEach(b=>b.onclick=()=>userModal(b.dataset.editUser)); app.querySelectorAll("[data-reset-user]").forEach(b=>b.onclick=()=>resetPasswordModal(b.dataset.resetUser)); app.querySelectorAll("[data-del-user]").forEach(b=>b.onclick=async()=>{
+    const u = state.users?.[b.dataset.delUser] || {};
+    const ok = await confirmDialog({
+      title: state.lang === "es" ? "Eliminar usuario" : "Delete User",
+      message: state.lang === "es"
+        ? `Esto elimina el perfil de ${u.username || "usuario"} del sistema de inventario. La cuenta de Firebase Authentication permanece activa.`
+        : `This removes ${u.username || "this user"} from the Inventory System. The Firebase Authentication account remains active.`,
+      confirmText: state.lang === "es" ? "Eliminar usuario" : "Delete User",
+      cancelText: L("cancel"),
+      danger: true
+    });
+    if(ok){ await deleteUserProfile(b.dataset.delUser); renderApp(); }
+  });
   app.querySelectorAll("#changePassword").forEach(b=>b.onclick=()=>changePasswordModal());
 }
 function modal(html){ const wrap=document.createElement("div"); wrap.className="modal-backdrop"; wrap.innerHTML=`<section class="modal">${html}</section>`; document.body.append(wrap); return wrap; }
