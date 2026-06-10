@@ -1,6 +1,6 @@
 export const dict = {
   en: {
-    loginTitle: "Inventory Management", email: "User or email", password: "Password", signIn: "Sign in", guest: "Preview without login",
+    loginTitle: "Inventory Management", email: "User", password: "Password", signIn: "Sign in", guest: "Preview mode (without login)",
     dashboard: "Dashboard", inventory: "Inventory", raw: "Raw Materials", finished: "Finished Products", history: "History", reports: "Reports", settings: "Settings",
     products: "Products", lowStock: "Low stock", outStock: "Out of stock", healthy: "Healthy", needsAttention: "Needs attention", recentActivity: "Recent activity",
     search: "Search product...", add: "Add", addProduct: "Add Product", editProduct: "Edit Product", adjustStock: "Adjust Stock",
@@ -17,7 +17,7 @@ export const dict = {
     icon: "Icon", spanish: "Spanish", english: "English", hideRecent: "Hide updated in last 2 hours", lowAndOut: "Low + out of stock"
   },
   es: {
-    loginTitle: "Gestión de Inventario", email: "Usuario o correo", password: "Contraseña", signIn: "Iniciar sesión", guest: "Vista previa sin login",
+    loginTitle: "Gestión de Inventario", email: "Usuario", password: "Contraseña", signIn: "Iniciar sesión", guest: "Modo vista previa (sin login)",
     dashboard: "Panel", inventory: "Inventario", raw: "Materia Prima", finished: "Producto Terminado", history: "Historial", reports: "Reportes", settings: "Configuración",
     products: "Productos", lowStock: "Bajo stock", outStock: "Agotados", healthy: "Normal", needsAttention: "Requiere atención", recentActivity: "Actividad reciente",
     search: "Buscar producto...", add: "Agregar", addProduct: "Agregar producto", editProduct: "Editar producto", adjustStock: "Ajustar stock",

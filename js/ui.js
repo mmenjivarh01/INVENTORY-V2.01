@@ -27,6 +27,8 @@ const svgIcon = name => ({
   cleaning:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l1 6H7l1 -6z"/><path d="M7 9h10l2 11H5L7 9z"/><path d="M9 13h6"/><path d="M10 17h4"/></svg>`,
   tag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 11 22 2 13V4h9l9 9Z"/><path d="M7 8h.01"/></svg>`,
   grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>`,
+  storage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M4 7l2-4h12l2 4"/><path d="M9 12h6"/></svg>`,
   more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`
 }[name] || "");
 const nameOf = p => state.lang === "es" ? (p.nombreES || p.nombreEN || p.nombre) : (p.nombreEN || p.nombre || p.nombreES);
@@ -165,22 +167,46 @@ const productDetailHtml = p => {
 };
 
 export function renderLogin(error=""){
-  app.innerHTML = `<main class="login"><section class="login-card">
-    <img class="brand-logo" src="logo.png" alt="Afghan Kabob & Grill"><h1>${APP.brand}</h1><p>${L("loginTitle")}</p>
-    ${error?`<div class="badge critical" style="display:block;text-align:center;margin:10px 0">${esc(error)}</div>`:""}
-    <form id="loginForm" class="stack">
-      <label class="field"><span>${L("email")}</span><input class="input login-input" type="text" name="login" autocomplete="username" required placeholder="Admin"></label>
-      <label class="field"><span>${L("password")}</span><input class="input login-input" type="password" name="password" autocomplete="current-password" required></label>
-      <button class="btn primary" type="submit">${L("signIn")}</button>
-    </form>
-    <div class="row" style="justify-content:center;margin:16px 0"><button id="guestBtn" class="btn ghost">${L("guest")}</button></div>
-    <div class="spread"><small class="muted">v${APP.version}</small><button id="loginLang" class="btn small ghost">${state.lang.toUpperCase()}</button></div>
-  </section></main>`;
+  const rememberEnabled = localStorage.getItem("ak-remember-login-enabled") === "1";
+  const rememberedLogin = rememberEnabled ? (localStorage.getItem("ak-remember-login") || "") : "";
+  const rememberChecked = rememberEnabled && !!rememberedLogin;
+  const rememberText = state.lang === "es" ? "Recordarme" : "Remember me";
+  const userPlaceholder = state.lang === "es" ? "Ingresa tu usuario" : "Enter your user";
+  const passwordPlaceholder = state.lang === "es" ? "Ingresa tu contraseña" : "Enter your password";
+  const helpText = state.lang === "es" ? "¿Necesitas ayuda?" : "Need help?";
+  app.innerHTML = `<main class="login login-modern">
+    <div class="login-ornament login-ornament-left" aria-hidden="true"></div>
+    <div class="login-ornament login-ornament-right" aria-hidden="true"></div>
+    <section class="login-card login-card-modern">
+      <div class="login-brand-block">
+        <img class="brand-logo login-brand-logo" src="logo.png" alt="Afghan Kabob & Grill">
+        <h1>${APP.brand}</h1>
+        <div class="login-title-rule"><span></span><i aria-hidden="true">✦</i><span></span></div>
+        <p>${L("loginTitle")}</p>
+      </div>
+      ${error?`<div class="badge critical login-error">${esc(error)}</div>`:""}
+      <form id="loginForm" class="stack login-form-modern">
+        <label class="field login-field"><span>${L("email")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">👤</span><input class="input login-input" type="text" name="login" autocomplete="off" autocapitalize="none" spellcheck="false" required placeholder="${userPlaceholder}" value="${esc(rememberedLogin)}"></div></label>
+        <label class="field login-field"><span>${L("password")}</span><div class="login-input-wrap"><span class="login-field-icon" aria-hidden="true">🔒</span><input class="input login-input" type="password" name="password" autocomplete="current-password" required placeholder="${passwordPlaceholder}"></div></label>
+        <div class="login-options-row">
+          <label class="remember-row"><input type="checkbox" name="remember" ${rememberChecked?'checked':''}><span>${rememberText}</span></label>
+          <button id="loginLang" type="button" class="login-lang-pill">🌐 <span>${state.lang.toUpperCase()}</span></button>
+        </div>
+        <button class="btn primary login-submit" type="submit"><span aria-hidden="true">↪</span>${L("signIn")}</button>
+      </form>
+      <button id="guestBtn" class="login-preview-link" type="button"><span aria-hidden="true">👁</span>${L("guest")}</button>
+      <div class="login-card-footer"><small class="muted">v${APP.version}</small><span class="login-help-btn">? <span>${helpText}</span></span></div>
+    </section>
+  </main>`;
   app.querySelector("#loginLang").onclick = () => { setLang(state.lang === "en" ? "es" : "en"); renderLogin(error); };
   app.querySelector("#guestBtn").onclick = async () => { await useLocalSeed(); state.profile={username:"Preview",role:"admin"}; state.view="dashboard"; renderApp(); };
   app.querySelector("#loginForm").onsubmit = async e => {
-    e.preventDefault(); const f = new FormData(e.target); const email = resolveLogin(f.get("login"));
-    try { await api.signInWithEmailAndPassword(auth, email, f.get("password")); }
+    e.preventDefault(); const f = new FormData(e.target); const loginValue = String(f.get("login") || "").trim(); const email = resolveLogin(loginValue);
+    try {
+      await api.signInWithEmailAndPassword(auth, email, f.get("password"));
+      if(f.get("remember")){ localStorage.setItem("ak-remember-login", loginValue); localStorage.setItem("ak-remember-login-enabled", "1"); }
+      else { localStorage.removeItem("ak-remember-login"); localStorage.removeItem("ak-remember-login-enabled"); }
+    }
     catch(err){ renderLogin(err.message); }
   };
 }
@@ -487,14 +513,32 @@ function reportsView(){
   return `<section class="stack"><div class="row no-print report-actions"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}<button id="reportFilterTools" type="button" class="btn filter-tools report-filter-tools ${state.reportFiltersOpen?'active':''}" aria-label="${esc(filterText)}" title="${esc(filterText)}" aria-expanded="${state.reportFiltersOpen?'true':'false'}">${svgIcon("sliders")}</button></div><div class="filter-card card card-pad no-print context-filter-card ${state.reportFiltersOpen?'':'collapsed'}"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`;
 }
 function settingsView(){
-  const catRows=Object.values(state.categories||{}).map(c=>`<div class="manage-row"><div><b><span class="cell-icon">${catIconHtml(c)}</span>${esc(trCat(c))}</b></div><div class="row"><button class="btn small ghost" data-edit-cat="${esc(c)}">${L("edit")}</button><button class="btn small danger" data-del-cat="${esc(c)}">${L("delete")}</button></div></div>`).join("");
-  const unitRows=Object.values(state.units||{}).map(u=>`<div class="manage-row"><div><b>${esc(trUnit(u))}</b></div><div class="row"><button class="btn small ghost" data-edit-unit="${esc(u)}">${L("edit")}</button><button class="btn small danger" data-del-unit="${esc(u)}">${L("delete")}</button></div></div>`).join("");
-  const storageRows=storageValues().map(s=>`<div class="manage-row"><div><b>${storageIcon(s)?`<span class="cell-icon">${esc(storageIcon(s))}</span> `:""}${esc(storageLabel(s))}</b></div><div class="row"><button class="btn small ghost" data-edit-storage="${esc(s)}">${L("edit")}</button><button class="btn small danger" data-del-storage="${esc(s)}">${L("delete")}</button></div></div>`).join("");
-  const userRows=Object.entries(state.users||{}).map(([k,u])=>`<div class="manage-row user-manage-row"><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small></div><span class="badge normal">${esc(u.role||"")}</span><div class="row"><button class="btn small ghost" data-edit-user="${esc(k)}">${L("edit")}</button><button class="btn small ghost" data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="btn small danger" data-del-user="${esc(k)}">${L("delete")}</button></div></div>`).join("");
-  return `<section class="settings-page stack">
-    <section class="card card-pad settings-section full"><div class="spread"><div><h2>${L("users")}</h2><p class="muted">${L("createAuthNote")}</p></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="manage-list users-list">${userRows || `<div class="empty">${L("noData")}</div>`}</div></section>
-    <section class="settings-two-col"><div class="card card-pad settings-section"><div class="spread"><h2>${L("category")}</h2><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="manage-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div></div><div class="card card-pad settings-section"><div class="spread"><h2>${L("unit")}</h2><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="manage-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div></div></section>
-    <section class="settings-two-col"><div class="card card-pad settings-section"><div class="spread"><h2>${L("storage")}</h2><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="manage-list">${storageRows}</div></div><div class="card card-pad settings-section data-panel"><h2>Data</h2><p class="muted">Use this only in the V2 Firebase project.</p><div class="stack"><button id="importSeed" class="btn primary">${L("importData")}</button><button id="clearDb" class="btn danger">Clear test data</button><button id="exportBtn" class="btn ghost">${L("exportData")}</button></div></div></section>
+  const allProducts = productList();
+  const countBy = (getter) => allProducts.reduce((acc,p)=>{ const key = String(getter(p) || "").trim(); if(key) acc[key]=(acc[key]||0)+1; return acc; }, {});
+  const catCounts = countBy(p=>p.categoria);
+  const unitCounts = countBy(p=>p.unidad);
+  const storageCounts = allProducts.reduce((acc,p)=>{ const key = String(p.subcategoria || "").trim().toLowerCase(); if(key) acc[key]=(acc[key]||0)+1; return acc; }, {});
+  const countPill = n => `<span class="settings-count ${Number(n||0)===0?'zero':''}">${Number(n||0)}</span>`;
+  const actionMenu = inner => `<div class="settings-action-wrap"><button type="button" class="icon-menu-btn" data-actions-menu aria-label="More actions">⋮</button><div class="settings-action-menu hidden">${inner}</div></div>`;
+  const catRows=Object.values(state.categories||{}).map(c=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${catIconHtml(c)}</span><b>${esc(trCat(c))}</b></div>${countPill(catCounts[c])}${actionMenu(`<button data-edit-cat="${esc(c)}">${L("edit")}</button><button class="danger-text" data-del-cat="${esc(c)}">${L("delete")}</button>`)}</div>`).join("");
+  const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${svgIcon("inventory")}</span><b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
+  const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${storageIcon(s)?esc(storageIcon(s)):svgIcon("inventory")}</span><b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
+  const userRows=Object.entries(state.users||{}).map(([k,u])=>{ const initial=esc((u.username||u.email||"?").slice(0,1).toUpperCase()); const role=esc(u.role||""); return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill">${L("active")}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`; }).join("");
+  const catTotal = Object.values(state.categories||{}).length;
+  const unitTotal = Object.values(state.units||{}).length;
+  const storageTotal = storageValues().length;
+  const totalProducts = allProducts.length;
+  const catalogSubtitle = state.lang==='es'?'Gestione clasificaciones del catálogo y detecte elementos sin uso.':'Manage catalog classifications and identify unused items.';
+  const usersSubtitle = state.lang==='es'?'Gestione usuarios del sistema y sus permisos.':'Manage system users and their access.';
+  const systemSubtitle = state.lang==='es'?'Datos del sistema y mantenimiento.':'System data and maintenance.';
+  return `<section class="settings-page settings-v2 stack">
+    <section class="settings-card users-card"><div class="settings-card-head"><div><h2><span class="section-icon">${svgIcon("user")}</span>${L("users")}</h2><p>${usersSubtitle}</p></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="settings-user-table"><div class="settings-user-header"><span>User</span><span>Role</span><span>Status</span><span>Actions</span></div>${userRows || `<div class="empty">${L("noData")}</div>`}</div></section>
+    <section class="catalog-management"><h2>${state.lang==='es'?'Gestión de catálogo':'Catalog Management'}</h2><p class="muted">${catalogSubtitle}</p><div class="catalog-grid">
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon red">${svgIcon("tag")}</span>${L("category")}</h3><p>${state.lang==='es'?'Categorías de producto':'Product categories'}</p></div><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Categories: <b>${catTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon blue">${svgIcon("inventory")}</span>${L("unit")}</h3><p>${state.lang==='es'?'Unidades de medida':'Measurement units'}</p></div><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Units: <b>${unitTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon purple">${svgIcon("storage")}</span>${L("storage")}</h3><p>${state.lang==='es'?'Ubicaciones y preservación':'Storage and preservation types'}</p></div><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list">${storageRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Storage: <b>${storageTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+    </div></section>
+    <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="importSeed" class="system-action"><span>↥</span><b>${L("importData")}</b><small>Create or restore initial data</small></button><button id="exportBtn" class="system-action"><span>⇩</span><b>${L("exportData")}</b><small>Export system data</small></button><button id="clearDb" class="system-action danger"><span>⌫</span><b>Clear test data</b><small>Remove products and catalogs</small></button></div></section>
   </section>`;
 }
 function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
@@ -579,6 +623,8 @@ export function bindView(){
   app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
   app.querySelectorAll("#importSeed").forEach(b=>b.onclick=async()=>{ if(confirm("Import seed data into this Firebase project? This will overwrite products, categories, units, users and history in this V2 database.")){ try{ await importSeedToFirebase(); alert("Imported"); } catch(err){ alert("Import failed: "+err.message); } }});
   app.querySelectorAll("#clearDb").forEach(b=>b.onclick=async()=>{ if(confirm("Clear V2 test inventory and history? This keeps the current user profiles but removes products, categories and units.")){ try{ await clearV2Database(); alert("V2 test data cleared"); renderApp(); } catch(err){ alert("Clear failed: "+err.message); } }});
+  app.querySelectorAll("[data-actions-menu]").forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const menu=b.nextElementSibling; document.querySelectorAll(".settings-action-menu").forEach(m=>{ if(m!==menu) m.classList.add("hidden"); }); menu?.classList.toggle("hidden"); });
+  document.addEventListener("click",()=>document.querySelectorAll(".settings-action-menu").forEach(m=>m.classList.add("hidden")), { once:true });
   app.querySelectorAll("#addCategory").forEach(b=>b.onclick=()=>categoryModal()); app.querySelectorAll("[data-edit-cat]").forEach(b=>b.onclick=()=>categoryModal(b.dataset.editCat)); app.querySelectorAll("[data-del-cat]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete category ${b.dataset.delCat}?`)){ try{ await deleteCategory(b.dataset.delCat); renderApp(); }catch(err){ alert(err.message); } }});
   app.querySelectorAll("#addUnit").forEach(b=>b.onclick=()=>unitModal()); app.querySelectorAll("[data-edit-unit]").forEach(b=>b.onclick=()=>unitModal(b.dataset.editUnit)); app.querySelectorAll("[data-del-unit]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete unit ${b.dataset.delUnit}?`)){ try{ await deleteUnit(b.dataset.delUnit); renderApp(); }catch(err){ alert(err.message); } }});
   app.querySelectorAll("#addStorage").forEach(b=>b.onclick=()=>storageModal()); app.querySelectorAll("[data-edit-storage]").forEach(b=>b.onclick=()=>storageModal(b.dataset.editStorage)); app.querySelectorAll("[data-del-storage]").forEach(b=>b.onclick=async()=>{ if(confirm(`Delete storage ${b.dataset.delStorage}?`)){ try{ await deleteStorage(b.dataset.delStorage); renderApp(); }catch(err){ alert(err.message); } }});
