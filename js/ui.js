@@ -326,9 +326,24 @@ function mobileUserDropdown(){
   const extra = isAdmin() ? `<button data-view="history"><span class="svg-ico">${svgIcon("history")}</span> ${L("history")}</button><button data-view="settings"><span class="svg-ico">${svgIcon("settings")}</span> ${L("settings")}</button>` : "";
   return `<div id="mobileUserDropdown" class="mobile-user-dropdown user-dropdown hidden"><div class="mobile-more-profile"><span class="mobile-user-initial">${mobileUserInitial()}</span><div><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div></div>${extra}<button id="mobileMenuChangePass">🔑 ${L("changePassword")}</button><button id="mobileMenuLogout">↩ ${state.guest?L("close"):L("logout")}</button></div>`;
 }
+
+function isTabletShell(){
+  try{
+    const ua = navigator.userAgent || "";
+    const touch = navigator.maxTouchPoints || 0;
+    const isIPad = /iPad/i.test(ua) || (navigator.platform === "MacIntel" && touch > 1);
+    const coarse = window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+    const shortSide = Math.min(window.screen?.width || 0, window.screen?.height || 0);
+    return isIPad || (touch > 1 && coarse && shortSide >= 768);
+  }catch(_){
+    return false;
+  }
+}
+
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
-  app.innerHTML = `<div class="layout ${themeClass}">
+  const deviceClass = isTabletShell() ? "tablet-shell" : "";
+  app.innerHTML = `<div class="layout ${themeClass} ${deviceClass}">
     <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div style="margin-top:auto;position:relative">${userBlock()}</div></aside>
     <header class="topbar"><div class="spread"><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>

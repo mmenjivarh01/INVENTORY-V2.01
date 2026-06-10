@@ -2312,3 +2312,173 @@ button,
   .table-wrap{overflow-x:auto!important;}
   .table{min-width:760px!important;table-layout:auto!important;}
 }
+
+/* V2.1.60 - Restore true tablet workspace
+   iPad/tablet must not degrade to phone cards when Safari changes the viewport.
+   Phones keep the mobile card UI; tablet-shell keeps a compact desktop/table layout. */
+.layout.tablet-shell,
+.layout.tablet-shell.inventory-theme{
+  display:grid!important;
+  grid-template-columns:clamp(168px,22vw,220px) minmax(0,1fr)!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+}
+.layout.tablet-shell .side{
+  display:flex!important;
+  grid-column:1!important;
+  grid-row:1 / 3!important;
+  flex-direction:column!important;
+  width:auto!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:100dvh!important;
+  position:sticky!important;
+  top:0!important;
+  padding:14px 10px!important;
+  overflow:hidden!important;
+  background:linear-gradient(180deg,#fffdf8,#fff8ef)!important;
+  border-right:1px solid var(--line)!important;
+}
+.layout.tablet-shell .side-brand{gap:8px!important;padding:6px 6px 18px!important;min-width:0!important;}
+.layout.tablet-shell .side-logo{width:46px!important;height:46px!important;border-radius:14px!important;}
+.layout.tablet-shell .side-brand h2{font-size:14px!important;line-height:1.05!important;}
+.layout.tablet-shell .side-brand p{font-size:9px!important;letter-spacing:.12em!important;}
+.layout.tablet-shell .side .nav-btn{display:flex!important;justify-content:flex-start!important;font-size:13px!important;padding:10px 9px!important;min-width:0!important;}
+.layout.tablet-shell .topbar,
+.layout.tablet-shell.inventory-theme .topbar{
+  grid-column:2!important;
+  grid-row:1!important;
+  position:relative!important;
+  top:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  padding:12px 16px!important;
+}
+.layout.tablet-shell .content,
+.layout.tablet-shell.inventory-theme .content{
+  grid-column:2!important;
+  grid-row:2!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:16px!important;
+  overflow:auto!important;
+}
+.layout.tablet-shell.inventory-theme .content{
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+.layout.tablet-shell .bottom-nav,
+.layout.tablet-shell .bottom-nav.admin-nav,
+.layout.tablet-shell .bottom-nav.user-nav,
+.layout.tablet-shell .fab{
+  display:none!important;
+}
+.layout.tablet-shell .desktop-only{display:initial!important;}
+.layout.tablet-shell .mobile-only{display:none!important;}
+.layout.tablet-shell .top-user{display:block!important;}
+.layout.tablet-shell .side .user-block{display:flex!important;}
+.layout.tablet-shell .metric-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+.layout.tablet-shell .panel-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)!important;}
+.layout.tablet-shell .two{grid-template-columns:1fr 1fr!important;}
+.layout.tablet-shell .dashboard-screen,
+.layout.tablet-shell .inventory-screen,
+.layout.tablet-shell .reports-screen,
+.layout.tablet-shell .review-screen,
+.layout.tablet-shell .settings-page{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0!important;
+}
+.layout.tablet-shell .inventory-tabs{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:10px!important;
+  width:100%!important;
+}
+.layout.tablet-shell .inventory-tab,
+.layout.tablet-shell.inventory-theme .inventory-tab{
+  width:auto!important;
+  min-width:118px!important;
+  white-space:nowrap!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.layout.tablet-shell .inventory-tab.add-tab,
+.layout.tablet-shell.inventory-theme .inventory-tab.add-tab{
+  grid-column:auto!important;
+  margin-left:auto!important;
+  min-width:128px!important;
+}
+.layout.tablet-shell .toolbar{grid-template-columns:minmax(0,1fr) auto!important;width:100%!important;min-width:0!important;}
+.layout.tablet-shell .search-row{min-width:0!important;}
+.layout.tablet-shell .search-row .input{min-width:0!important;width:100%!important;}
+.layout.tablet-shell.inventory-theme .inventory-screen{
+  height:100%!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+.layout.tablet-shell.inventory-theme .inventory-tabs,
+.layout.tablet-shell.inventory-theme .toolbar,
+.layout.tablet-shell.inventory-theme .context-filter-card{
+  flex:0 0 auto!important;
+}
+.layout.tablet-shell .table-wrap,
+.layout.tablet-shell.inventory-theme .table-wrap{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+}
+.layout.tablet-shell .product-list,
+.layout.tablet-shell.inventory-theme .product-list{
+  display:none!important;
+}
+.layout.tablet-shell .table{
+  min-width:760px!important;
+  width:100%!important;
+  table-layout:auto!important;
+}
+.layout.tablet-shell .table thead th{
+  position:sticky!important;
+  top:0!important;
+  z-index:2!important;
+}
+.layout.tablet-shell .table th{padding-left:12px!important;padding-right:12px!important;font-size:10px!important;}
+.layout.tablet-shell .table td{padding-left:12px!important;padding-right:12px!important;font-size:12px!important;}
+.layout.tablet-shell .btn.small[data-adjust]{padding-left:10px!important;padding-right:10px!important;}
+
+@media (max-width:700px){
+  .layout.tablet-shell,
+  .layout.tablet-shell.inventory-theme{
+    grid-template-columns:148px minmax(0,1fr)!important;
+  }
+  .layout.tablet-shell .side{padding:10px 6px!important;}
+  .layout.tablet-shell .side-logo{width:38px!important;height:38px!important;}
+  .layout.tablet-shell .side-brand{gap:6px!important;padding-bottom:12px!important;}
+  .layout.tablet-shell .side-brand h2{font-size:11px!important;}
+  .layout.tablet-shell .side-brand p{font-size:8px!important;}
+  .layout.tablet-shell .side .nav-btn{font-size:11px!important;padding:8px 6px!important;}
+  .layout.tablet-shell .content,
+  .layout.tablet-shell.inventory-theme .content{padding:10px!important;}
+  .layout.tablet-shell .topbar,
+  .layout.tablet-shell.inventory-theme .topbar{padding:10px 12px!important;}
+}
