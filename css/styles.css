@@ -1899,3 +1899,118 @@ button,
     z-index:2!important;
   }
 }
+
+/* V2.1.57 - Correct iPad/tablet portrait inventory layout
+   The previous tablet rule compressed the desktop table into a very narrow column.
+   In portrait tablets, keep the shell anchored and use the responsive product cards
+   so the inventory adapts to the available width instead of overflowing/collapsing. */
+@media (min-width:768px) and (max-width:1024px) and (orientation:portrait){
+  html, body, #app{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  .layout.inventory-theme{
+    grid-template-columns:168px minmax(0,1fr)!important;
+    grid-template-rows:auto minmax(0,1fr)!important;
+    width:100vw!important;
+    max-width:100vw!important;
+    height:100dvh!important;
+    overflow:hidden!important;
+  }
+  .layout.inventory-theme .side{
+    grid-column:1!important;
+    grid-row:1 / 3!important;
+    width:168px!important;
+    min-width:0!important;
+    max-width:168px!important;
+  }
+  .layout.inventory-theme .topbar{
+    grid-column:2!important;
+    grid-row:1!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  .layout.inventory-theme .content{
+    grid-column:2!important;
+    grid-row:2!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:18px!important;
+    overflow:hidden!important;
+  }
+  .layout.inventory-theme .inventory-screen{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+  }
+  .layout.inventory-theme .inventory-tabs{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:10px!important;
+  }
+  .layout.inventory-theme .inventory-tab{
+    width:100%!important;
+    justify-content:center!important;
+    white-space:normal!important;
+    text-align:center!important;
+  }
+  .layout.inventory-theme .inventory-tab.add-tab{
+    grid-column:1 / -1!important;
+    margin-left:0!important;
+  }
+  .layout.inventory-theme .search-row{
+    width:100%!important;
+    min-width:0!important;
+  }
+  .layout.inventory-theme .search-row .input{
+    min-width:0!important;
+    width:100%!important;
+  }
+  .layout.inventory-theme .context-filter-card.collapsed{
+    display:none!important;
+  }
+  .layout.inventory-theme .table-wrap{
+    display:none!important;
+  }
+  .layout.inventory-theme .product-list{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    align-content:start!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding-right:4px!important;
+  }
+  .layout.inventory-theme .product-card{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .layout.inventory-theme .product-title,
+  .layout.inventory-theme .product-meta,
+  .layout.inventory-theme .actions{
+    min-width:0!important;
+  }
+  .layout.inventory-theme .product-title h3,
+  .layout.inventory-theme .product-title p,
+  .layout.inventory-theme .mini,
+  .layout.inventory-theme .badge{
+    overflow-wrap:anywhere!important;
+  }
+}
+
+@media (min-width:768px) and (max-width:860px) and (orientation:portrait){
+  .layout.inventory-theme{grid-template-columns:148px minmax(0,1fr)!important;}
+  .layout.inventory-theme .side{width:148px!important;max-width:148px!important;padding:16px 10px!important;}
+  .layout.inventory-theme .side-brand h2{font-size:12px!important;}
+  .layout.inventory-theme .side-brand p{font-size:8px!important;}
+  .layout.inventory-theme .side .nav-btn{font-size:12px!important;padding:0 8px!important;}
+  .layout.inventory-theme .content{padding:14px!important;}
+}
