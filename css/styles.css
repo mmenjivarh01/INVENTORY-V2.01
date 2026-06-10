@@ -2558,3 +2558,112 @@ button,
   .product-actions-compact .detail-btn{width:32px!important;height:32px!important;min-width:32px!important;border-radius:10px!important;}
   .layout.tablet-shell .table{min-width:700px!important;}
 }
+
+
+/* V2.1.62 - hard fix for compact sidebar width
+   The previous compact mode changed the grid column but the floating sidebar still
+   kept its 260px fixed width from V2.1.50. This makes the actual sidebar shrink too. */
+@media (min-width:768px){
+  .layout.sidebar-compact,
+  .layout.tablet-shell.sidebar-compact,
+  .layout.tablet-shell.inventory-theme.sidebar-compact{
+    grid-template-columns:86px minmax(0,1fr)!important;
+  }
+
+  .layout.sidebar-compact .side,
+  .layout.tablet-shell.sidebar-compact .side,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side{
+    width:70px!important;
+    min-width:70px!important;
+    max-width:70px!important;
+    margin:12px 0 12px 8px!important;
+    padding:16px 7px!important;
+    overflow:visible!important;
+    border-radius:22px!important;
+  }
+
+  .layout.sidebar-compact .side::after,
+  .layout.tablet-shell.sidebar-compact .side::after,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side::after{
+    left:10px!important;
+    right:10px!important;
+    bottom:-8px!important;
+  }
+
+  .layout.sidebar-compact .side-brand,
+  .layout.tablet-shell.sidebar-compact .side-brand,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side-brand{
+    width:100%!important;
+    padding:6px 0 18px!important;
+  }
+
+  .layout.sidebar-compact .side-logo,
+  .layout.tablet-shell.sidebar-compact .side-logo,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side-logo{
+    width:40px!important;
+    height:40px!important;
+    border-radius:14px!important;
+  }
+
+  .layout.sidebar-compact .side .nav-btn,
+  .layout.tablet-shell.sidebar-compact .side .nav-btn,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side .nav-btn{
+    width:48px!important;
+    height:48px!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    max-width:48px!important;
+    padding:0!important;
+    margin:0 auto!important;
+    border-radius:16px!important;
+  }
+
+  .layout.sidebar-compact .side .nav-btn .ico,
+  .layout.tablet-shell.sidebar-compact .side .nav-btn .ico,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side .nav-btn .ico{
+    width:24px!important;
+    height:24px!important;
+    display:inline-grid!important;
+    place-items:center!important;
+    font-size:21px!important;
+  }
+
+  .layout.sidebar-compact .side .nav-btn.active::before,
+  .layout.tablet-shell.sidebar-compact .side .nav-btn.active::before,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side .nav-btn.active::before{
+    left:-7px!important;
+    top:13px!important;
+    bottom:13px!important;
+    width:3px!important;
+  }
+
+  .layout.sidebar-compact .side .user-block,
+  .layout.tablet-shell.sidebar-compact .side .user-block,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side .user-block{
+    width:48px!important;
+    height:48px!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    max-width:48px!important;
+    padding:0!important;
+    margin:0 auto!important;
+    border-radius:16px!important;
+  }
+
+  .layout.sidebar-compact .side .avatar,
+  .layout.tablet-shell.sidebar-compact .side .avatar,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side .avatar{
+    width:34px!important;
+    height:34px!important;
+    font-size:16px!important;
+  }
+
+  .layout.sidebar-compact .content,
+  .layout.tablet-shell.sidebar-compact .content,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .content,
+  .layout.sidebar-compact .topbar,
+  .layout.tablet-shell.sidebar-compact .topbar,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .topbar{
+    grid-column:2!important;
+  }
+}

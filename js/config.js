@@ -11,7 +11,7 @@ export const firebaseConfig = {
 export const APP = {
   inventoryKey: "a",
   defaultLanguage: "en",
-  version: "2.1.61",
+  version: "2.1.62",
   brand: "Afghan Kabob & Grill"
 };
 
