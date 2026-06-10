@@ -1,6 +1,6 @@
 export const state = {
   lang: localStorage.getItem("ak-lang") || "en",
-  view: "dashboard",
+  view: "inventory",
   inventoryTab: "raw",
   filterStorage: "all",
   filterCategories: [],

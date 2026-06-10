@@ -15,6 +15,10 @@ const svgIcon = name => ({
   review:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l2 2 4-5"/><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M20 4v6h-6"/></svg>`,
   settings:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 3-.2-.1a1.8 1.8 0 0 0-2-.2 1.7 1.7 0 0 0-1 1.5V21h-5v-.2a1.7 1.7 0 0 0-1-1.5 1.8 1.8 0 0 0-2 .2l-.2.1-2-3 .1-.1A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.4-1H3v-4h.2a1.7 1.7 0 0 0 1.4-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2-3 .2.1a1.8 1.8 0 0 0 2 .2 1.7 1.7 0 0 0 1-1.5V3h5v.2a1.7 1.7 0 0 0 1 1.5 1.8 1.8 0 0 0 2-.2l.2-.1 2 3-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.4 1h.2v4h-.2a1.7 1.7 0 0 0-1.4 1Z"/></svg>`,
   package:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>`,
+  unitMeasure:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19 19 4l1 1L5 20l-1-1Z"/><path d="m7 16 2 2"/><path d="m10 13 1 1"/><path d="m13 10 2 2"/><path d="m16 7 1 1"/></svg>`,
+  box:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14v12H5z"/><path d="M5 7l2-3h10l2 3"/><path d="M12 7v12"/><path d="M9 11h6"/></svg>`,
+  bag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10l1 13H6L7 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/><path d="M9 13h6"/></svg>`,
+  roll:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="9" cy="12" r="2"/><path d="M15 6h3a4 4 0 0 1 0 8h-3"/><path d="M15 18h3"/></svg>`,
   search:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`,
   sliders:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>`,
   meat:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.62 8.382l1.966 -1.967a2 2 0 1 1 2.828 2.828l-1.967 1.966"/><path d="M5.904 18.596a4.167 4.167 0 0 1 0 -5.892l3.864 -3.864a4 4 0 0 1 5.657 0l.735 .735a4 4 0 0 1 0 5.657l-3.864 3.864a4.167 4.167 0 0 1 -5.892 0z"/><path d="M7.5 16.5l.01 0"/><path d="M10.5 13.5l.01 0"/></svg>`,
@@ -29,10 +33,13 @@ const svgIcon = name => ({
   grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`,
   user:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>`,
   storage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M4 7l2-4h12l2 4"/><path d="M9 12h6"/></svg>`,
+  snowflake:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20"/><path d="m17 5-5 5-5-5"/><path d="m17 19-5-5-5 5"/><path d="M2 12h20"/><path d="m5 7 5 5-5 5"/><path d="m19 7-5 5 5 5"/></svg>`,
+  fridge:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z"/><path d="M5 10h14"/><path d="M9 6v2"/><path d="M9 13v3"/></svg>`,
+  broom:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 11 6-6"/><path d="m14 12-3-3"/><path d="M5 21c1-4 3-7 6-9l3 3c-2 3-5 5-9 6Z"/><path d="M7 17h6"/><path d="M9 14l3 3"/></svg>`,
   more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
-  stockAdjust:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/><path d="M18 8v8"/><path d="M15 12h6"/></svg>`,
+  stockAdjust:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5l-7.5 7.5a2 2 0 0 1-2.8-2.8l7.5-7.5a4 4 0 0 1-2.2-2.2Z"/><path d="M4 4l5.8 5.8"/><path d="M5 3.8l3.8 1 1 3.8"/><path d="M3.8 19.8l5.8-5.8"/></svg>`,
   edit:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="m13.5 7.5 3 3"/></svg>`,
-  info:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7.2v.01"/></svg>`
+  info:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h8l3 3v13H7z"/><path d="M15 4v4h4"/><path d="M10 11h5"/><path d="M10 15h5"/><path d="M10 18h3"/></svg>`
 }[name] || "");
 const nameOf = p => state.lang === "es" ? (p.nombreES || p.nombreEN || p.nombre) : (p.nombreEN || p.nombre || p.nombreES);
 const trCat = c => state.lang === "es" ? c : (state.catTrans?.[c] || c);
@@ -116,6 +123,47 @@ function catIconHtml(c){
   const key = categoryIconKey(c);
   const spec = CATEGORY_ICON_SPECS[key] || CATEGORY_ICON_SPECS.other;
   return `<span class="category-icon category-icon-svg category-icon-${esc(spec.cls)}">${svgIcon(spec.icon)}</span>`;
+}
+function storageTypeIconHtml(s){
+  const text = normalizeText(`${s} ${storageLabel(s)}`);
+  let icon = "package";
+  let cls = "gold";
+  if(/congel|frozen|freezer|ice/.test(text)){
+    icon = "snowflake";
+    cls = "blue";
+  } else if(/refriger|cold|cooler|chill/.test(text)){
+    icon = "fridge";
+    cls = "cyan";
+  } else if(/limpieza|clean|sanit|detergent|soap/.test(text)){
+    icon = "broom";
+    cls = "green";
+  } else if(/seco|secos|dry|pantry|shelf/.test(text)){
+    icon = "package";
+    cls = "gold";
+  }
+  return `<span class="cell-icon storage-svg-icon ${cls}">${svgIcon(icon)}</span>`;
+}
+function unitTypeIconHtml(u){
+  const text = normalizeText(`${u} ${trUnit(u)}`);
+  let icon = "unitMeasure";
+  let cls = "measure";
+  if(/box|boxes|caja|cajas|carton|case|cases/.test(text)){
+    icon = "box";
+    cls = "box";
+  } else if(/bag|bags|bolsa|bolsas|sack|sacks/.test(text)){
+    icon = "bag";
+    cls = "bag";
+  } else if(/roll|rolls|rollo|rollos/.test(text)){
+    icon = "roll";
+    cls = "roll";
+  } else if(/package|packages|paquete|paquetes|pack|packs|bundle|bundles/.test(text)){
+    icon = "package";
+    cls = "package";
+  } else if(/unit|units|unidad|unidades|each|piece|pieces|pieza|piezas/.test(text)){
+    icon = "unitMeasure";
+    cls = "measure";
+  }
+  return `<span class="cell-icon unit-svg-icon ${cls}">${svgIcon(icon)}</span>`;
 }
 const storageLabelEs = s => state.storageTrans?.[`${s}__es`] || ({congelados:"Congelados",refrigerados:"Refrigerados",secos:"Secos",limpieza:"Limpieza"}[s]) || s || "-";
 const updateClass = p => `age-${updateAgeBucket(p)}`;
@@ -202,7 +250,7 @@ export function renderLogin(error=""){
     </section>
   </main>`;
   app.querySelector("#loginLang").onclick = () => { setLang(state.lang === "en" ? "es" : "en"); renderLogin(error); };
-  app.querySelector("#guestBtn").onclick = async () => { await useLocalSeed(); state.profile={username:"Preview",role:"admin"}; state.view="dashboard"; renderApp(); };
+  app.querySelector("#guestBtn").onclick = async () => { await useLocalSeed(); state.profile={username:"Preview",role:"admin"}; state.view="inventory"; renderApp(); };
   app.querySelector("#loginForm").onsubmit = async e => {
     e.preventDefault();
     const f = new FormData(e.target);
@@ -322,7 +370,7 @@ function mobileNav(){
     : `<button type="button" class="nav-btn ${state.view===id?'active':''}" data-view="${id}" aria-label="${label}"><span class="ico svg-ico">${ico}</span><span>${label}</span></button>`
   ).join("");
 }
-function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">↗</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass"><span class="svg-ico">${svgIcon("settings")}</span> ${L("changePassword")}</button><button id="menuLogout"><span class="svg-ico">${svgIcon("history")}</span> ${state.guest?L("close"):L("logout")}</button></div>`; }
+function userBlock(){ const p=state.profile||{}; const initial=(p.username||p.email||"?").slice(0,1).toUpperCase(); return `<div class="user-block" id="userMenuBtn"><div class="avatar">${esc(initial)}</div><div class="user-info"><b>${esc(p.username||"Guest")}</b><small>${esc(p.role||"")}</small></div><span class="chev">⌄</span></div><div id="userDropdown" class="user-dropdown hidden"><button id="menuChangePass"><span class="svg-ico">${svgIcon("settings")}</span> ${L("changePassword")}</button><button id="menuLogout"><span class="svg-ico">${svgIcon("history")}</span> ${state.guest?L("close"):L("logout")}</button></div>`; }
 function mobileUserInitial(){ const p=state.profile||{}; return esc((p.username||p.email||"?").slice(0,1).toUpperCase()); }
 function mobileUserDropdown(){
   const p=state.profile||{};
@@ -350,13 +398,31 @@ function setSidebarCompact(value){
   try{ localStorage.setItem("afghanSidebarCompact", value ? "1" : "0"); }catch(_){}
 }
 
+
+function pageDateLine(){
+  const now = new Date();
+  const locale = state.lang === "es" ? "es-US" : "en-US";
+  return `${APP.brand} · ${now.toLocaleDateString(locale)}`;
+}
+
+function greetingLine(){
+  const now = new Date();
+  const h = now.getHours();
+  const name = state.profile?.username || (isAdmin() ? "Admin" : "User");
+  const greet = state.lang === "es"
+    ? (h < 12 ? "Buenos días" : h < 18 ? "Buenas tardes" : "Buenas noches")
+    : (h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening");
+  const time = now.toLocaleTimeString(state.lang === "es" ? "es-US" : "en-US", {hour:"numeric", minute:"2-digit"});
+  return `${greet}, ${name} · ${time}`;
+}
+
 function shell(content){
   const themeClass = state.view === "inventory" ? (state.inventoryTab === "finished" ? "inventory-theme finished-theme" : "inventory-theme raw-theme") : "";
   const deviceClass = isTabletShell() ? "tablet-shell" : "";
   const sidebarClass = isSidebarCompact() ? "sidebar-compact" : "";
   app.innerHTML = `<div class="layout ${themeClass} ${deviceClass} ${sidebarClass}">
-    <aside class="side"><div class="side-brand"><img class="side-logo" src="logo.png" alt="Afghan Kabob"><div class="brand-text"><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div class="side-user-slot" style="margin-top:auto;position:relative">${userBlock()}</div></aside>
-    <header class="topbar"><div class="spread"><div class="title-row"><button id="sidebarToggle" class="btn small ghost sidebar-toggle desktop-only" aria-label="Toggle sidebar" title="Toggle sidebar">☰</button><div><h1>${pageTitle()}</h1><div class="sub">${APP.brand} · ${new Date().toLocaleDateString(state.lang==='es'?'es-US':'en-US')}</div></div></div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
+    <aside class="side"><div class="side-brand"><img class="side-logo" src="logo-cutout.png" alt="Afghan Kabob"><div class="brand-text"><h2>Afghan Kabob</h2><p>Inventory</p></div></div><nav class="side-nav">${nav()}</nav><div class="side-user-slot" style="margin-top:auto;position:relative">${userBlock()}</div></aside>
+    <header class="topbar"><div class="spread"><div class="title-row"><button id="sidebarToggle" class="btn small ghost sidebar-toggle desktop-only" aria-label="Toggle sidebar" title="Toggle sidebar">☰</button><div><h1>${pageTitle()}</h1><div class="sub">${pageDateLine()}</div></div></div><div class="topbar-greeting desktop-only">${greetingLine()}</div><div class="row top-actions"><button id="topLang" class="btn small ghost">${state.lang.toUpperCase()}</button><div class="top-user desktop-only">${userBlock()}</div></div></div></header>
     <main class="content">${content}</main>
     <nav class="bottom-nav ${isAdmin()?'admin-nav':'user-nav'}">${mobileNav()}</nav>
     ${mobileUserDropdown()}
@@ -633,8 +699,8 @@ function settingsView(){
   const countPill = n => `<span class="settings-count ${Number(n||0)===0?'zero':''}">${Number(n||0)}</span>`;
   const actionMenu = inner => `<div class="settings-action-wrap"><button type="button" class="icon-menu-btn" data-actions-menu aria-label="More actions">⋮</button><div class="settings-action-menu hidden">${inner}</div></div>`;
   const catRows=Object.values(state.categories||{}).map(c=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${catIconHtml(c)}</span><b>${esc(trCat(c))}</b></div>${countPill(catCounts[c])}${actionMenu(`<button data-edit-cat="${esc(c)}">${L("edit")}</button><button class="danger-text" data-del-cat="${esc(c)}">${L("delete")}</button>`)}</div>`).join("");
-  const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${svgIcon("inventory")}</span><b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
-  const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${storageIcon(s)?esc(storageIcon(s)):svgIcon("inventory")}</span><b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
+  const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name">${unitTypeIconHtml(u)}<b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
+  const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name">${storageTypeIconHtml(s)}<b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
   const userEntries=Object.entries(state.users||{});
   const onlineCount=userEntries.filter(([,u])=>u?.isOnline).length;
   const offlineCount=Math.max(0,userEntries.length-onlineCount);
@@ -644,8 +710,7 @@ function settingsView(){
     const online=!!u.isOnline;
     const lastLogin=formatDateTime(u.lastLogin);
     const currentMins=online ? Math.max(0,Math.round((Date.now()-Number(u.sessionStartedAt||u.lastLogin||Date.now()))/60000)) : Number(u.lastSessionMinutes||0);
-    const sessionLabel=online ? (state.lang==='es'?'Sesión actual':'Current Session') : (state.lang==='es'?'Última sesión':'Last Session');
-    return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar ${userAvatarClass(u.username||u.email||k)}">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small><small class="user-session-meta">${state.lang==='es'?'Último ingreso':'Last Login'}: ${esc(lastLogin)} · ${sessionLabel}: ${esc(formatDuration(currentMins))}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill ${online?'online':'offline'}">${online?'● Online':'○ Offline'}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`;
+    return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar ${userAvatarClass(u.username||u.email||k)}">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill ${online?'online':'offline'}">${online?'● Online':'○ Offline'}</span><span class="settings-time-cell">${esc(lastLogin)}</span><span class="settings-time-cell">${esc(formatDuration(currentMins))}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`;
   }).join("");
   const catTotal = Object.values(state.categories||{}).length;
   const unitTotal = Object.values(state.units||{}).length;
@@ -653,15 +718,15 @@ function settingsView(){
   const totalProducts = allProducts.length;
   const catalogSubtitle = state.lang==='es'?'Gestione clasificaciones del catálogo y detecte elementos sin uso.':'Manage catalog classifications and identify unused items.';
   const usersSubtitle = state.lang==='es'?'Gestione usuarios del sistema, sesiones y permisos.':'Manage system users, sessions and access.';
-  const systemSubtitle = state.lang==='es'?'Backup, restauración, exportación y mantenimiento local.':'Backup, restore, export and local maintenance.';
+  const systemSubtitle = state.lang==='es'?'Backup, restauración y mantenimiento local.':'Backup, restore and local maintenance.';
   return `<section class="settings-page settings-v2 stack">
-    <section class="settings-card users-card"><div class="settings-card-head"><div><h2><span class="section-icon">${svgIcon("user")}</span>${L("users")} (${userEntries.length})</h2><p>${usersSubtitle}</p><div class="settings-head-stats"><span>Online: <b>${onlineCount}</b></span><span>Offline: <b>${offlineCount}</b></span></div></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="settings-user-table"><div class="settings-user-header"><span>User</span><span>Role</span><span>Status</span><span>Actions</span></div><div class="settings-scroll-list users-scroll">${userRows || `<div class="empty">${L("noData")}</div>`}</div></div><div class="catalog-footer settings-user-footer"><span>Total Users: <b>${userEntries.length}</b></span><span>Online: <b>${onlineCount}</b></span></div></section>
+    <section class="settings-card users-card"><div class="settings-card-head"><div><h2><span class="section-icon">${svgIcon("user")}</span>${L("users")} (${userEntries.length})</h2><p>${usersSubtitle}</p><div class="settings-head-stats"><span>Online: <b>${onlineCount}</b></span><span>Offline: <b>${offlineCount}</b></span></div></div><button id="addUser" class="btn primary">+ ${L("add")}</button></div><div class="settings-user-table"><div class="settings-user-header"><span>User</span><span>Role</span><span>Status</span><span>Last Login</span><span>Last Session</span><span>Actions</span></div><div class="settings-scroll-list users-scroll">${userRows || `<div class="empty">${L("noData")}</div>`}</div></div><div class="catalog-footer settings-user-footer"><span>Total Users: <b>${userEntries.length}</b></span><span>Online: <b>${onlineCount}</b></span></div></section>
     <section class="catalog-management"><h2>${state.lang==='es'?'Gestión de catálogo':'Catalog Management'}</h2><p class="muted">${catalogSubtitle}</p><div class="catalog-grid">
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon red">${svgIcon("tag")}</span>${L("category")}</h3><p>${state.lang==='es'?'Categorías de producto':'Product categories'}</p></div><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Categories: <b>${catTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon blue">${svgIcon("inventory")}</span>${L("unit")}</h3><p>${state.lang==='es'?'Unidades de medida':'Measurement units'}</p></div><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Units: <b>${unitTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
-      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon purple">${svgIcon("storage")}</span>${L("storage")}</h3><p>${state.lang==='es'?'Ubicaciones y preservación':'Storage and preservation types'}</p></div><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list settings-scroll-list">${storageRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Storage: <b>${storageTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon red">${svgIcon("tag")}</span>${L("category")}</h3><p>${state.lang==='es'?'Categorías de producto':'Product categories'}</p></div><button id="addCategory" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list-header"><span>${L("category")}</span><span>Products</span><span></span></div><div class="catalog-list settings-scroll-list">${catRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Categories: <b>${catTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon blue">${svgIcon("package")}</span>${L("unit")}</h3><p>${state.lang==='es'?'Unidades de medida':'Measurement units'}</p></div><button id="addUnit" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list-header"><span>${L("unit")}</span><span>Products</span><span></span></div><div class="catalog-list settings-scroll-list">${unitRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Units: <b>${unitTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
+      <div class="settings-card catalog-card"><div class="settings-card-head compact"><div><h3><span class="section-icon purple">${svgIcon("storage")}</span>${L("storage")}</h3><p>${state.lang==='es'?'Ubicaciones y preservación':'Storage and preservation types'}</p></div><button id="addStorage" class="btn small primary">+ ${L("add")}</button></div><div class="catalog-list-header"><span>${L("storage")}</span><span>Products</span><span></span></div><div class="catalog-list settings-scroll-list">${storageRows || `<div class="empty">${L("noData")}</div>`}</div><div class="catalog-footer"><span>Total Storage: <b>${storageTotal}</b></span><span>Total Products: <b>${totalProducts}</b></span></div></div>
     </div></section>
-    <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="backupBtn" class="system-action"><span>↧</span><b>${safeSystemLabel('backup')}</b><small>${state.lang==='es'?'Descargar copia completa':'Download a complete backup'}</small></button><button id="restoreBtn" class="system-action"><span>↥</span><b>${safeSystemLabel('restore')}</b><small>${state.lang==='es'?'Restaurar desde archivo JSON':'Restore from JSON file'}</small></button><button id="exportBtn" class="system-action"><span>⇩</span><b>${safeSystemLabel('export')}</b><small>${state.lang==='es'?'Exportar datos actuales':'Export current data'}</small></button><button id="clearCacheBtn" class="system-action"><span>⌘</span><b>${safeSystemLabel('clearCache')}</b><small>${state.lang==='es'?'Limpiar caché local':'Clear local browser cache'}</small></button><input id="restoreFileInput" type="file" accept="application/json,.json" hidden></div></section>
+    <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="backupBtn" class="system-action"><span class="svg-ico">${svgIcon("info")}</span><b>${safeSystemLabel('backup')}</b><small>${state.lang==='es'?'Descargar copia JSON completa':'Download complete JSON backup'}</small></button><button id="restoreBtn" class="system-action"><span class="svg-ico">${svgIcon("stockAdjust")}</span><b>${safeSystemLabel('restore')}</b><small>${state.lang==='es'?'Restaurar desde archivo JSON':'Restore from JSON file'}</small></button><button id="clearCacheBtn" class="system-action"><span class="svg-ico">${svgIcon("settings")}</span><b>${safeSystemLabel('clearCache')}</b><small>${state.lang==='es'?'Limpiar caché local':'Clear local browser cache'}</small></button><input id="restoreFileInput" type="file" accept="application/json,.json" hidden></div></section>
   </section>`;
 }
 function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
@@ -761,7 +826,7 @@ function bindView(){
   app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>{ closeProductDetails(); canManage()&&productModal(); }); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
-  app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#exportBtn,#backupBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
+  app.querySelectorAll("#printBtn").forEach(b=>b.onclick=()=>window.print()); app.querySelectorAll("#excelBtn").forEach(b=>b.onclick=()=>exportReportExcel()); app.querySelectorAll("#backupBtn").forEach(b=>b.onclick=()=>isAdmin()&&exportCurrentJson());
   app.querySelectorAll("#importSeed").forEach(b=>b.onclick=async()=>{ if(confirm("Import seed data into this Firebase project? This will overwrite products, categories, units, users and history in this V2 database.")){ try{ await importSeedToFirebase(); alert("Imported"); } catch(err){ alert("Import failed: "+err.message); } }});
   app.querySelectorAll("#restoreBtn").forEach(b=>b.onclick=()=>app.querySelector("#restoreFileInput")?.click());
   app.querySelectorAll("#restoreFileInput").forEach(input=>input.onchange=async()=>{ const file=input.files?.[0]; if(!file) return; if(!confirm("Restore this backup? This may overwrite current data.")) return; try{ const payload=JSON.parse(await file.text()); await restoreCurrentJson(payload); alert("Restored"); renderApp(); }catch(err){ alert("Restore failed: "+err.message); } finally{ input.value=""; } });
