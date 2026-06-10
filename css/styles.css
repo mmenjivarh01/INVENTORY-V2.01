@@ -2755,3 +2755,96 @@ button,
   .product-actions-cell{width:112px!important;min-width:112px!important;max-width:112px!important;}
   .table-wrap{padding-right:6px!important;}
 }
+
+/* V2.1.64 - sidebar platform polish, table header edge fix, cleaner row action icons */
+@media (min-width:768px){
+  /* Keep the table header visually complete. The scrollbar must not reserve space on the left
+     or cut the rounded title/header bar. */
+  .table-wrap{
+    scrollbar-gutter:stable!important;
+    padding-right:0!important;
+    border-radius:16px!important;
+    overflow:auto!important;
+    background:#fff!important;
+  }
+  .table{
+    min-width:100%!important;
+    border-radius:16px!important;
+  }
+  .table thead th:first-child{border-top-left-radius:16px!important;}
+  .table thead th:last-child{border-top-right-radius:16px!important;}
+  .table th:last-child,.table td:last-child{padding-right:14px!important;}
+  .table-wrap::-webkit-scrollbar-track{margin-top:52px!important;margin-bottom:10px!important;}
+
+  /* Inventory row actions: clean SVG style, same visual language as category icons. */
+  .product-actions-cell{width:116px!important;min-width:116px!important;max-width:116px!important;}
+  .product-actions-compact{gap:7px!important;align-items:center!important;justify-content:flex-end!important;}
+  .product-actions-compact .action-icon,
+  .product-actions-compact .detail-btn{
+    width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;
+    border-radius:12px!important;padding:0!important;background:#fff!important;
+    border:1px solid #DFE7E2!important;color:#1F2937!important;
+    box-shadow:0 1px 2px rgba(16,24,40,.035)!important;
+  }
+  .product-actions-compact .stock-action{
+    color:var(--context-color,#1F6B4F)!important;
+    background:color-mix(in srgb,var(--context-color,#1F6B4F) 9%,#fff)!important;
+    border-color:transparent!important;
+  }
+  .product-actions-compact .svg-ico{width:19px!important;height:19px!important;display:grid!important;place-items:center!important;}
+  .product-actions-compact svg{width:19px!important;height:19px!important;stroke-width:1.75!important;}
+
+  /* Sidebar: the platform should exist in normal and compact mode. The menu island sits above it. */
+  .layout .side,
+  .layout.tablet-shell .side,
+  .layout.tablet-shell.inventory-theme .side{
+    overflow:visible!important;
+    background:rgba(255,255,255,.96)!important;
+    border:1px solid rgba(15,23,42,.055)!important;
+    box-shadow:0 16px 38px rgba(31,24,16,.075),0 4px 12px rgba(31,24,16,.035)!important;
+  }
+  .layout .side::before,
+  .layout.tablet-shell .side::before,
+  .layout.tablet-shell.inventory-theme .side::before{
+    content:""!important;
+    position:absolute!important;
+    inset:-12px -10px!important;
+    border-radius:32px!important;
+    background:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,248,238,.42))!important;
+    border:1px solid rgba(255,255,255,.72)!important;
+    box-shadow:0 22px 54px rgba(31,24,16,.07)!important;
+    z-index:-2!important;
+    pointer-events:none!important;
+  }
+  .layout .side::after,
+  .layout.tablet-shell .side::after,
+  .layout.tablet-shell.inventory-theme .side::after{
+    content:""!important;
+    position:absolute!important;
+    left:22px!important;right:22px!important;bottom:10px!important;height:72px!important;
+    border-radius:999px!important;
+    background:radial-gradient(ellipse at center,rgba(31,107,79,.10),transparent 68%)!important;
+    filter:blur(14px)!important;
+    z-index:-1!important;pointer-events:none!important;
+  }
+  .side-brand{padding-top:10px!important;padding-bottom:18px!important;}
+  .side .user-block{position:relative!important;z-index:1!important;}
+
+  .layout.sidebar-compact .side::before,
+  .layout.tablet-shell.sidebar-compact .side::before,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side::before{
+    inset:-10px -8px!important;
+    border-radius:30px!important;
+  }
+  .layout.sidebar-compact .side::after,
+  .layout.tablet-shell.sidebar-compact .side::after,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .side::after{
+    left:8px!important;right:8px!important;bottom:8px!important;height:64px!important;
+  }
+}
+
+@media (min-width:768px) and (max-width:980px){
+  .product-actions-cell{width:110px!important;min-width:110px!important;max-width:110px!important;}
+  .product-actions-compact .action-icon,
+  .product-actions-compact .detail-btn{width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important;}
+}
