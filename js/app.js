@@ -1,7 +1,7 @@
 import { auth, api } from "./firebase.js";
 import { state } from "./state.js";
 import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset, recordSessionStart, recordSessionEnd } from "./data.js";
-import { renderLogin, renderApp } from "./ui.js";
+import { renderLogin, renderApp } from "./ui.js?v=20260610-emoji-actions";
 
 function bootLoading(){
   const tpl = document.getElementById("loading-template");

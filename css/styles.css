@@ -4523,6 +4523,63 @@ min-height:calc(100vh - 240px);
   padding:7px 4px!important;
 }
 
+.settings-v2 .catalog-emoji-icon{
+  width:26px!important;
+  min-width:26px!important;
+  height:26px!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  border-radius:9px!important;
+  font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif!important;
+  font-size:17px!important;
+  line-height:1!important;
+  background:#f8fafc!important;
+  border:1px solid rgba(226,232,240,.82)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+
+.settings-v2 .catalog-emoji-meat,
+.settings-v2 .catalog-emoji-chili{
+  background:#fff1f2!important;
+  border-color:#ffe4e6!important;
+}
+
+.settings-v2 .catalog-emoji-leaf,
+.settings-v2 .catalog-emoji-green,
+.settings-v2 .catalog-emoji-cleaning,
+.settings-v2 .catalog-emoji-bag{
+  background:#ecfdf5!important;
+  border-color:#d1fae5!important;
+}
+
+.settings-v2 .catalog-emoji-can,
+.settings-v2 .catalog-emoji-package{
+  background:#fdf2f8!important;
+  border-color:#fce7f3!important;
+}
+
+.settings-v2 .catalog-emoji-bottle,
+.settings-v2 .catalog-emoji-blue,
+.settings-v2 .catalog-emoji-cyan,
+.settings-v2 .catalog-emoji-liquid{
+  background:#eff6ff!important;
+  border-color:#dbeafe!important;
+}
+
+.settings-v2 .catalog-emoji-sauce,
+.settings-v2 .catalog-emoji-beverage,
+.settings-v2 .catalog-emoji-gold,
+.settings-v2 .catalog-emoji-roll,
+.settings-v2 .catalog-emoji-weight{
+  background:#fff7ed!important;
+  border-color:#fed7aa!important;
+}
+
+.settings-v2 .catalog-emoji-box{
+  background:#f5f3ff!important;
+  border-color:#ede9fe!important;
+}
+
 .settings-v2 .unit-svg-icon,
 .settings-v2 .storage-svg-icon{
   width:18px!important;
@@ -4575,6 +4632,14 @@ min-height:calc(100vh - 240px);
   color:#DB2777!important;
 }
 
+.settings-v2 .unit-svg-icon.weight{
+  color:#D97706!important;
+}
+
+.settings-v2 .unit-svg-icon.liquid{
+  color:#0284C7!important;
+}
+
 .settings-v2 .unit-svg-icon svg,
 .settings-v2 .storage-svg-icon svg{
   width:18px!important;
@@ -4596,6 +4661,72 @@ min-height:calc(100vh - 240px);
   height:20px!important;
 }
 
+.product-actions-compact .action-emoji,
+.detail-btn .action-emoji{
+  width:22px!important;
+  height:22px!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif!important;
+  font-size:15px!important;
+  line-height:1!important;
+  transform:translateY(-.5px)!important;
+}
+
+.product-actions-compact .action-icon,
+.product-actions-compact .detail-btn{
+  min-width:36px!important;
+  width:36px!important;
+  height:36px!important;
+  padding:0!important;
+  border-radius:11px!important;
+}
+
+.product-actions-compact .stock-action{
+  background:#ECFDF5!important;
+  border-color:#D1FAE5!important;
+  color:#0F766E!important;
+}
+
+.product-actions-compact .edit-action{
+  background:#F8FAFC!important;
+  border-color:#DBE3EF!important;
+  color:#334155!important;
+}
+
+.product-actions-compact .detail-btn{
+  background:#EFF6FF!important;
+  border-color:#DBEAFE!important;
+  color:#2563EB!important;
+}
+
+.product-actions-compact .action-icon:hover,
+.product-actions-compact .detail-btn:hover{
+  transform:translateY(-1px)!important;
+  box-shadow:0 10px 20px rgba(15,23,42,.08)!important;
+}
+
+.catalog-inline-meta{
+  display:inline-flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:5px 10px!important;
+}
+
+.catalog-inline-meta>span{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+}
+
+.table td>.category-icon,
+.table td>.cell-icon,
+.report td>.category-icon,
+.report td>.cell-icon{
+  margin-right:6px!important;
+  vertical-align:-3px!important;
+}
+
 @media(max-width:1100px){
   .settings-v2 .settings-user-header{display:none!important;}
   .settings-v2 .settings-user-row{
@@ -4603,4 +4734,225 @@ min-height:calc(100vh - 240px);
     min-height:64px!important;
   }
   .settings-v2 .settings-time-cell{display:none!important;}
+}
+
+/* V2.1.78 - phone landscape rescue: keep navigation usable after rotation. */
+@media (orientation:landscape) and (max-height:500px) and (pointer:coarse){
+  html,
+  body{
+    height:100%!important;
+    overflow:hidden!important;
+  }
+
+  .layout{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    display:grid!important;
+    grid-template-columns:72px minmax(0,1fr)!important;
+    grid-template-rows:auto minmax(0,1fr)!important;
+    overflow:hidden!important;
+  }
+
+  .side{
+    display:none!important;
+  }
+
+  .topbar{
+    grid-column:2!important;
+    min-height:48px!important;
+    padding:6px 12px!important;
+    position:sticky!important;
+    top:0!important;
+    z-index:28!important;
+  }
+
+  .top-user{
+    display:block!important;
+    min-width:auto!important;
+  }
+
+  .topbar h1{
+    font-size:17px!important;
+    line-height:1.05!important;
+  }
+
+  .topbar .sub{
+    font-size:11px!important;
+    line-height:1.1!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    max-width:42vw!important;
+  }
+
+  .topbar-greeting{
+    display:none!important;
+  }
+
+  .topbar .btn.small{
+    min-height:34px!important;
+    height:34px!important;
+    padding:0 10px!important;
+    border-radius:10px!important;
+  }
+
+  .top-user .user-block{
+    min-width:0!important;
+    height:36px!important;
+    padding:4px!important;
+    border-radius:12px!important;
+  }
+
+  .top-user .avatar{
+    width:28px!important;
+    height:28px!important;
+    font-size:13px!important;
+  }
+
+  .content{
+    grid-column:2!important;
+    min-width:0!important;
+    height:100%!important;
+    max-width:none!important;
+    overflow:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding:10px 12px 16px!important;
+  }
+
+  .bottom-nav{
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    right:auto!important;
+    width:72px!important;
+    height:100dvh!important;
+    grid-column:1!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:repeat(5,1fr)!important;
+    gap:4px!important;
+    padding:6px 6px calc(6px + var(--safe-bottom))!important;
+    border-top:0!important;
+    border-right:1px solid var(--line)!important;
+    box-shadow:10px 0 24px rgba(15,23,42,.08)!important;
+    overflow:hidden!important;
+  }
+
+  .bottom-nav .nav-btn{
+    width:60px!important;
+    min-width:60px!important;
+    height:auto!important;
+    min-height:42px!important;
+    padding:4px 2px!important;
+    border-radius:12px!important;
+    font-size:9px!important;
+    line-height:1.05!important;
+    gap:2px!important;
+  }
+
+  .bottom-nav .nav-btn .ico,
+  .bottom-nav .nav-btn .ico svg{
+    width:20px!important;
+    height:20px!important;
+    font-size:18px!important;
+  }
+
+  .bottom-nav .nav-btn.active{
+    border-left:3px solid var(--brand)!important;
+  }
+
+  .fab{
+    right:14px!important;
+    bottom:14px!important;
+    width:48px!important;
+    height:48px!important;
+    border-radius:16px!important;
+  }
+
+  .inventory-tabs{
+    margin-bottom:8px!important;
+    gap:8px!important;
+    flex-wrap:nowrap!important;
+  }
+
+  .inventory-tab{
+    min-height:38px!important;
+    padding:8px 10px!important;
+    font-size:13px!important;
+    border-radius:12px!important;
+  }
+
+  .inventory-tab.add-tab{
+    margin-left:auto!important;
+    flex:0 0 auto!important;
+  }
+
+  .toolbar{
+    margin:8px 0!important;
+  }
+
+  .search-row .input,
+  .filter-select,
+  .select,
+  .input,
+  textarea{
+    font-size:16px!important;
+  }
+
+  .filter-card{
+    max-height:calc(100dvh - 150px)!important;
+    overflow:auto!important;
+    padding:10px!important;
+  }
+
+  .filter-main-row{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+
+  .category-boxes{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+
+  .filter-box{
+    min-height:38px!important;
+    padding:6px 8px!important;
+    border-radius:10px!important;
+  }
+
+  .filter-box-text b{
+    font-size:11px!important;
+  }
+
+  .product-list{
+    gap:8px!important;
+  }
+
+  .product-card{
+    padding:10px!important;
+    border-radius:14px!important;
+  }
+
+  .product-meta{
+    margin:10px 0!important;
+    gap:6px!important;
+  }
+
+  .mini{
+    padding:7px!important;
+    border-radius:10px!important;
+  }
+
+  .modal-backdrop{
+    place-items:center!important;
+    padding:8px!important;
+  }
+
+  .modal{
+    width:min(680px,calc(100vw - 96px))!important;
+    max-height:calc(100dvh - 16px)!important;
+    border-radius:18px!important;
+    padding:14px!important;
+  }
 }

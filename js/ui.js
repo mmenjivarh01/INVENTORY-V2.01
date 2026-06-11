@@ -1,7 +1,7 @@
 import { state, setLang, isAdmin, canManage, canDeleteProducts, canAdjust, canReadReports } from "./state.js";
 import { t } from "./i18n.js";
 import { APP, AUTH_ALIASES, DEFAULT_LOGIN_DOMAIN } from "./config.js";
-import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, setPendingPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, DEFAULT_STORAGE_ICONS, setIgnoredDuplicate } from "./data.js";
+import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, setPendingPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, setIgnoredDuplicate } from "./data.js";
 import { api, auth, db } from "./firebase.js";
 
 const app = document.getElementById("app");
@@ -14,11 +14,13 @@ const svgIcon = name => ({
   reports:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5"/><path d="M8 19v-7"/><path d="M12 19V9"/><path d="M16 19V4"/><path d="M20 19v-10"/></svg>`,
   review:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l2 2 4-5"/><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M20 4v6h-6"/></svg>`,
   settings:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 3-.2-.1a1.8 1.8 0 0 0-2-.2 1.7 1.7 0 0 0-1 1.5V21h-5v-.2a1.7 1.7 0 0 0-1-1.5 1.8 1.8 0 0 0-2 .2l-.2.1-2-3 .1-.1A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.4-1H3v-4h.2a1.7 1.7 0 0 0 1.4-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2-3 .2.1a1.8 1.8 0 0 0 2 .2 1.7 1.7 0 0 0 1-1.5V3h5v.2a1.7 1.7 0 0 0 1 1.5 1.8 1.8 0 0 0 2-.2l.2-.1 2 3-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.4 1h.2v4h-.2a1.7 1.7 0 0 0-1.4 1Z"/></svg>`,
-  package:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>`,
-  unitMeasure:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19 19 4l1 1L5 20l-1-1Z"/><path d="m7 16 2 2"/><path d="m10 13 1 1"/><path d="m13 10 2 2"/><path d="m16 7 1 1"/></svg>`,
-  box:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14v12H5z"/><path d="M5 7l2-3h10l2 3"/><path d="M12 7v12"/><path d="M9 11h6"/></svg>`,
-  bag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10l1 13H6L7 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/><path d="M9 13h6"/></svg>`,
-  roll:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="9" cy="12" r="2"/><path d="M15 6h3a4 4 0 0 1 0 8h-3"/><path d="M15 18h3"/></svg>`,
+  package:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7.5 12 12l8-4.5L12 3Z"/><path d="M4 7.5v9L12 21l8-4.5v-9"/><path d="M12 12v9"/><path d="m8 5.3 8 4.5"/></svg>`,
+  unitMeasure:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5 19.5 4 20 4.5 4.5 20 4 19.5Z"/><path d="m7.5 16 2 2"/><path d="m10.5 13 1 1"/><path d="m13.5 10 2 2"/><path d="m16.5 7 1 1"/></svg>`,
+  box:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v11H4z"/><path d="M4 8l2.5-4h11L20 8"/><path d="M12 4v4"/><path d="M9 13h6"/></svg>`,
+  bag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9h10l1 11H6L7 9Z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/><path d="M9.5 14h5"/></svg>`,
+  roll:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="9" cy="12" r="1.8"/><path d="M14.5 6.5H18a4 4 0 0 1 0 8h-3.5"/><path d="M14.5 17.5H18"/></svg>`,
+  scale:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h10"/><path d="M6 20 10 4h4l4 16"/><path d="M8 8h8"/><path d="M9 14h6"/></svg>`,
+  liquidMeasure:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4"/><path d="M11 2v5l-3 3v9a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-9l-3-3V2"/><path d="M8 14h8"/><path d="M10 18h4"/></svg>`,
   search:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`,
   sliders:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>`,
   meat:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.62 8.382l1.966 -1.967a2 2 0 1 1 2.828 2.828l-1.967 1.966"/><path d="M5.904 18.596a4.167 4.167 0 0 1 0 -5.892l3.864 -3.864a4 4 0 0 1 5.657 0l.735 .735a4 4 0 0 1 0 5.657l-3.864 3.864a4.167 4.167 0 0 1 -5.892 0z"/><path d="M7.5 16.5l.01 0"/><path d="M10.5 13.5l.01 0"/></svg>`,
@@ -32,10 +34,10 @@ const svgIcon = name => ({
   tag:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 11 22 2 13V4h9l9 9Z"/><path d="M7 8h.01"/></svg>`,
   grid:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>`,
   user:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>`,
-  storage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M4 7l2-4h12l2 4"/><path d="M9 12h6"/></svg>`,
-  snowflake:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20"/><path d="m17 5-5 5-5-5"/><path d="m17 19-5-5-5 5"/><path d="M2 12h20"/><path d="m5 7 5 5-5 5"/><path d="m19 7-5 5 5 5"/></svg>`,
-  fridge:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z"/><path d="M5 10h14"/><path d="M9 6v2"/><path d="M9 13v3"/></svg>`,
-  broom:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 11 6-6"/><path d="m14 12-3-3"/><path d="M5 21c1-4 3-7 6-9l3 3c-2 3-5 5-9 6Z"/><path d="M7 17h6"/><path d="M9 14l3 3"/></svg>`,
+  storage:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v11H4z"/><path d="M4 8l2-4h12l2 4"/><path d="M9 13h6"/></svg>`,
+  snowflake:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="m16.5 5.5-4.5 4.5-4.5-4.5"/><path d="m16.5 18.5-4.5-4.5-4.5 4.5"/><path d="M3 12h18"/><path d="m5.5 7.5 4.5 4.5-4.5 4.5"/><path d="m18.5 7.5-4.5 4.5 4.5 4.5"/></svg>`,
+  fridge:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z"/><path d="M5 10h14"/><path d="M9 6.5v1.5"/><path d="M9 13.5v2.5"/></svg>`,
+  broom:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 10.5 6-6"/><path d="m13.5 11.5-2-2"/><path d="M5 21c.8-4.2 2.9-7.3 6.5-9.5l3 3C12.3 18.1 9.2 20.2 5 21Z"/><path d="M7.5 17.5h5.5"/><path d="m9.5 14.5 3 3"/></svg>`,
   more:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
   stockAdjust:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5l-7.5 7.5a2 2 0 0 1-2.8-2.8l7.5-7.5a4 4 0 0 1-2.2-2.2Z"/><path d="M4 4l5.8 5.8"/><path d="M5 3.8l3.8 1 1 3.8"/><path d="M3.8 19.8l5.8-5.8"/></svg>`,
   edit:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z"/><path d="m13.5 7.5 3 3"/></svg>`,
@@ -45,7 +47,6 @@ const nameOf = p => state.lang === "es" ? (p.nombreES || p.nombreEN || p.nombre)
 const trCat = c => state.lang === "es" ? c : (state.catTrans?.[c] || c);
 const trUnit = u => state.lang === "es" ? u : (state.unitTrans?.[u] || u);
 const storageLabel = s => state.lang === "es" ? (state.storageTrans?.[`${s}__es`] || ({congelados:L("frozen"),refrigerados:L("refrigerated"),secos:L("dry"),limpieza:L("cleaning")}[s]) || s || "-") : (state.storageTrans?.[s] || ({congelados:L("frozen"),refrigerados:L("refrigerated"),secos:L("dry"),limpieza:L("cleaning")}[s]) || s || "-");
-const storageIcon = s => state.storageIcons?.[s] || DEFAULT_STORAGE_ICONS?.[s] || "";
 const statusIcon = key => ({all:"◦",warning:"⚠️",critical:"⛔",lowOut:"🔴",normal:"✅"}[key] || "");
 const normalizeText = x => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -124,20 +125,53 @@ function catIconHtml(c){
   const spec = CATEGORY_ICON_SPECS[key] || CATEGORY_ICON_SPECS.other;
   return `<span class="category-icon category-icon-svg category-icon-${esc(spec.cls)}">${svgIcon(spec.icon)}</span>`;
 }
+const CATEGORY_EMOJI_SPECS = {
+  meat:{emoji:"🥩", cls:"meat"},
+  vegetables:{emoji:"🥬", cls:"leaf"},
+  canned:{emoji:"🥫", cls:"can"},
+  containers:{emoji:"📦", cls:"package"},
+  dairy:{emoji:"🥛", cls:"bottle"},
+  spices:{emoji:"🌶️", cls:"chili"},
+  sauce:{emoji:"🧂", cls:"sauce"},
+  beverage:{emoji:"🧃", cls:"beverage"},
+  cleaning:{emoji:"🧽", cls:"cleaning"},
+  other:{emoji:"🔲", cls:"grid"}
+};
+function catalogEmojiIcon(kind, value){
+  const text = normalizeText(`${value} ${kind === "storage" ? storageLabel(value) : kind === "unit" ? trUnit(value) : state.catTrans?.[value] || ""}`);
+  let spec = { emoji:"🔲", cls:"grid" };
+  if(kind === "category"){
+    spec = CATEGORY_EMOJI_SPECS[categoryIconKey(value)] || CATEGORY_EMOJI_SPECS.other;
+  } else if(kind === "storage"){
+    if(/congel|frozen|freezer|ice|freeze/.test(text)) spec = { emoji:"🧊", cls:"blue" };
+    else if(/refriger|fridge|cold|cooler|chill|fresh/.test(text)) spec = { emoji:"❄️", cls:"cyan" };
+    else if(/limpieza|clean|sanit|detergent|soap|chemical|janitor/.test(text)) spec = { emoji:"🧽", cls:"green" };
+    else if(/seco|secos|dry|pantry|shelf|ambient|room/.test(text)) spec = { emoji:"📦", cls:"gold" };
+  } else if(kind === "unit"){
+    if(/box|boxes|caja|cajas|carton|case|cases/.test(text)) spec = { emoji:"📦", cls:"box" };
+    else if(/bag|bags|bolsa|bolsas|sack|sacks/.test(text)) spec = { emoji:"🛍️", cls:"bag" };
+    else if(/roll|rolls|rollo|rollos/.test(text)) spec = { emoji:"🧻", cls:"roll" };
+    else if(/package|packages|paquete|paquetes|pack|packs|bundle|bundles/.test(text)) spec = { emoji:"📦", cls:"package" };
+    else if(/lb|lbs|pound|pounds|kg|kilo|kilos|gram|grams|g\b|oz|ounce|ounces|peso/.test(text)) spec = { emoji:"⚖️", cls:"weight" };
+    else if(/gallon|gallons|liter|liters|litre|litres|litro|litros|ml|milliliter|fluid|quart|bottle|bottles/.test(text)) spec = { emoji:"🧴", cls:"liquid" };
+    else if(/unit|units|unidad|unidades|each|piece|pieces|pieza|piezas/.test(text)) spec = { emoji:"🔢", cls:"measure" };
+  }
+  return `<span class="catalog-emoji-icon catalog-emoji-${esc(spec.cls)}" aria-hidden="true">${spec.emoji}</span>`;
+}
 function storageTypeIconHtml(s){
   const text = normalizeText(`${s} ${storageLabel(s)}`);
   let icon = "package";
   let cls = "gold";
-  if(/congel|frozen|freezer|ice/.test(text)){
+  if(/congel|frozen|freezer|ice|freeze/.test(text)){
     icon = "snowflake";
     cls = "blue";
-  } else if(/refriger|cold|cooler|chill/.test(text)){
+  } else if(/refriger|fridge|cold|cooler|chill|fresh/.test(text)){
     icon = "fridge";
     cls = "cyan";
-  } else if(/limpieza|clean|sanit|detergent|soap/.test(text)){
+  } else if(/limpieza|clean|sanit|detergent|soap|chemical|janitor/.test(text)){
     icon = "broom";
     cls = "green";
-  } else if(/seco|secos|dry|pantry|shelf/.test(text)){
+  } else if(/seco|secos|dry|pantry|shelf|ambient|room/.test(text)){
     icon = "package";
     cls = "gold";
   }
@@ -159,6 +193,12 @@ function unitTypeIconHtml(u){
   } else if(/package|packages|paquete|paquetes|pack|packs|bundle|bundles/.test(text)){
     icon = "package";
     cls = "package";
+  } else if(/lb|lbs|pound|pounds|kg|kilo|kilos|gram|grams|g\b|oz|ounce|ounces|peso/.test(text)){
+    icon = "scale";
+    cls = "weight";
+  } else if(/gallon|gallons|liter|liters|litre|litres|litro|litros|ml|milliliter|fluid|quart|bottle|bottles/.test(text)){
+    icon = "liquidMeasure";
+    cls = "liquid";
   } else if(/unit|units|unidad|unidades|each|piece|pieces|pieza|piezas/.test(text)){
     icon = "unitMeasure";
     cls = "measure";
@@ -527,12 +567,12 @@ function statusChips(prefix=""){
 function storageChips(prefix=""){
   const val = prefix==='report' ? state.reportStorage : state.filterStorage;
   const source = prefix==='report' ? productList() : baseProducts();
-  const opts = [['all', L('all'), source.length, '']].concat(storageValues().map(s=>{
+  const opts = [['all', L('all'), source.length]].concat(storageValues().map(s=>{
     const count = source.filter(p=>(p.subcategoria||'').toLowerCase()===s).length;
-    return [s, storageLabel(s), count, storageIcon(s)];
+    return [s, storageLabel(s), count];
   }));
   const id = prefix==='report' ? 'reportStorageSelect' : 'storageSelect';
-  return `<select id="${id}" class="select filter-select">${opts.map(([key,label,count,icon])=>`<option value="${esc(key)}" ${val===key?'selected':''}>${esc(icon ? icon+' '+label : label)} (${count})</option>`).join('')}</select>`;
+  return `<select id="${id}" class="select filter-select">${opts.map(([key,label,count])=>`<option value="${esc(key)}" ${val===key?'selected':''}>${esc(label)} (${count})</option>`).join('')}</select>`;
 }
 function categoryChips(prefix=""){
   const cats = prefix==='report' ? Object.values(state.categories||{}) : categoriesForCurrentStorage();
@@ -563,9 +603,13 @@ function inventoryEmptyRow(){
 }
 
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
-function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}"><span class="svg-ico">${svgIcon("info")}</span></button>`; }
-function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td><span class="cell-icon">${catIconHtml(p.categoria)}</span>${esc(trCat(p.categoria))}</td><td>${storageIcon(p.subcategoria)?`<span class="cell-icon">${esc(storageIcon(p.subcategoria))}</span> `:""}${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}"><span class="svg-ico">${svgIcon("stockAdjust")}</span></button>`:""}${canManage()?`<button class="btn small ghost action-icon" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}"><span class="svg-ico">${svgIcon("edit")}</span></button>`:""}${detailBtn(key)}</div></td></tr>`; }
+function actionEmojiIcon(type){
+  const icons = { stock:"🛠️", edit:"✏️", detail:"📄" };
+  return `<span class="action-emoji action-emoji-${esc(type)}" aria-hidden="true">${icons[type] || "•"}</span>`;
+}
+function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}">${actionEmojiIcon("detail")}</button>`; }
+function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p class="catalog-inline-meta"><span>${catIconHtml(p.categoria)}${esc(trCat(p.categoria))}</span><span>${esc(storageLabel(p.subcategoria))}</span></p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td>${catIconHtml(p.categoria)}${esc(trCat(p.categoria))}</td><td>${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}">${actionEmojiIcon("stock")}</button>`:""}${canManage()?`<button class="btn small ghost action-icon edit-action" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}">${actionEmojiIcon("edit")}</button>`:""}${detailBtn(key)}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
@@ -627,7 +671,10 @@ function reviewDashboardCard(){
   return `<section class="card card-pad dashboard-panel review-summary-card"><div class="spread"><h2 class="panel-title">${state.lang==='es'?'Revisión pendiente':'Pending Review'}</h2><span class="badge ${total?'warning':'normal'}">${total}</span></div>${rows.map(([label,count,type])=>`<button type="button" class="review-summary-row" data-view="review"><span>${esc(label)}</span><b class="badge ${type}">${count}</b></button>`).join("")}</section>`;
 }
 function issueProductRow(key,p,detail=""){
-  return `<div class="manage-row review-item"><div><b>${esc(nameOf(p))}</b><small>${esc(detail || `${trCat(p.categoria||'-')} · ${storageLabel(p.subcategoria||'')}`)}</small></div><div class="row"><button class="btn small ghost" data-edit="${esc(key)}">${L("edit")}</button></div></div>`;
+  const meta = detail
+    ? esc(detail)
+    : `<span>${catIconHtml(p.categoria || "-")}${esc(trCat(p.categoria || "-"))}</span><span>${esc(storageLabel(p.subcategoria || ""))}</span><span>${esc(trUnit(p.unidad || "-"))}</span>`;
+  return `<div class="manage-row review-item"><div><b>${esc(nameOf(p))}</b><small class="catalog-inline-meta">${meta}</small></div><div class="row"><button class="btn small ghost" data-edit="${esc(key)}">${L("edit")}</button></div></div>`;
 }
 function reviewView(){
   const d=issueData(); const tab=state.reviewTab||'translations';
@@ -688,7 +735,7 @@ function reportsView(){
   const list=reportProducts();
   const m={total:list.length, low:list.filter(p=>statusOf(p)==="warning").length, out:list.filter(p=>statusOf(p)==="critical").length};
   const filterText = state.lang === 'es' ? 'Filtros' : 'Filters';
-  return `<section class="stack"><div class="row no-print report-actions"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}<button id="reportFilterTools" type="button" class="btn filter-tools report-filter-tools ${state.reportFiltersOpen?'active':''}" aria-label="${esc(filterText)}" title="${esc(filterText)}" aria-expanded="${state.reportFiltersOpen?'true':'false'}">${svgIcon("sliders")}</button></div><div class="filter-card card card-pad no-print context-filter-card ${state.reportFiltersOpen?'':'collapsed'}"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`;
+  return `<section class="stack"><div class="row no-print report-actions"><button id="printBtn" class="btn primary">${L("print")}</button>${["admin","usuario"].includes(state.profile?.role)||state.guest?`<button id="excelBtn" class="btn ghost">Export Excel</button>`:""}<button id="reportFilterTools" type="button" class="btn filter-tools report-filter-tools ${state.reportFiltersOpen?'active':''}" aria-label="${esc(filterText)}" title="${esc(filterText)}" aria-expanded="${state.reportFiltersOpen?'true':'false'}">${svgIcon("sliders")}</button></div><div class="filter-card card card-pad no-print context-filter-card ${state.reportFiltersOpen?'':'collapsed'}"><div class="filter-main-row"><div class="filter-control"><div class="filter-title">${L("filterStatus")}</div>${statusChips('report')}</div><div class="filter-control"><div class="filter-title">${L("filterStorage")}</div>${storageChips('report')}</div></div><div class="filter-title">${L("filterCategory")}</div>${categoryChips('report')}<button id="clearReportFilters" class="btn small ghost">${L("clearFilters")}</button></div><div class="report card"><div class="spread"><div><h1>${APP.brand}</h1><p>${L("reportTitle")}</p></div><div>${new Date().toLocaleString(state.lang==='es'?'es-US':'en-US')}</div></div><hr><p>${L("total")}: <b>${m.total}</b> &nbsp; ${L("lowStock")}: <b>${m.low}</b> &nbsp; ${L("outStock")}: <b>${m.out}</b></p><table><thead><tr><th>Product</th><th>${L("category")}</th><th>${currentLabel()}</th><th>${minimumLabel()}</th><th>${differenceLabel()}</th><th>${L("unit")}</th><th>${L("status")}</th></tr></thead><tbody>${list.map(p=>`<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td data-label="Product">${esc(nameOf(p))}</td><td data-label="${esc(L("category"))}">${catIconHtml(p.categoria)}${esc(trCat(p.categoria))}</td><td data-label="${esc(currentLabel())}">${p.cantidad}</td><td data-label="${esc(minimumLabel())}">${p.minimo}</td><td class="${diffClass(p)}" data-label="${esc(differenceLabel())}">${stockDifference(p)}</td><td data-label="${esc(L("unit"))}">${esc(trUnit(p.unidad))}</td><td data-label="${esc(L("status"))}">${L(statusOf(p))}</td></tr>`).join("")}</tbody></table></div></section>`;
 }
 function settingsView(){
   const allProducts = productList();
@@ -698,9 +745,9 @@ function settingsView(){
   const storageCounts = allProducts.reduce((acc,p)=>{ const key = String(p.subcategoria || "").trim().toLowerCase(); if(key) acc[key]=(acc[key]||0)+1; return acc; }, {});
   const countPill = n => `<span class="settings-count ${Number(n||0)===0?'zero':''}">${Number(n||0)}</span>`;
   const actionMenu = inner => `<div class="settings-action-wrap"><button type="button" class="icon-menu-btn" data-actions-menu aria-label="More actions">⋮</button><div class="settings-action-menu hidden">${inner}</div></div>`;
-  const catRows=Object.values(state.categories||{}).map(c=>`<div class="catalog-row"><div class="catalog-name"><span class="cell-icon">${catIconHtml(c)}</span><b>${esc(trCat(c))}</b></div>${countPill(catCounts[c])}${actionMenu(`<button data-edit-cat="${esc(c)}">${L("edit")}</button><button class="danger-text" data-del-cat="${esc(c)}">${L("delete")}</button>`)}</div>`).join("");
-  const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name">${unitTypeIconHtml(u)}<b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
-  const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name">${storageTypeIconHtml(s)}<b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
+  const catRows=Object.values(state.categories||{}).map(c=>`<div class="catalog-row"><div class="catalog-name">${catalogEmojiIcon("category", c)}<b>${esc(trCat(c))}</b></div>${countPill(catCounts[c])}${actionMenu(`<button data-edit-cat="${esc(c)}">${L("edit")}</button><button class="danger-text" data-del-cat="${esc(c)}">${L("delete")}</button>`)}</div>`).join("");
+  const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name">${catalogEmojiIcon("unit", u)}<b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
+  const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name">${catalogEmojiIcon("storage", s)}<b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
   const userEntries=Object.entries(state.users||{});
   const onlineCount=userEntries.filter(([,u])=>u?.isOnline).length;
   const offlineCount=Math.max(0,userEntries.length-onlineCount);
