@@ -4992,7 +4992,10 @@ min-height:calc(100vh - 240px);
 
   .topbar,
   .layout.tablet-shell .topbar,
-  .layout.tablet-shell.inventory-theme .topbar{
+  .layout.tablet-shell.inventory-theme .topbar,
+  .layout.sidebar-compact .topbar,
+  .layout.tablet-shell.sidebar-compact .topbar,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .topbar{
     grid-column:1!important;
     grid-row:1!important;
     position:sticky!important;
@@ -5028,7 +5031,10 @@ min-height:calc(100vh - 240px);
 
   .content,
   .layout.tablet-shell .content,
-  .layout.tablet-shell.inventory-theme .content{
+  .layout.tablet-shell.inventory-theme .content,
+  .layout.sidebar-compact .content,
+  .layout.tablet-shell.sidebar-compact .content,
+  .layout.tablet-shell.inventory-theme.sidebar-compact .content{
     grid-column:1!important;
     grid-row:2!important;
     display:block!important;

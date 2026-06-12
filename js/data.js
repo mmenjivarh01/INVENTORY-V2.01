@@ -1,4 +1,4 @@
-import { db, api } from "./firebase.js";
+import { db, auth, api } from "./firebase.js";
 import { APP, DEFAULT_USERS } from "./config.js";
 import { state } from "./state.js";
 
@@ -150,6 +150,14 @@ export async function loadProfile(uid, email=""){
 
 export function subscribeAll(render){
   state.unsub.forEach(fn => fn()); state.unsub = [];
+  let renderQueued = false;
+  const scheduleRender = () => {
+    if(renderQueued) return;
+    renderQueued = true;
+    const flush = () => { renderQueued = false; render(); };
+    if(typeof requestAnimationFrame === "function") requestAnimationFrame(flush);
+    else setTimeout(flush, 0);
+  };
   const bindings = [
     [api.ref(db, `${invRoot()}/productos`), v => state.products = v || {}],
     [api.ref(db, `${invRoot()}/categorias`), v => state.categories = v || {}],
@@ -164,7 +172,7 @@ export function subscribeAll(render){
     [api.ref(db, `historial`), v => state.history = v || {}],
     [api.ref(db, `usuarios`), v => state.users = v || {}]
   ];
-  bindings.forEach(([r,setter])=>{ const unsub = api.onValue(r, s => { setter(s.val()); render(); }); state.unsub.push(unsub); });
+  bindings.forEach(([r,setter])=>{ const unsub = api.onValue(r, s => { setter(s.val()); scheduleRender(); }); state.unsub.push(unsub); });
 }
 
 export async function useLocalSeed(){
@@ -283,13 +291,25 @@ export async function setIgnoredDuplicate(pairKey, value=true){
 export async function adjustStock(key, mode, amount, reason=""){
   const p=state.products[key];
   const qty=parseDecimal(amount,"Amount");
-  const before=parseDecimal(p?.cantidad||0,"Current stock");
-  const after = mode==="entry" ? before+qty : mode==="exit" ? Math.max(0,before-qty) : qty;
+  if(!["entry","exit","set"].includes(mode)) throw new Error("Invalid adjustment mode");
   const updater = state.profile?.username || state.user?.email || "System";
   const updaterUid = state.user?.uid || "system";
-  if(state.guest){ state.products[key]={...p,cantidad:after,updatedAt:Date.now(),updatedBy:updater,updatedByUid:updaterUid}; return; }
-  await api.runTransaction(api.ref(db, productPath(key)), cur => cur ? ({...cur,cantidad:after,updatedAt:Date.now(),updatedBy:updater,updatedByUid:updaterUid}) : cur);
-  await log(mode==="entry"?"📦 Entry":mode==="exit"?"📤 Exit":"✏️ Set", `${p.nombreEN} | ${before} → ${after} ${p.unidad}${reason?` | ${reason}`:""}`, p);
+  let before, after, updatedProduct;
+  const applyAdjustment = cur => {
+    before = parseDecimal(cur?.cantidad || 0, "Current stock");
+    after = mode==="entry" ? before+qty : mode==="exit" ? Math.max(0,before-qty) : qty;
+    updatedProduct = {...cur,cantidad:after,updatedAt:Date.now(),updatedBy:updater,updatedByUid:updaterUid};
+    return updatedProduct;
+  };
+  if(state.guest){
+    if(!p) throw new Error("Product not found");
+    state.products[key]=applyAdjustment(p);
+    return;
+  }
+  const result = await api.runTransaction(api.ref(db, productPath(key)), cur => cur ? applyAdjustment(cur) : cur);
+  if(!result?.committed || before === undefined) throw new Error("Product not found or adjustment was not committed");
+  const logged = updatedProduct || result.snapshot?.val() || p || {};
+  return await log(mode==="entry"?"Stock Entry":mode==="exit"?"Stock Exit":"Stock Set", `${logged.nombreEN || logged.nombre || key} | ${before} -> ${after} ${logged.unidad || ""}${reason?` | ${reason}`:""}`, logged);
 }
 
 function nextKey(obj, prefix){ const nums = Object.keys(obj||{}).map(k => Number(String(k).replace(prefix,""))).filter(n => Number.isFinite(n)); return `${prefix}${String(Math.max(-1,...nums)+1).padStart(4,"0")}`; }
@@ -369,13 +389,14 @@ export async function createUserWithAuth(form){
   await api.set(api.ref(db, `usuarios/${uid}`), profile);
   return uid;
 }
-export async function setPendingPasswordReset(userKey, newPass){
-  if(!newPass || String(newPass).length < 6) throw new Error("Temporary password must have at least 6 characters");
-  const profile = state.users[userKey]; if(!profile) throw new Error("User profile not found");
-  const payload = { email: profile.email || "", username: profile.username || "", newPass: String(newPass), createdAt: Date.now(), createdBy: state.profile?.username || state.user?.email || "Admin" };
-  if(state.guest){ return; }
-  const updates = {}; updates[`pendingReset/${userKey}`] = payload; if(profile.email) updates[`pendingReset/${emailKey(profile.email)}`] = payload;
-  await api.update(api.ref(db, "/"), updates);
+export async function requestPasswordReset(userKey){
+  const profile = state.users[userKey]; if(!profile?.email) throw new Error("User email not found");
+  if(state.guest) return;
+  await api.sendPasswordResetEmail(auth, profile.email);
+  const updates = {};
+  updates[`pendingReset/${userKey}`] = null;
+  updates[`pendingReset/${emailKey(profile.email)}`] = null;
+  await api.update(api.ref(db, "/"), updates).catch(()=>{});
 }
 export async function applyPendingPasswordReset(authUser){
   if(!authUser || state.guest) return false;
@@ -383,13 +404,9 @@ export async function applyPendingPasswordReset(authUser){
   for(const key of keys){
     const snap = await api.get(api.ref(db, `pendingReset/${key}`));
     if(snap.exists()){
-      const reset = snap.val();
-      if(reset?.newPass){
-        await api.updatePassword(authUser, String(reset.newPass));
-        const updates = {}; keys.forEach(k => updates[`pendingReset/${k}`] = null);
-        await api.update(api.ref(db, "/"), updates);
-        return true;
-      }
+      const updates = {}; keys.forEach(k => updates[`pendingReset/${k}`] = null);
+      await api.update(api.ref(db, "/"), updates);
+      return false;
     }
   }
   return false;
