@@ -420,6 +420,7 @@ function mobileUserDropdown(){
 
 function isTabletShell(){
   try{
+    if(isPhoneLandscapeViewport()) return false;
     const ua = navigator.userAgent || "";
     const touch = navigator.maxTouchPoints || 0;
     const isIPad = /iPad/i.test(ua) || (navigator.platform === "MacIntel" && touch > 1);
@@ -436,6 +437,16 @@ function isSidebarCompact(){
 }
 function setSidebarCompact(value){
   try{ localStorage.setItem("afghanSidebarCompact", value ? "1" : "0"); }catch(_){}
+}
+
+function isPhoneLandscapeViewport(){
+  try{
+    const coarse = window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+    const landscape = window.matchMedia?.("(orientation: landscape)")?.matches ?? window.innerWidth > window.innerHeight;
+    return coarse && landscape && window.innerHeight <= 520;
+  }catch(_){
+    return false;
+  }
 }
 
 
@@ -776,7 +787,9 @@ function settingsView(){
     <section class="settings-card system-card"><div class="settings-card-head"><div><h2><span class="section-icon purple">${svgIcon("settings")}</span>System</h2><p>${systemSubtitle}</p></div></div><div class="system-actions"><button id="backupBtn" class="system-action"><span class="svg-ico">${svgIcon("info")}</span><b>${safeSystemLabel('backup')}</b><small>${state.lang==='es'?'Descargar copia JSON completa':'Download complete JSON backup'}</small></button><button id="restoreBtn" class="system-action"><span class="svg-ico">${svgIcon("stockAdjust")}</span><b>${safeSystemLabel('restore')}</b><small>${state.lang==='es'?'Restaurar desde archivo JSON':'Restore from JSON file'}</small></button><button id="clearCacheBtn" class="system-action"><span class="svg-ico">${svgIcon("settings")}</span><b>${safeSystemLabel('clearCache')}</b><small>${state.lang==='es'?'Limpiar caché local':'Clear local browser cache'}</small></button><input id="restoreFileInput" type="file" accept="application/json,.json" hidden></div></section>
   </section>`;
 }
-function isMobileViewport(){ return window.matchMedia("(max-width: 767px)").matches; }
+function isMobileViewport(){
+  return window.matchMedia("(max-width: 767px)").matches || isPhoneLandscapeViewport();
+}
 function closeProductDetails(){
   document.querySelectorAll(".product-detail-row").forEach(x=>x.remove());
   document.querySelectorAll(".product-age-row.selected,.product-card.selected").forEach(x=>x.classList.remove("selected"));
