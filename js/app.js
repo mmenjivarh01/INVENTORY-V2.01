@@ -1,7 +1,7 @@
 import { auth, api } from "./firebase.js";
 import { state } from "./state.js";
-import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset, recordSessionStart, recordSessionEnd } from "./data.js";
-import { renderLogin, renderApp } from "./ui.js?v=20260612-v2185";
+import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset, recordSessionStart, recordSessionHeartbeat, recordSessionEnd, SESSION_TIMEOUT_MS } from "./data.js";
+import { renderLogin, renderApp } from "./ui.js?v=20260612-v2189-detail-icon";
 
 function bootLoading(){
   const tpl = document.getElementById("loading-template");
@@ -44,8 +44,8 @@ window.addEventListener("error", e => console.error(e.error || e.message));
 
 
 let idleLogoutTimer = null;
+let heartbeatTimer = null;
 let idleLogoutBusy = false;
-const IDLE_LOGOUT_MS = 20 * 60 * 1000;
 const idleEvents = ["click","touchstart","keydown","scroll","mousemove"];
 function resetIdleLogout(){
   if(!state.user || state.guest) return;
@@ -55,15 +55,19 @@ function resetIdleLogout(){
     idleLogoutBusy = true;
     try{ await recordSessionEnd("timeout"); await api.signOut(auth); }
     finally{ idleLogoutBusy = false; }
-  }, IDLE_LOGOUT_MS);
+  }, SESSION_TIMEOUT_MS);
 }
 function startIdleLogout(){
   stopIdleLogout();
   idleEvents.forEach(ev=>window.addEventListener(ev, resetIdleLogout, { passive:true }));
+  heartbeatTimer = setInterval(()=>recordSessionHeartbeat(), 60 * 1000);
+  recordSessionHeartbeat();
   resetIdleLogout();
 }
 function stopIdleLogout(){
   clearTimeout(idleLogoutTimer);
+  clearInterval(heartbeatTimer);
   idleLogoutTimer = null;
+  heartbeatTimer = null;
   idleEvents.forEach(ev=>window.removeEventListener(ev, resetIdleLogout));
 }

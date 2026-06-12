@@ -4,6 +4,8 @@ import { state } from "./state.js";
 
 const invRoot = () => `inventario/${APP.inventoryKey}`;
 const productPath = id => `${invRoot()}/productos/${id}`;
+export const SESSION_TIMEOUT_MS = 20 * 60 * 1000;
+export const SESSION_STALE_MS = SESSION_TIMEOUT_MS + 90 * 1000;
 
 export const DEFAULT_STORAGES = {
   s0000: "congelados",
@@ -114,8 +116,21 @@ export async function recordSessionStart(){
   if(state.guest || !state.user) return;
   const now = Date.now();
   const key = state.user.uid;
-  const patch = { lastLogin: now, sessionStartedAt: now, isOnline: true };
+  const patch = { lastLogin: now, sessionStartedAt: now, lastSeenAt: now, isOnline: true };
   await api.update(api.ref(db, `usuarios/${key}`), patch).catch(()=>{});
+  api.onDisconnect(api.ref(db, `usuarios/${key}`)).update({
+    isOnline: false,
+    lastLogout: api.serverTimestamp(),
+    logoutReason: "disconnect"
+  }).catch(()=>{});
+  state.profile = { ...(state.profile||{}), ...patch };
+}
+
+export async function recordSessionHeartbeat(){
+  if(state.guest || !state.user) return;
+  const now = Date.now();
+  const patch = { lastSeenAt: now, isOnline: true };
+  await api.update(api.ref(db, `usuarios/${state.user.uid}`), patch).catch(()=>{});
   state.profile = { ...(state.profile||{}), ...patch };
 }
 
@@ -125,9 +140,35 @@ export async function recordSessionEnd(reason="logout"){
   const started = Number(state.profile?.sessionStartedAt || state.profile?.lastLogin || now);
   const lastSessionMinutes = Math.max(0, Math.round((now - started) / 60000));
   const key = state.user.uid;
-  const patch = { lastLogout: now, lastSessionMinutes, isOnline: false, logoutReason: reason };
+  const patch = { lastLogout: now, lastSeenAt: now, lastSessionMinutes, isOnline: false, logoutReason: reason };
+  api.onDisconnect(api.ref(db, `usuarios/${key}`)).cancel().catch(()=>{});
   await api.update(api.ref(db, `usuarios/${key}`), patch).catch(()=>{});
   state.profile = { ...(state.profile||{}), ...patch };
+}
+
+function staleSessionPatch(u){
+  if(!u?.isOnline) return null;
+  const now = Date.now();
+  const seen = Number(u.lastSeenAt || u.sessionStartedAt || u.lastLogin || 0);
+  if(!seen || now - seen <= SESSION_STALE_MS) return null;
+  const started = Number(u.sessionStartedAt || u.lastLogin || seen);
+  const inferredEnd = Number(u.lastSeenAt || 0) || Math.min(now, started + SESSION_TIMEOUT_MS);
+  return {
+    isOnline: false,
+    lastLogout: inferredEnd,
+    lastSessionMinutes: Math.max(0, Math.round((inferredEnd - started) / 60000)),
+    logoutReason: "stale"
+  };
+}
+
+function cleanupStaleSessions(users){
+  if(state.guest || !users) return;
+  const updates = {};
+  Object.entries(users).forEach(([key,u]) => {
+    const patch = staleSessionPatch(u);
+    if(patch) Object.entries(patch).forEach(([field,value]) => updates[`usuarios/${key}/${field}`] = value);
+  });
+  if(Object.keys(updates).length) api.update(api.ref(db, "/"), updates).catch(()=>{});
 }
 
 export async function loadProfile(uid, email=""){
@@ -170,7 +211,7 @@ export function subscribeAll(render){
     [api.ref(db, `${invRoot()}/storageicons`), v => state.storageIcons = v || DEFAULT_STORAGE_ICONS],
     [api.ref(db, `${invRoot()}/reviewIgnoredDuplicates`), v => state.reviewIgnoredDuplicates = v || {}],
     [api.ref(db, `historial`), v => state.history = v || {}],
-    [api.ref(db, `usuarios`), v => state.users = v || {}]
+    [api.ref(db, `usuarios`), v => { state.users = v || {}; cleanupStaleSessions(state.users); }]
   ];
   bindings.forEach(([r,setter])=>{ const unsub = api.onValue(r, s => { setter(s.val()); scheduleRender(); }); state.unsub.push(unsub); });
 }

@@ -1,7 +1,7 @@
 import { state, setLang, isAdmin, canManage, canDeleteProducts, canAdjust, canReadReports } from "./state.js";
 import { t } from "./i18n.js";
 import { APP, AUTH_ALIASES, DEFAULT_LOGIN_DOMAIN } from "./config.js";
-import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, requestPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, setIgnoredDuplicate } from "./data.js";
+import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, requestPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, setIgnoredDuplicate, SESSION_TIMEOUT_MS, SESSION_STALE_MS } from "./data.js";
 import { api, auth, db } from "./firebase.js";
 
 const app = document.getElementById("app");
@@ -378,6 +378,21 @@ function formatDuration(mins){
   if(h) return `${h}h`;
   return `${m}m`;
 }
+function effectiveUserOnline(u){
+  if(!u?.isOnline) return false;
+  const seen = Number(u.lastSeenAt || u.sessionStartedAt || u.lastLogin || 0);
+  return !!seen && (Date.now() - seen) <= SESSION_STALE_MS;
+}
+function effectiveSessionMinutes(u, online){
+  const started = Number(u?.sessionStartedAt || u?.lastLogin || 0);
+  if(online && started) return Math.max(0, Math.round((Date.now() - started) / 60000));
+  const explicit = Number(u?.lastSessionMinutes || 0);
+  if(explicit) return explicit;
+  const end = Number(u?.lastSeenAt || u?.lastLogout || 0);
+  if(started && end) return Math.max(0, Math.round((end - started) / 60000));
+  if(u?.isOnline && started) return Math.round(SESSION_TIMEOUT_MS / 60000);
+  return 0;
+}
 function userAvatarClass(seed){
   const n=String(seed||'').split('').reduce((a,c)=>a+c.charCodeAt(0),0)%6;
   return `avatar-tone-${n}`;
@@ -615,7 +630,7 @@ function inventoryEmptyRow(){
 
 function keyForProduct(p){ return Object.keys(state.products).find(k=>state.products[k]===p || state.products[k]?.id===p.id) || `id_${p.id}`; }
 function actionEmojiIcon(type){
-  const icons = { stock:"🛠️", edit:"✏️", detail:"📄" };
+  const icons = { stock:"🛠️", edit:"✏️", detail:"🔎" };
   return `<span class="action-emoji action-emoji-${esc(type)}" aria-hidden="true">${icons[type] || "•"}</span>`;
 }
 function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}">${actionEmojiIcon("detail")}</button>`; }
@@ -760,14 +775,14 @@ function settingsView(){
   const unitRows=Object.values(state.units||{}).map(u=>`<div class="catalog-row"><div class="catalog-name">${catalogEmojiIcon("unit", u)}<b>${esc(trUnit(u))}</b></div>${countPill(unitCounts[u])}${actionMenu(`<button data-edit-unit="${esc(u)}">${L("edit")}</button><button class="danger-text" data-del-unit="${esc(u)}">${L("delete")}</button>`)}</div>`).join("");
   const storageRows=storageValues().map(s=>{ const key=String(s).toLowerCase(); return `<div class="catalog-row"><div class="catalog-name">${catalogEmojiIcon("storage", s)}<b>${esc(storageLabel(s))}</b></div>${countPill(storageCounts[key])}${actionMenu(`<button data-edit-storage="${esc(s)}">${L("edit")}</button><button class="danger-text" data-del-storage="${esc(s)}">${L("delete")}</button>`)}</div>`; }).join("");
   const userEntries=Object.entries(state.users||{});
-  const onlineCount=userEntries.filter(([,u])=>u?.isOnline).length;
+  const onlineCount=userEntries.filter(([,u])=>effectiveUserOnline(u)).length;
   const offlineCount=Math.max(0,userEntries.length-onlineCount);
   const userRows=userEntries.map(([k,u])=>{
     const initial=esc((u.username||u.email||"?").slice(0,1).toUpperCase());
     const role=esc(u.role||"");
-    const online=!!u.isOnline;
+    const online=effectiveUserOnline(u);
     const lastLogin=formatDateTime(u.lastLogin);
-    const currentMins=online ? Math.max(0,Math.round((Date.now()-Number(u.sessionStartedAt||u.lastLogin||Date.now()))/60000)) : Number(u.lastSessionMinutes||0);
+    const currentMins=effectiveSessionMinutes(u, online);
     return `<div class="settings-user-row"><div class="settings-user-main"><span class="settings-avatar ${userAvatarClass(u.username||u.email||k)}">${initial}</span><div><b>${esc(u.username||u.email)}</b><small>${esc(u.email||"")}</small></div></div><span class="role-pill ${role}">${role}</span><span class="status-pill ${online?'online':'offline'}">${online?'● Online':'○ Offline'}</span><span class="settings-time-cell">${esc(lastLogin)}</span><span class="settings-time-cell">${esc(formatDuration(currentMins))}</span>${actionMenu(`<button data-edit-user="${esc(k)}">${L("edit")}</button><button data-reset-user="${esc(k)}">🔑 ${L("resetPassword")}</button><button class="danger-text" data-del-user="${esc(k)}">${L("delete")}</button>`)}</div>`;
   }).join("");
   const catTotal = Object.values(state.categories||{}).length;

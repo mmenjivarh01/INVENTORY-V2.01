@@ -1,6 +1,6 @@
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-import { getDatabase, ref, get, set, update, push, remove, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+import { getDatabase, ref, get, set, update, push, remove, runTransaction, onValue, onDisconnect, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 import { firebaseConfig } from "./config.js";
 
 export const fbApp = initializeApp(firebaseConfig);
@@ -19,4 +19,4 @@ export async function createAuthUser(email, password){
   }
 }
 
-export const api = { ref, get, set, update, push, remove, runTransaction, onValue, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail, createAuthUser };
+export const api = { ref, get, set, update, push, remove, runTransaction, onValue, onDisconnect, serverTimestamp, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail, createAuthUser };
