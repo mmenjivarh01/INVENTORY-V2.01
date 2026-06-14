@@ -5475,6 +5475,149 @@ min-height:calc(100vh - 240px);
   }
 }
 
+/* V2.1.90 - tablet inventory header/table fit for iPad Safari. */
+@media (min-width:768px) and (max-width:1180px) and (pointer:coarse){
+  .layout.tablet-shell .topbar .spread,
+  .layout.tablet-shell.inventory-theme .topbar .spread{
+    display:grid!important;
+    grid-template-columns:minmax(190px,auto) minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:12px!important;
+    min-height:58px!important;
+  }
+
+  .layout.tablet-shell .title-row,
+  .layout.tablet-shell.inventory-theme .title-row{
+    min-width:0!important;
+  }
+
+  .layout.tablet-shell .topbar-greeting,
+  .layout.tablet-shell.inventory-theme .topbar-greeting{
+    position:static!important;
+    transform:none!important;
+    max-width:none!important;
+    min-width:0!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    text-align:center!important;
+    font-size:13px!important;
+    pointer-events:none!important;
+  }
+
+  .layout.tablet-shell .top-actions,
+  .layout.tablet-shell.inventory-theme .top-actions{
+    min-width:0!important;
+    justify-content:flex-end!important;
+    gap:10px!important;
+  }
+
+  .layout.tablet-shell .topbar .top-user,
+  .layout.tablet-shell.inventory-theme .topbar .top-user{
+    min-width:150px!important;
+  }
+
+  .layout.tablet-shell .topbar .top-user .user-block,
+  .layout.tablet-shell.inventory-theme .topbar .top-user .user-block{
+    min-width:150px!important;
+    max-width:178px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table-wrap{
+    overflow:auto!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table{
+    min-width:980px!important;
+    width:100%!important;
+    table-layout:fixed!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table th,
+  .layout.tablet-shell.inventory-theme .table td{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table th:nth-child(1),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(1){width:16%!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(2),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(2){width:12%!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(3),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(3){width:12%!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(4),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(4){width:7%!important;text-align:center!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(5),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(5){width:7%!important;text-align:center!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(6),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(6){width:10%!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(7),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(7){width:21%!important;}
+  .layout.tablet-shell.inventory-theme .table th:nth-child(8),
+  .layout.tablet-shell.inventory-theme .table td:nth-child(8){width:15%!important;}
+
+  .layout.tablet-shell.inventory-theme .product-actions-cell{
+    width:150px!important;
+    min-width:150px!important;
+    max-width:150px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .product-actions-compact{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    justify-content:flex-end!important;
+    gap:6px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .product-actions-compact .action-icon,
+  .layout.tablet-shell.inventory-theme .product-actions-compact .detail-btn{
+    width:36px!important;
+    min-width:36px!important;
+    height:36px!important;
+  }
+}
+
+@media (min-width:768px) and (max-width:940px) and (pointer:coarse){
+  .layout.tablet-shell .topbar-greeting,
+  .layout.tablet-shell.inventory-theme .topbar-greeting{
+    display:none!important;
+  }
+
+  .layout.tablet-shell .topbar .spread,
+  .layout.tablet-shell.inventory-theme .topbar .spread{
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+}
+
+/* V2.1.91 - tablet inventory right-edge breathing room for row actions. */
+@media (min-width:768px) and (max-width:1180px) and (pointer:coarse){
+  .layout.tablet-shell.inventory-theme .table-wrap{
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    padding-right:30px!important;
+    scroll-padding-right:30px!important;
+    scrollbar-gutter:auto!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table-wrap::after{
+    display:none!important;
+    content:none!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table{
+    margin-right:30px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .table th:last-child,
+  .layout.tablet-shell.inventory-theme .table td:last-child{
+    padding-right:18px!important;
+  }
+
+  .layout.tablet-shell.inventory-theme .product-actions-compact{
+    padding-right:2px!important;
+  }
+}
+
 @media (orientation:landscape) and (max-height:520px) and (pointer:coarse){
   .content{
     padding:8px 10px 66px!important;
