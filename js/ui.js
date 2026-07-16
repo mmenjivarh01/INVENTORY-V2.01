@@ -253,12 +253,17 @@ const productFallbackImageUrl = p => {
   return "assets/products/pantry.svg";
 };
 const productImageUrl = p => explicitProductImageUrl(p) || productFallbackImageUrl(p);
+const productImageTag = p => {
+  const src = productImageUrl(p);
+  if(!src) return "";
+  return `<img src="${esc(src)}" data-fallback="${esc(productFallbackImageUrl(p))}" alt="" loading="lazy" referrerpolicy="no-referrer">`;
+};
 const productThumbHtml = p => {
   const src = productImageUrl(p);
   if(!src) return "";
   const key = keyForProduct(p);
   const imageAction = canManage() ? ` data-product-image="${esc(key)}" role="button" tabindex="0" title="${esc(state.lang === "es" ? "Mantener presionado para cambiar imagen" : "Press and hold to change image")}" aria-label="${esc(state.lang === "es" ? "Cambiar imagen de producto" : "Change product image")}"` : "";
-  return `<span class="product-thumb"${imageAction}><img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`;
+  return `<span class="product-thumb"${imageAction}>${productImageTag(p)}</span>`;
 };
 const productNameCellHtml = p => `<div class="product-name-cell">${productThumbHtml(p)}<b>${esc(nameOf(p))}</b></div>`;
 const productDetailHtml = p => {
@@ -267,7 +272,7 @@ const productDetailHtml = p => {
   const updatedLabel = state.lang === "es" ? "Última actualización" : "Last Updated";
   const currentLabel = state.lang === "es" ? "Actual" : "Current";
   return `<div class="product-detail-panel">
-    ${productImageUrl(p)?`<div class="product-detail-image"><img src="${esc(productImageUrl(p))}" alt="" loading="lazy" referrerpolicy="no-referrer"></div>`:""}
+    ${productImageUrl(p)?`<div class="product-detail-image">${productImageTag(p)}</div>`:""}
     <div class="product-detail-head"><div><h3>${esc(nameOf(p))}</h3><small>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</small></div><span class="badge ${st}">${L(st)}</span></div>
     <div class="product-detail-grid">
       <div><span>${currentLabel}</span><b>${esc(p.cantidad)}</b></div>
@@ -921,6 +926,7 @@ function bindView(){
   const clearInv=app.querySelector("#clearInvFilters"); if(clearInv) clearInv.onclick=()=>{state.filterStatus='all';state.filterStorage='all';state.filterCategories=[];state.hideRecent=false;state.search='';renderApp();};
   const clearRep=app.querySelector("#clearReportFilters"); if(clearRep) clearRep.onclick=()=>{state.reportStatus='all';state.reportStorage='all';state.reportCategories=[];renderApp();};
   app.querySelectorAll("[data-detail]").forEach(el=>el.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openProductDetailFromTarget(el); });
+  bindProductImageFallbacks(app);
   bindProductImageTriggers(app);
   app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>{ closeProductDetails(); canManage()&&productModal(); }); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
@@ -1153,7 +1159,7 @@ function productImageModal(key){
   const saveText = L("save");
   const m = modal(`<div class="product-image-modal">
     <h2>${title}</h2>
-    <div class="product-image-editor-preview"><img src="${esc(productImageUrl(p))}" alt="" referrerpolicy="no-referrer"></div>
+    <div class="product-image-editor-preview">${productImageTag(p)}</div>
     <p><b>${esc(nameOf(p))}</b></p>
     <label class="field product-image-file-field"><span>${chooseLabel}</span><input name="imageFile" type="file" accept="image/*" class="input"><small class="muted">${chooseHelp}</small></label>
     <div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button type="button" class="btn primary" data-save disabled>${saveText}</button></div>
@@ -1161,6 +1167,7 @@ function productImageModal(key){
   const input = m.querySelector("input[type='file']");
   const save = m.querySelector("[data-save]");
   const preview = m.querySelector(".product-image-editor-preview img");
+  bindProductImageFallbacks(m);
   let previewUrl = "";
   const clearPreviewUrl = () => { if(previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = ""; };
   m.querySelector("[data-close]").onclick = () => { clearPreviewUrl(); m.remove(); };
@@ -1208,15 +1215,27 @@ function bindProductImageTriggers(root=app){
       e.stopPropagation();
       productImageModal(el.dataset.productImage);
     };
-    el.onpointerdown = e => {
-      if(e.button && e.button !== 0) return;
+    const start = e => {
       opened = false;
       clear();
       timer = setTimeout(() => open(e), 650);
     };
+    el.onpointerdown = e => {
+      if(e.button && e.button !== 0) return;
+      start(e);
+    };
     el.onpointerup = clear;
     el.onpointercancel = clear;
     el.onpointerleave = clear;
+    el.ontouchstart = start;
+    el.ontouchend = clear;
+    el.ontouchcancel = clear;
+    el.onmousedown = e => {
+      if(e.button && e.button !== 0) return;
+      start(e);
+    };
+    el.onmouseup = clear;
+    el.onmouseleave = clear;
     el.onclick = e => {
       if(opened){
         e.preventDefault();
@@ -1227,6 +1246,16 @@ function bindProductImageTriggers(root=app){
     el.oncontextmenu = open;
     el.onkeydown = e => {
       if(e.key === "Enter" || e.key === " ") open(e);
+    };
+  });
+}
+function bindProductImageFallbacks(root=app){
+  root.querySelectorAll("img[data-fallback]").forEach(img => {
+    img.onerror = () => {
+      const fallback = img.dataset.fallback;
+      if(fallback && img.getAttribute("src") !== fallback){
+        img.setAttribute("src", fallback);
+      }
     };
   });
 }
