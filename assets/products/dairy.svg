@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Dairy">
+  <rect width="400" height="300" rx="34" fill="#eff6ff"/>
+  <path d="M154 93h93l22 48v94H132v-94l22-48Z" fill="#ffffff" stroke="#93c5fd" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M154 93c20 16 72 16 93 0" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+  <rect x="158" y="155" width="84" height="46" rx="16" fill="#dbeafe"/>
+  <text x="32" y="54" font-family="Arial, sans-serif" font-size="26" font-weight="800" fill="#1d4ed8">Dairy</text>
+</svg>

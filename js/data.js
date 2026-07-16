@@ -1,4 +1,4 @@
-import { db, auth, api } from "./firebase.js";
+import { db, auth, storage, api } from "./firebase.js";
 import { APP, DEFAULT_USERS } from "./config.js";
 import { state } from "./state.js";
 
@@ -291,16 +291,28 @@ function parseDecimal(value, field="number"){
   if(!Number.isFinite(n)) throw new Error(`${field} must be a valid number`);
   return n;
 }
+function cleanImageUrl(value){
+  const raw = String(value || "").trim();
+  if(!raw) return "";
+  try{
+    const url = new URL(raw);
+    if(!["http:","https:"].includes(url.protocol)) throw new Error("Product image must be an http or https URL");
+    return url.href;
+  }catch(err){
+    throw new Error(err.message || "Product image must be a valid URL");
+  }
+}
 function nextProductKey(){ const nums = Object.keys(state.products).map(k => Number(String(k).replace("id_",""))).filter(Boolean); return `id_${Math.max(0,...nums)+1}`; }
 function cleanProduct(form){
   let nombreEN = String(form.nombreEN || form.nombre || "").trim();
   let nombreES = String(form.nombreES || "").trim();
   const categoria = String(form.categoria || "").trim();
   const unidad = String(form.unidad || "").trim();
+  const imageUrl = cleanImageUrl(form.imageUrl);
   if(!nombreEN && !nombreES) throw new Error("At least one product name is required");
   if(!categoria) throw new Error("Category is required. Import initial data or create categories first.");
   if(!unidad) throw new Error("Unit is required. Import initial data or create units first.");
-  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN || nombreES, nombreEN, nombreES, categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now(), updatedBy: state.profile?.username || state.user?.email || "System", updatedByUid: state.user?.uid || "system" };
+  return { id: Number(form.id||String(form.key||"").replace("id_","")||Date.now()), nombre: nombreEN || nombreES, nombreEN, nombreES, imageUrl, categoria, subcategoria: form.subcategoria, unidad, cantidad: parseDecimal(form.cantidad,"Current quantity"), minimo: parseDecimal(form.minimo,"Minimum stock"), tipo: form.tipo || (state.inventoryTab === "finished" ? "finished" : "raw"), updatedAt: Date.now(), updatedBy: state.profile?.username || state.user?.email || "System", updatedByUid: state.user?.uid || "system" };
 }
 async function log(action, details, product){
   if(state.guest) return;
@@ -308,10 +320,28 @@ async function log(action, details, product){
 }
 export async function saveProduct(key, form){
   const id = key || nextProductKey();
-  const product = cleanProduct({...form,key:id,id:String(id).replace("id_","")});
-  if(state.guest){ state.products[id]=product; return; }
+  const existing = state.products?.[id] || {};
+  const product = cleanProduct({...existing,...form,key:id,id:String(id).replace("id_","")});
+  if(state.guest){ state.products[id]=product; return id; }
   await api.set(api.ref(db, productPath(id)), product);
-  await log(key?"✏️ Edited":"➕ Added", `${product.nombreEN} | ${product.subcategoria} / ${product.categoria} | Stock: ${product.cantidad} ${product.unidad}`, product);
+  await log(key?"Edited":"Added", `${product.nombreEN} | ${product.subcategoria} / ${product.categoria} | Stock: ${product.cantidad} ${product.unidad}`, product);
+  return id;
+}
+export async function uploadProductImage(key, file){
+  if(state.guest) throw new Error("Image upload is not available in preview mode");
+  if(!key) throw new Error("Save the product before uploading an image");
+  if(!file) return "";
+  if(!String(file.type || "").startsWith("image/")) throw new Error("Only image files can be uploaded");
+  if(Number(file.size || 0) > 5 * 1024 * 1024) throw new Error("Image must be 5 MB or smaller");
+  const safeName = String(file.name || "product-image").toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "product-image";
+  const objectRef = api.storageRef(storage, `products/${key}/${Date.now()}-${safeName}`);
+  await api.uploadBytes(objectRef, file, { contentType: file.type || "image/jpeg" });
+  const imageUrl = await api.getDownloadURL(objectRef);
+  const patch = { imageUrl, updatedAt: Date.now(), updatedBy: state.profile?.username || state.user?.email || "System", updatedByUid: state.user?.uid || "system" };
+  await api.update(api.ref(db, productPath(key)), patch);
+  if(state.products?.[key]) state.products[key] = { ...state.products[key], ...patch };
+  await log("Product Image", `${state.products?.[key]?.nombreEN || key} | Image updated`, state.products?.[key] || { id:key });
+  return imageUrl;
 }
 export async function deleteProduct(key){
   const p=state.products[key];

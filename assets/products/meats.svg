@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Meats">
+  <rect width="400" height="300" rx="34" fill="#fff1f2"/>
+  <circle cx="305" cy="70" r="64" fill="#fecdd3"/>
+  <ellipse cx="190" cy="166" rx="112" ry="70" fill="#be123c"/>
+  <ellipse cx="190" cy="166" rx="78" ry="46" fill="#fb7185"/>
+  <circle cx="143" cy="147" r="18" fill="#fff7ed"/>
+  <path d="M94 206c44 30 132 40 199-2" fill="none" stroke="#881337" stroke-width="12" stroke-linecap="round"/>
+  <text x="32" y="54" font-family="Arial, sans-serif" font-size="26" font-weight="800" fill="#881337">Meats</text>
+</svg>

@@ -1,7 +1,7 @@
 import { auth, api } from "./firebase.js";
 import { state } from "./state.js";
 import { ensureDefaultUsers, loadProfile, subscribeAll, profileFromEmail, applyPendingPasswordReset, recordSessionStart, recordSessionHeartbeat, recordSessionEnd, SESSION_TIMEOUT_MS } from "./data.js";
-import { renderLogin, renderApp } from "./ui.js?v=20260613-v2191-tablet-action-edge";
+import { renderLogin, renderApp } from "./ui.js?v=20260716-v2195-product-image-longpress";
 
 function bootLoading(){
   const tpl = document.getElementById("loading-template");

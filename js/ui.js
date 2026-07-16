@@ -1,7 +1,7 @@
 import { state, setLang, isAdmin, canManage, canDeleteProducts, canAdjust, canReadReports } from "./state.js";
 import { t } from "./i18n.js";
 import { APP, AUTH_ALIASES, DEFAULT_LOGIN_DOMAIN } from "./config.js";
-import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, requestPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, setIgnoredDuplicate, SESSION_TIMEOUT_MS, SESSION_STALE_MS } from "./data.js";
+import { metrics, filteredProducts, reportProducts, categoriesForCurrentStorage, storageValues, statusOf, statusPass, updateAgeBucket, productList, productEntries, baseProducts, saveProduct, uploadProductImage, deleteProduct, adjustStock, saveCategory, deleteCategory, saveUnit, deleteUnit, saveStorage, deleteStorage, saveUserProfile, deleteUserProfile, createUserWithAuth, requestPasswordReset, changeOwnPassword, importSeedToFirebase, exportCurrentJson, restoreCurrentJson, recordSessionEnd, useLocalSeed, setIgnoredDuplicate, SESSION_TIMEOUT_MS, SESSION_STALE_MS } from "./data.js";
 import { api, auth, db } from "./firebase.js";
 
 const app = document.getElementById("app");
@@ -239,12 +239,35 @@ const productUpdatedBy = p => {
     .sort((a,b)=>(Number(b.ts)||0)-(Number(a.ts)||0))[0];
   return latest?.usuario || (state.lang === "es" ? "Sin registro" : "No record");
 };
+const explicitProductImageUrl = p => String(p?.imageUrl || p?.imagen || p?.image || "").trim();
+const productFallbackImageUrl = p => {
+  const text = normalizeText(`${p?.categoria || ""} ${p?.subcategoria || ""} ${p?.nombreEN || p?.nombreES || p?.nombre || ""}`);
+  if(/bebida|beverage|cola|fanta|sprite|pepsi|water|snapple|tea/.test(text)) return "assets/products/beverages.svg";
+  if(/limpieza|clean|soap|bleach|lavender|scrub|sponge|grill|oven/.test(text)) return "assets/products/cleaning.svg";
+  if(/contenedor|container|lid|straw|cup|box|bag/.test(text)) return "assets/products/containers.svg";
+  if(/lacteo|dairy|milk|cream|yogurt|cheese|mayonnaise|mustard/.test(text)) return "assets/products/dairy.svg";
+  if(/carne|meat|chicken|lamb|beef|shrimp|salmon|egg|halal|gyro|tikka|wing|ribeye/.test(text)) return "assets/products/meats.svg";
+  if(/vegetal|vegetable|lettuce|garlic|tomato|onion|pepper|jalapeno|potato|eggplant|cucumber|dill|ginger/.test(text)) return "assets/products/vegetables.svg";
+  if(/especia|spice|masala|pepper|cumin|turmeric|cinnamon|powder|rice|yeast|batter|kabab|karahi|korma/.test(text)) return "assets/products/spices.svg";
+  if(/congel|frozen|fries|falafel/.test(text)) return "assets/products/frozen.svg";
+  return "assets/products/pantry.svg";
+};
+const productImageUrl = p => explicitProductImageUrl(p) || productFallbackImageUrl(p);
+const productThumbHtml = p => {
+  const src = productImageUrl(p);
+  if(!src) return "";
+  const key = keyForProduct(p);
+  const imageAction = canManage() ? ` data-product-image="${esc(key)}" role="button" tabindex="0" title="${esc(state.lang === "es" ? "Mantener presionado para cambiar imagen" : "Press and hold to change image")}" aria-label="${esc(state.lang === "es" ? "Cambiar imagen de producto" : "Change product image")}"` : "";
+  return `<span class="product-thumb"${imageAction}><img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`;
+};
+const productNameCellHtml = p => `<div class="product-name-cell">${productThumbHtml(p)}<b>${esc(nameOf(p))}</b></div>`;
 const productDetailHtml = p => {
   const st = statusOf(p);
   const updatedByLabel = state.lang === "es" ? "Actualizado por" : "Updated By";
   const updatedLabel = state.lang === "es" ? "Última actualización" : "Last Updated";
   const currentLabel = state.lang === "es" ? "Actual" : "Current";
   return `<div class="product-detail-panel">
+    ${productImageUrl(p)?`<div class="product-detail-image"><img src="${esc(productImageUrl(p))}" alt="" loading="lazy" referrerpolicy="no-referrer"></div>`:""}
     <div class="product-detail-head"><div><h3>${esc(nameOf(p))}</h3><small>${esc(trCat(p.categoria))} · ${esc(storageLabel(p.subcategoria))}</small></div><span class="badge ${st}">${L(st)}</span></div>
     <div class="product-detail-grid">
       <div><span>${currentLabel}</span><b>${esc(p.cantidad)}</b></div>
@@ -634,8 +657,8 @@ function actionEmojiIcon(type){
   return `<span class="action-emoji action-emoji-${esc(type)}" aria-hidden="true">${icons[type] || "•"}</span>`;
 }
 function detailBtn(key){ return `<button type="button" class="btn small ghost detail-btn icon-only" data-detail="${esc(key)}" aria-label="${state.lang==='es'?'Detalles':'Details'}" title="${state.lang==='es'?'Detalles':'Details'}">${actionEmojiIcon("detail")}</button>`; }
-function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div><h3>${esc(nameOf(p))}</h3><p class="catalog-inline-meta"><span>${catIconHtml(p.categoria)}${esc(trCat(p.categoria))}</span><span>${esc(storageLabel(p.subcategoria))}</span></p></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
-function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td><b>${esc(nameOf(p))}</b></td><td>${esc(trCat(p.categoria))}</td><td>${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}">${actionEmojiIcon("stock")}</button>`:""}${canManage()?`<button class="btn small ghost action-icon edit-action" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}">${actionEmojiIcon("edit")}</button>`:""}${detailBtn(key)}</div></td></tr>`; }
+function productCard(p){ const st=statusOf(p), key=keyForProduct(p); const actions=`${canAdjust()?`<button class="btn small" data-adjust="${key}">${L("adjustStock")}</button>`:""}${canManage()?`<button class="btn small ghost" data-edit="${key}">${L("edit")}</button>`:""}${detailBtn(key)}`; return `<article class="product-card ${updateClass(p)}" title="${esc(updateTitle(p))}"><div class="product-title"><div class="product-card-title-row">${productThumbHtml(p)}<div><h3>${esc(nameOf(p))}</h3><p class="catalog-inline-meta"><span>${catIconHtml(p.categoria)}${esc(trCat(p.categoria))}</span><span>${esc(storageLabel(p.subcategoria))}</span></p></div></div><span class="badge ${st}">${L(st)}</span></div><div class="product-meta"><div class="mini"><span>${L("stock")}</span><b>${p.cantidad}</b></div><div class="mini"><span>${L("min")}</span><b>${p.minimo}</b></div><div class="mini"><span>${L("unit")}</span><b>${esc(trUnit(p.unidad))}</b></div></div><div class="actions">${actions}</div></article>`; }
+function productTableRow(p){ const st=statusOf(p), key=keyForProduct(p); const adjustLabel=L("adjustStock"), editLabel=L("edit"); return `<tr class="product-age-row ${updateClass(p)}" title="${esc(updateTitle(p))}"><td>${productNameCellHtml(p)}</td><td>${esc(trCat(p.categoria))}</td><td>${esc(storageLabel(p.subcategoria))}</td><td>${p.cantidad}</td><td>${p.minimo}</td><td>${esc(trUnit(p.unidad))}</td><td><div class="status-cell"><div class="status-badge-row">${statusDotHtml(p)}<span class="badge ${st}">${L(st)}</span></div>${statusMetaHtml(p)}</div></td><td class="product-actions-cell"><div class="row product-actions-compact">${canAdjust()?`<button class="btn small action-icon stock-action" data-adjust="${key}" aria-label="${esc(adjustLabel)}" title="${esc(adjustLabel)}">${actionEmojiIcon("stock")}</button>`:""}${canManage()?`<button class="btn small ghost action-icon edit-action" data-edit="${key}" aria-label="${esc(editLabel)}" title="${esc(editLabel)}">${actionEmojiIcon("edit")}</button>`:""}${detailBtn(key)}</div></td></tr>`; }
 function productRowCompact(key,p){ return `<div class="compact-row" data-adjust="${key}"><div><b>${esc(nameOf(p))}</b><br><small>${p.cantidad} ${esc(trUnit(p.unidad))} · Min ${p.minimo}</small></div><span class="badge ${statusOf(p)}">${L(statusOf(p))}</span></div>`; }
 function actionLabel(action=""){ const a=String(action); if(a.includes("Added")||a.includes("Agregado")) return `➕ ${L("added")}`; if(a.includes("Edited")||a.includes("Editado")) return `✏️ ${L("edited")}`; if(a.includes("Deleted")||a.includes("Eliminado")) return `🗑️ ${L("deleted")}`; if(a.includes("Entry")||a.includes("Entrada")) return `📦 ${L("stockEntry")}`; if(a.includes("Exit")||a.includes("Salida")) return `📤 ${L("stockExit")}`; if(a.includes("Set")) return `✏️ ${L("stockSet")}`; return esc(action); }
 function translateDetails(details=""){
@@ -898,6 +921,7 @@ function bindView(){
   const clearInv=app.querySelector("#clearInvFilters"); if(clearInv) clearInv.onclick=()=>{state.filterStatus='all';state.filterStorage='all';state.filterCategories=[];state.hideRecent=false;state.search='';renderApp();};
   const clearRep=app.querySelector("#clearReportFilters"); if(clearRep) clearRep.onclick=()=>{state.reportStatus='all';state.reportStorage='all';state.reportCategories=[];renderApp();};
   app.querySelectorAll("[data-detail]").forEach(el=>el.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openProductDetailFromTarget(el); });
+  bindProductImageTriggers(app);
   app.querySelectorAll("#addProduct").forEach(b=>b.onclick=()=>{ closeProductDetails(); canManage()&&productModal(); }); app.querySelectorAll("[data-edit]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canManage()&&productModal(b.dataset.edit)}); app.querySelectorAll("[data-adjust]").forEach(b=>b.onclick=e=>{e.stopPropagation(); closeProductDetails(); canAdjust()&&adjustModal(b.dataset.adjust)});
   app.querySelectorAll("[data-ignore-dupe]").forEach(b=>b.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Marcar como no duplicado':'Mark as not duplicate', message: state.lang==='es'?'Este posible duplicado dejará de aparecer en Review Center.':'This possible duplicate will stop appearing in Review Center.', confirmText: state.lang==='es'?'Confirmar':'Confirm', cancelText:L('cancel') }); if(ok){ await setIgnoredDuplicate(b.dataset.ignoreDupe, true); renderApp(); } });
   app.querySelectorAll("[data-resolve-dupe]").forEach(b=>b.onclick=()=>resolveDuplicateModal(...b.dataset.resolveDupe.split('|')));
@@ -1037,16 +1061,175 @@ function bindProductTranslationSuggestions(root){
   es.addEventListener('blur',()=>apply('es', true));
 }
 function productModal(key){
-  const p=key?state.products[key]:{}; const cats=Object.values(state.categories||{}), units=Object.values(state.units||{}); const storages=storageValues();
+  const p = key ? state.products[key] : {};
+  const cats = Object.values(state.categories || {});
+  const units = Object.values(state.units || {});
+  const storages = storageValues();
   const catsHtml = cats.length ? cats.map(c=>`<option value="${esc(c)}" ${p.categoria===c?'selected':''}>${esc(trCat(c))}</option>`).join("") : `<option value="" disabled selected>No categories loaded</option>`;
   const unitsHtml = units.length ? units.map(u=>`<option value="${esc(u)}" ${p.unidad===u?'selected':''}>${esc(trUnit(u))}</option>`).join("") : `<option value="" disabled selected>No units loaded</option>`;
   const storageHtml = storages.map(s=>`<option value="${esc(s)}" ${p.subcategoria===s?'selected':''}>${esc(storageLabel(s))}</option>`).join("");
-  const title = key?L("editProduct"):L("addProduct");
+  const title = key ? L("editProduct") : L("addProduct");
   const formContextClass = state.inventoryTab === "finished" ? "finished-context" : "raw-context";
-  const m=modal(`<div class="product-form-modal compact-product-form ${formContextClass}"><div class="product-form-head compact"><h2>${title}</h2></div><form id="prodForm" class="form-grid product-form"><section class="form-section product-name-section"><h3>${state.lang==='es'?'Nombre del producto':'Product Name'}</h3><label class="field"><span>${L("nameEn")}</span><input name="nombreEN" class="input" value="${esc(p.nombreEN||p.nombre||'')}" placeholder="Lemon Juice"></label><label class="field"><span>${L("nameEs")}</span><input name="nombreES" class="input" value="${esc(p.nombreES||'')}" placeholder="Jugo de Limón"></label></section><section class="form-section classification-section"><h3>${state.lang==='es'?'Clasificación':'Classification'}</h3><div class="compact-select-row"><label class="field"><span>${L("storage")}</span><select name="subcategoria" class="select">${storageHtml}</select></label><label class="field"><span>${L("category")}</span><select name="categoria" class="select" required>${catsHtml}</select></label></div></section><section class="form-section inventory-section"><h3>${state.lang==='es'?'Inventario':'Inventory'}</h3><div class="compact-number-row"><label class="field compact-number"><span>${L("currentQty")}</span><input name="cantidad" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.cantidad??0}"></label><label class="field compact-number"><span>${L("minStock")}</span><input name="minimo" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.minimo??0}"></label></div><label class="field compact-unit-field"><span>${L("unit")}</span><select name="unidad" class="select" required>${unitsHtml}</select></label></section>${(!cats.length||!units.length)?`<p class="muted">Categories or units are missing. Go to Settings and import initial data before saving products.</p>`:""}<div class="modal-footer product-form-actions"><button type="button" class="btn ghost" data-close>${L("cancel")}</button>${key&&canDeleteProducts()?`<button type="button" class="btn danger" data-delete>${L("delete")}</button>`:""}<button class="btn primary" ${(!cats.length||!units.length)?"disabled":""}>${L("save")}</button></div></form></div>`);
-  bindDecimalInputs(m); bindProductTranslationSuggestions(m); m.querySelector("[data-close]").onclick=()=>m.remove(); const del=m.querySelector("[data-delete]"); if(del) del.onclick=async()=>{ const ok=await confirmDialog({ title: state.lang==='es'?'Eliminar producto':'Delete product', message: state.lang==='es'?`¿Seguro que deseas eliminar ${nameOf(p)}? Esta acción no se puede deshacer.`:`Are you sure you want to delete ${nameOf(p)}? This action cannot be undone.`, confirmText: L("delete"), cancelText: L("cancel"), danger:true }); if(ok){ try{ await deleteProduct(key); m.remove(); renderApp(); } catch(err){ alert("Delete failed: "+err.message); } }}; m.querySelector("#prodForm").onsubmit=async e=>{ e.preventDefault(); try{ const data=Object.fromEntries(new FormData(e.target)); if(!key){ const matches=similarProductsForForm(data); if(matches.length){ const proceed=await similarProductDialog(matches); if(!proceed) return; } } await saveProduct(key, data); m.remove(); renderApp(); } catch(err){ alert("Save failed: "+err.message); } };
+  const missingCatalogMsg = (!cats.length || !units.length) ? `<p class="muted">Categories or units are missing. Go to Settings and import initial data before saving products.</p>` : "";
+  const deleteButton = key && canDeleteProducts() ? `<button type="button" class="btn danger" data-delete>${L("delete")}</button>` : "";
+  const m = modal(`<div class="product-form-modal compact-product-form ${formContextClass}">
+    <div class="product-form-head compact"><h2>${title}</h2></div>
+    <form id="prodForm" class="form-grid product-form">
+      <section class="form-section product-name-section">
+        <h3>${state.lang==='es'?'Nombre del producto':'Product Name'}</h3>
+        <label class="field"><span>${L("nameEn")}</span><input name="nombreEN" class="input" value="${esc(p.nombreEN||p.nombre||'')}" placeholder="Lemon Juice"></label>
+        <label class="field"><span>${L("nameEs")}</span><input name="nombreES" class="input" value="${esc(p.nombreES||'')}" placeholder="Jugo de Limon"></label>
+      </section>
+      <section class="form-section classification-section">
+        <h3>${state.lang==='es'?'Clasificacion':'Classification'}</h3>
+        <div class="compact-select-row"><label class="field"><span>${L("storage")}</span><select name="subcategoria" class="select">${storageHtml}</select></label><label class="field"><span>${L("category")}</span><select name="categoria" class="select" required>${catsHtml}</select></label></div>
+      </section>
+      <section class="form-section inventory-section">
+        <h3>${state.lang==='es'?'Inventario':'Inventory'}</h3>
+        <div class="compact-number-row"><label class="field compact-number"><span>${L("currentQty")}</span><input name="cantidad" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.cantidad??0}"></label><label class="field compact-number"><span>${L("minStock")}</span><input name="minimo" type="text" inputmode="decimal" autocomplete="off" class="input decimal-input" value="${p.minimo??0}"></label></div>
+        <label class="field compact-unit-field"><span>${L("unit")}</span><select name="unidad" class="select" required>${unitsHtml}</select></label>
+      </section>
+      ${missingCatalogMsg}
+      <div class="modal-footer product-form-actions"><button type="button" class="btn ghost" data-close>${L("cancel")}</button>${deleteButton}<button class="btn primary" ${(!cats.length||!units.length)?"disabled":""}>${L("save")}</button></div>
+    </form>
+  </div>`);
+  bindDecimalInputs(m);
+  bindProductTranslationSuggestions(m);
+  m.querySelector("[data-close]").onclick = () => m.remove();
+  const del = m.querySelector("[data-delete]");
+  if(del) del.onclick = async() => {
+    const ok = await confirmDialog({
+      title: state.lang === "es" ? "Eliminar producto" : "Delete product",
+      message: state.lang === "es" ? `Seguro que deseas eliminar ${nameOf(p)}? Esta accion no se puede deshacer.` : `Are you sure you want to delete ${nameOf(p)}? This action cannot be undone.`,
+      confirmText: L("delete"),
+      cancelText: L("cancel"),
+      danger: true
+    });
+    if(ok){
+      try{ await deleteProduct(key); m.remove(); renderApp(); }
+      catch(err){ alert("Delete failed: " + err.message); }
+    }
+  };
+  m.querySelector("#prodForm").onsubmit = async e => {
+    e.preventDefault();
+    const submitButton = e.target.querySelector("button.btn.primary");
+    try{
+      if(submitButton){
+        submitButton.disabled = true;
+        submitButton.textContent = state.lang === "es" ? "Guardando..." : "Saving...";
+      }
+      const data = Object.fromEntries(new FormData(e.target));
+      if(!key){
+        const matches = similarProductsForForm(data);
+        if(matches.length){
+          const proceed = await similarProductDialog(matches);
+          if(!proceed){
+            if(submitButton){
+              submitButton.disabled = false;
+              submitButton.textContent = L("save");
+            }
+            return;
+          }
+        }
+      }
+      await saveProduct(key, data);
+      m.remove();
+      renderApp();
+    }catch(err){
+      alert("Save failed: " + err.message);
+      if(submitButton){
+        submitButton.disabled = false;
+        submitButton.textContent = L("save");
+      }
+    }
+  };
 }
-
+function productImageModal(key){
+  const p = state.products?.[key];
+  if(!p || !canManage()) return;
+  const title = state.lang === "es" ? "Imagen del producto" : "Product Image";
+  const chooseLabel = state.lang === "es" ? "Cargar imagen" : "Upload Image";
+  const chooseHelp = state.lang === "es" ? "Selecciona o toma una foto. Max 5 MB." : "Select or take a photo. Max 5 MB.";
+  const saveText = L("save");
+  const m = modal(`<div class="product-image-modal">
+    <h2>${title}</h2>
+    <div class="product-image-editor-preview"><img src="${esc(productImageUrl(p))}" alt="" referrerpolicy="no-referrer"></div>
+    <p><b>${esc(nameOf(p))}</b></p>
+    <label class="field product-image-file-field"><span>${chooseLabel}</span><input name="imageFile" type="file" accept="image/*" class="input"><small class="muted">${chooseHelp}</small></label>
+    <div class="modal-footer"><button type="button" class="btn ghost" data-close>${L("cancel")}</button><button type="button" class="btn primary" data-save disabled>${saveText}</button></div>
+  </div>`);
+  const input = m.querySelector("input[type='file']");
+  const save = m.querySelector("[data-save]");
+  const preview = m.querySelector(".product-image-editor-preview img");
+  let previewUrl = "";
+  const clearPreviewUrl = () => { if(previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = ""; };
+  m.querySelector("[data-close]").onclick = () => { clearPreviewUrl(); m.remove(); };
+  input.onchange = () => {
+    clearPreviewUrl();
+    const file = input.files?.[0];
+    save.disabled = !file;
+    if(file){
+      previewUrl = URL.createObjectURL(file);
+      preview.src = previewUrl;
+    }else{
+      preview.src = productImageUrl(p);
+    }
+  };
+  save.onclick = async () => {
+    const file = input.files?.[0];
+    if(!file) return;
+    try{
+      save.disabled = true;
+      save.textContent = state.lang === "es" ? "Guardando..." : "Saving...";
+      await uploadProductImage(key, file);
+      clearPreviewUrl();
+      m.remove();
+      renderApp();
+    }catch(err){
+      alert((state.lang === "es" ? "No se pudo guardar la imagen: " : "Image save failed: ") + err.message);
+      save.disabled = false;
+      save.textContent = saveText;
+    }
+  };
+}
+function bindProductImageTriggers(root=app){
+  root.querySelectorAll("[data-product-image]").forEach(el => {
+    let timer = null;
+    let opened = false;
+    const clear = () => {
+      if(timer) clearTimeout(timer);
+      timer = null;
+    };
+    const open = e => {
+      if(!canManage()) return;
+      clear();
+      opened = true;
+      e.preventDefault();
+      e.stopPropagation();
+      productImageModal(el.dataset.productImage);
+    };
+    el.onpointerdown = e => {
+      if(e.button && e.button !== 0) return;
+      opened = false;
+      clear();
+      timer = setTimeout(() => open(e), 650);
+    };
+    el.onpointerup = clear;
+    el.onpointercancel = clear;
+    el.onpointerleave = clear;
+    el.onclick = e => {
+      if(opened){
+        e.preventDefault();
+        e.stopPropagation();
+        opened = false;
+      }
+    };
+    el.oncontextmenu = open;
+    el.onkeydown = e => {
+      if(e.key === "Enter" || e.key === " ") open(e);
+    };
+  });
+}
 function resolveDuplicateModal(keyA,keyB){
   const a=state.products[keyA], b=state.products[keyB];
   if(!a || !b){ alert(state.lang==='es'?'Uno de los productos ya no existe.':'One of the products no longer exists.'); renderApp(); return; }
